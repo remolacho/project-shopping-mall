@@ -1,0 +1,656 @@
+es:  
+  errors:
+    messages:
+      not_saved: no se ha podido guardad
+      content_type_invalid: "Tipo de archivo inválido."
+      file_size_out_of_range: "Exede los %{file_size}"
+      limit_out_of_range: "Exede las 4 imagenes"
+      image_metadata_missing: "Error de metadatos"
+      dimension_min_inclusion: "must be greater than or equal to %{width} x %{height} pixel."
+      dimension_max_inclusion: "must be less than or equal to %{width} x %{height} pixel."
+      dimension_width_inclusion: "width is not included between %{min} and %{max} pixel."
+      dimension_height_inclusion: "height is not included between %{min} and %{max} pixel."
+      dimension_width_greater_than_or_equal_to: "width must be greater than or equal to %{length} pixel."
+      dimension_height_greater_than_or_equal_to: "height must be greater than or equal to %{length} pixel."
+      dimension_width_less_than_or_equal_to: "width must be less than or equal to %{length} pixel."
+      dimension_height_less_than_or_equal_to: "height must be less than or equal to %{length} pixel."
+      dimension_width_equal_to: "width must be equal to %{length} pixel."
+      dimension_height_equal_to: "height must be equal to %{length} pixel."
+      aspect_ratio_not_square: "must be a square image"
+      aspect_ratio_not_portrait: "must be a portrait image"
+      aspect_ratio_not_landscape: "must be a landscape image"
+      aspect_ratio_is_not: "must have an aspect ratio of %{aspect_ratio}"
+      aspect_ratio_unknown: "has an unknown aspect ratio"      
+  devise:
+    passwords:
+      user:
+        updated: contraseña actualizada
+        send_instructions: Instricciones enviadas al correo
+    registrations:
+      user:
+        signed_up: usuario creado
+    sessions:
+      user:
+        signed_out: Haz cerrado sesión
+        signed_in: Haz iniciado sesión
+    failure:
+      already_authenticated: ya ha iniciado sesión
+      user:
+        unauthenticated: Debes iniciar sesión para ver este contenido
+        not_found_in_database: usuario no encontrado
+        invalid: contraseña o usuario inválidos
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucciones de confirmación"
+      reset_password_instructions:
+        subject: "Instrucciones para resetear contraseña"
+      unlock_instructions:
+        subject: "Instrucciones para desbloquear cuenta"
+      email_changed:
+        subject: "Correo cambiado"
+      password_change:
+        subject: "Contraseña cambiada"
+  activerecord:
+    devise:
+      confirmations:
+        confirmed: Tu cuenta ha sido confirmada satisfactoriamente.
+        new:
+          resend_confirmation_instructions: Reenviar instrucciones de confirmación
+        send_instructions: Vas a recibir un correo con instrucciones sobre cómo confirmar tu cuenta en unos minutos.
+        send_paranoid_instructions: Si tu correo existe en nuestra base de datos, en unos minutos recibirás un correo con instrucciones sobre cómo confirmar tu cuenta.
+      failure:
+        already_authenticated: Ya has iniciado sesión.
+        inactive: Tu cuenta aún no ha sido activada.
+        invalid: "%{authentication_keys} o contraseña inválidos."
+        last_attempt: Tienes un intento más antes de que tu cuenta sea bloqueada.
+        locked: Tu cuenta está bloqueada.
+        not_found_in_database: "%{authentication_keys} o contraseña inválidos."
+        timeout: Tu sesión expiró. Por favor, inicia sesión nuevamente para continuar.
+        unauthenticated: Tienes que iniciar sesión o registrarte para poder continuar.
+        unconfirmed: Tienes que confirmar tu cuenta para poder continuar.
+        user:
+          not_found_in_database: usuario no existe
+      mailer:
+        confirmation_instructions:
+          action: Confirmar mi cuenta
+          greeting: "¡Bienvenido %{recipient}!"
+          instruction: 'Usted puede confirmar el correo electrónico de su cuenta a través de este enlace:'
+          subject: Instrucciones de confirmación
+        email_changed:
+          greeting: "¡Hola %{recipient}! "
+          message: Estamos contactando contigo para notificarte que tu email ha sido cambiado a %{email}.
+          subject: Email cambiado
+        password_change:
+          greeting: Hola %{recipient}!
+          message: Le estamos contactando para notificarle que su contraseña ha sido cambiada.
+          subject: Contraseña cambiada
+        reset_password_instructions:
+          action: Cambiar mi contraseña
+          greeting: "¡Hola %{recipient}!"
+          instruction: Alguien ha solicitado un enlace para cambiar su contraseña, lo que se puede realizar a través del siguiente enlace.
+          instruction_2: Si usted no lo ha solicitado, por favor ignore este correo electrónico.
+          instruction_3: Su contraseña no será cambiada hasta que usted acceda al enlace y cree una nueva.
+          subject: Instrucciones de recuperación de contraseña
+        unlock_instructions:
+          action: Desbloquear mi cuenta
+          greeting: "¡Hola %{recipient}!"
+          instruction: 'Haga click en el siguiente enlace para desbloquear su cuenta:'
+          message: Su cuenta ha sido bloqueada debido a una cantidad excesiva de intentos infructuosos para ingresar.
+          subject: Instrucciones para desbloquear
+      omniauth_callbacks:
+        failure: No has sido autorizado en la cuenta %{kind} porque "%{reason}".
+        success: Has sido autorizado satisfactoriamente en la cuenta %{kind}.
+      passwords:
+        edit:
+          change_my_password: Cambiar mi contraseña
+          change_your_password: Cambie su contraseña
+          confirm_new_password: Confirme la nueva contraseña
+          new_password: Nueva contraseña
+        new:
+          forgot_your_password: "¿Ha olvidado su contraseña?"
+          send_me_reset_password_instructions: Envíeme las instrucciones para resetear mi contraseña
+        no_token: No puedes acceder a esta página si no es a través de un enlace para resetear tu contraseña. Si has llegado hasta aquí desde el email para resetear tu contraseña, por favor asegúrate de que la URL introducida está completa.
+        send_instructions: Recibirás un correo con instrucciones sobre cómo resetear tu contraseña en unos pocos minutos.
+        send_paranoid_instructions: Si tu correo existe en nuestra base de datos, recibirás un correo con instrucciones sobre cómo resetear tu contraseña en tu bandeja de entrada.
+        updated: Se ha cambiado tu contraseña. Ya iniciaste sesión.
+        updated_not_active: Tu contraseña fue cambiada.
+      registrations:
+        destroyed: "¡Adiós! Tu cuenta ha sido cancelada correctamente. Esperamos verte pronto."
+        edit:
+          are_you_sure: "¿Está usted seguro?"
+          cancel_my_account: Anular mi cuenta
+          currently_waiting_confirmation_for_email: 'Actualmente esperando la confirmacion de: %{email} '
+          leave_blank_if_you_don_t_want_to_change_it: dejar en blanco si no desea cambiarla
+          title: Editar %{resource}
+          unhappy: "¿Disconforme?"
+          update: Actualizar
+          we_need_your_current_password_to_confirm_your_changes: necesitamos su contraseña actual para confirmar los cambios
+        new:
+          sign_up: Registrarse
+        signed_up: Bienvenido. Tu cuenta fue creada.
+        signed_up_but_inactive: Tu cuenta ha sido creada correctamente. Sin embargo, no hemos podido iniciar la sesión porque tu cuenta aún no está activada.
+        signed_up_but_locked: Tu cuenta ha sido creada correctamente. Sin embargo, no hemos podido iniciar la sesión porque que tu cuenta está bloqueada.
+        signed_up_but_unconfirmed: Se ha enviado un mensaje con un enlace de confirmación a tu correo electrónico. Abre el enlace para activar tu cuenta.
+        update_needs_confirmation: Has actualizado tu cuenta correctamente, pero es necesario confirmar tu nuevo correo electrónico. Por favor, comprueba tu correo y sigue el enlace de confirmación para finalizar la comprobación del nuevo correo electrónico.
+        updated: Tu cuenta se ha actualizado.
+        updated_but_not_signed_in: Su cuenta se ha actualizado correctamente, pero como se cambió su contraseña, debe iniciar sesión nuevamente
+      sessions:
+        already_signed_out: Sesión finalizada.
+        new:
+          sign_in: Iniciar sesión
+        signed_in: Sesión iniciada.
+        signed_out: Sesión finalizada.
+      shared:
+        links:
+          back: Atrás
+          didn_t_receive_confirmation_instructions: "¿No ha recibido las instrucciones de confirmación?"
+          didn_t_receive_unlock_instructions: "¿No ha recibido instrucciones para desbloquear?"
+          forgot_your_password: "¿Ha olvidado su contraseña?"
+          sign_in: Iniciar sesión
+          sign_in_with_provider: Iniciar sesión con %{provider}
+          sign_up: Registrarse
+        minimum_password_length:
+          one: "(%{count} caractere como mínimo)"
+          other: "(%{count} caracteres como mínimo)"
+      unlocks:
+        new:
+          resend_unlock_instructions: Reenviar instrucciones para desbloquear
+        send_instructions: Vas a recibir instrucciones para desbloquear tu cuenta en unos pocos minutos.
+        send_paranoid_instructions: Si tu cuenta existe, vas a recibir instrucciones para desbloquear tu cuenta en unos pocos minutos.
+        unlocked: Tu cuenta ha sido desbloqueada. Ya puedes iniciar sesión.
+      messages:
+        not_saved: no se ha podido guardad
+        already_confirmed: ya ha sido confirmado, por favor intenta iniciar sesión
+        confirmation_period_expired: necesita confirmarse dentro de %{period}, por favor solicita una nueva
+        expired: ha expirado, por favor solicita una nueva
+        not_found: no se ha encontrado
+        not_locked: no estaba bloqueada
+        not_saved:
+          one: 'Ocurrió un error al tratar de guardar %{resource}:'
+          other: 'Ocurrieron %{count} errores al tratar de guardar %{resource}:'
+    models:
+      product: producto
+      products: productos
+      store: tienda
+      common_question: preguntas frecuentes
+      static_content: Texto editable
+      district: comuna
+      state: región
+      user: usuario
+      vatiant: Variante
+      pcategory: categoría producto
+      scategory: categoría tienda
+    attributes: 
+      confirmation_sent_at: Confirmación enviada a
+      confirmation_token: Código de confirmación
+      confirmed_at: Confirmado en
+      created_at: Creado en
+      current_password: Contraseña actual
+      current_sign_in_at: Fecha del ingreso actual
+      current_sign_in_ip: IP del ingreso actual
+      email: Email
+      encrypted_password: Contraseña cifrada
+      failed_attempts: Intentos fallidos
+      last_sign_in_at: Fecha del último ingreso
+      last_sign_in_ip: IP del último inicio
+      locked_at: Fecha de bloqueo
+      password: Contraseña
+      password_confirmation: Confirmación de la contraseña
+      remember_created_at: Fecha de 'Recordarme'
+      remember_me: Recordarme
+      reset_password_sent_at: Fecha de envío de código para contraseña
+      reset_password_token: Código para restablecer contraseña
+      sign_in_count: Cantidad de ingresos
+      unconfirmed_email: Email no confirmado
+      unlock_token: Código de desbloqueo
+      updated_at: Actualizado en
+      static_content:
+        name: Contenido
+        title: Título
+        rich_description: Contenido
+      product:
+        price: precio
+        name: nombre
+        description: descripción
+        store: tienda
+        pcategories: categorías
+        rich_description: descripción estilizada
+        assets: imagenes
+      scategory:
+        name: nombre
+        parent: categoría padre
+        root: Es una categoría raíz?
+        depth: posición
+        children: categorías hijos
+        stores: tiendas
+        created_at: creado en
+        updated_at: actualizdo en
+      pcategory:
+        name: nombre
+        root: Es una categoría raíz?
+        children: categorías hijos
+        depth: posición
+        products: productos
+        parent: categoría padre
+        created_at: creado en
+        updated_at: actualizdo en  
+      district:
+        name: nombre
+        state: región
+        stores: tiendas
+        asset: imagen
+        created_at: creado en
+        updated_at: actualizdo en        
+      common_question:
+        question: pregunta
+        answer: respuesta  
+      state:
+        name: nombre
+        districts: comunas
+        asset: imagen
+        created_at: creado en
+        updated_at: actualizdo en        
+      store:
+        name: nombre
+        payment_method: medio de pago
+        attention_hours: horario de atencion
+        district: Comuna
+        user: usuario
+        legal_representative_name: nombre representante legal
+        company_name: nombre de la empresa
+        company_rut: rut de la empresa
+        legal_representative_email: email representante legal
+        legal_representative_phone: número representante legal
+        certifications: certificaciones
+        fantasy_name: Nombre de fantasía
+        contact_email: email de contacto
+        contact_phone: número de contacto
+        what_we_do: Qué hace la empresa
+        banner: banner
+        address: dirección
+        district: comuna
+        lat: latitud
+        lng: longitud
+        website: sitio web
+        facebook: facebook
+        instagram: instagram
+        twitter: twitter
+        delivery: delivery
+        created_at: creado en
+        updated_at: actualizado en   
+        asset: imagen
+      slide:
+        name: Nombre
+        title: Titulo
+        subtitle: Subtitulo
+        button: Texto del boton
+        url_destination: Link destino
+
+    errors:
+      models:
+        user:
+          attributes:   
+            email:
+              not_found: correo no encontrado         
+            asset:
+              allowed_file_content_types: Formato de archivo no válido        
+        state:
+          attributes:
+            asset:
+              allowed_file_content_types: Formato de archivo no válido        
+        district:
+          attributes:
+            asset:
+              allowed_file_content_types: Formato de archivo no válido
+        product:          
+          attributes:            
+            assets:
+              not_saved: no se ha podido guardad
+              content_type_invalid: "Tipo de archivo inválido."
+              file_size_out_of_range: "Exede los %{file_size}"
+              limit_out_of_range: "Exede las 4"
+              image_metadata_missing: "Error de metadatos"                
+      messages:
+        record_invalid: 'La validación falló: %{errors}'
+        restrict_dependent_destroy:
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+  date:
+    abbr_day_names:
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
+    abbr_month_names:
+    - 
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    formats:
+      default: "%-d/%-m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
+    month_names:
+    - 
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      x_years:
+        one: 1 año
+        other: "%{count} años"
+    prompts:
+      second: Segundo
+      minute: Minuto
+      hour: Hora
+      day: Día
+      month: Mes
+      year: Año
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: debe ser aceptado
+      blank: no puede estar en blanco
+      not_saved: usuario no pudo ser guardado
+      confirmation: no coincide
+      empty: no puede estar vacío
+      equal_to: debe ser igual a %{count}
+      even: debe ser par
+      exclusion: está reservado
+      greater_than: debe ser mayor que %{count}
+      greater_than_or_equal_to: debe ser mayor que o igual a %{count}
+      inclusion: no está incluido en la lista
+      invalid: no es válido
+      less_than: debe ser menor que %{count}
+      less_than_or_equal_to: debe ser menor que o igual a %{count}
+      model_invalid: 'La validación falló: %{errors}'
+      not_a_number: no es un número
+      not_an_integer: debe ser un entero
+      odd: debe ser impar
+      other_than: debe ser distinto de %{count}
+      present: debe estar en blanco
+      required: debe existir
+      taken: ya está en uso
+      too_long:
+        one: es demasiado largo (1 carácter máximo)
+        other: es demasiado largo (%{count} caracteres máximo)
+      too_short:
+        one: es demasiado corto (1 carácter mínimo)
+        other: es demasiado corto (%{count} caracteres mínimo)
+      wrong_length:
+        one: no tiene la longitud correcta (1 carácter exactos)
+        other: no tiene la longitud correcta (%{count} caracteres exactos)
+    template:
+      body: 'Se encontraron problemas con los siguientes campos:'
+      header:
+        one: No se pudo guardar este/a %{model} porque se encontró 1 error
+        other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
+  helpers:
+    select:
+      prompt: Por favor seleccione
+    submit:
+      create: Crear %{model}
+      submit: Guardar %{model}
+      update: Actualizar %{model}
+  number:
+    currency:
+      format:
+        delimiter: "."
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: mil millones
+          million:
+            one: millón
+            other: millones
+          quadrillion: mil billones
+          thousand: mil
+          trillion:
+            one: billón
+            other: billones
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n %"
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: " y "
+      two_words_connector: " y "
+      words_connector: ", "
+  time:
+    am: am
+    formats:
+      default: "%A, %-d de %B de %Y %H:%M:%S %z"
+      long: "%-d de %B de %Y %H:%M"
+      short: "%-d de %b %H:%M"
+    pm: pm
+  admin:
+    actions:
+      bulk_delete:
+        breadcrumb: Eliminación Múltiple
+        bulk_link: Eliminar los %{model_label_plural} seleccionados
+        menu: Eliminación Múltiple
+        title: Eliminar %{model_label_plural}
+      dashboard:
+        breadcrumb: Panel de control
+        menu: Panel de control
+        title: Administración del Sitio
+      delete:
+        breadcrumb: Eliminar
+        done: Eliminado
+        link: Eliminar  '%{object_label}'
+        menu: Eliminar
+        title: Eliminar %{model_label} '%{object_label}'
+      edit:
+        breadcrumb: Editar
+        done: Actualizado
+        link: Editar este  %{model_label}
+        menu: Editar
+        title: Editar %{model_label} '%{object_label}'
+      export:
+        breadcrumb: Exportar
+        bulk_link: Exportar Seleccionados %{model_label_plural}
+        done: exportado
+        link: Exportar   %{model_label_plural}  encontrados
+        menu: Exportar
+        title: Exportar %{model_label_plural}
+      history_index:
+        breadcrumb: Historial
+        menu: Historial
+        title: Historial para %{model_label_plural}
+      history_show:
+        breadcrumb: Historial
+        menu: Historial
+        title: Historial para %{model_label} '%{object_label}'
+      index:
+        breadcrumb: "%{model_label_plural}"
+        menu: Lista
+        title: Lista de %{model_label_plural}
+      new:
+        breadcrumb: Nuevo
+        done: creado
+        link: Añadir un nuevo %{model_label}
+        menu: Añadir Nuevo
+        title: Nuevo  %{model_label}
+      show:
+        breadcrumb: "%{object_label}"
+        menu: Ver
+        title: Detalles para  %{model_label} "%{object_label}"
+      show_in_app:
+        menu: Ver en la aplicación
+    export:
+      click_to_reverse_selection: Haga click para invertir la selección
+      confirmation: Exportar a %{name}
+      csv:
+        col_sep: Separador de columnas
+        col_sep_help: Deje en blanco para el de defecto ('%{value}')
+        default_col_sep: ","
+        encoding_to: Codificar a
+        encoding_to_help: 'Elija la codificación de salida. Deje en blanco para no cambiar la codificación actual: (%{name})'
+        header_for_association_methods: "%{name} [%{association}]"
+        header_for_root_methods: "%{name}"
+        skip_header: Sin cabecera
+        skip_header_help: No incluir un encabezado (sin descripción de los campos)
+      display: 'Mostrar %{name}: %{type}'
+      empty_value_for_associated_objects: "<vacío>"
+      fields_from: Campos de %{name}
+      fields_from_associated: Campos del %{name} asociado
+      options_for: Opciones para %{name}
+      select: Seleccione los campos a exportar
+    flash:
+      error: "%{name} no se ha %{action}"
+      model_not_found: El modelo '%{model}' no se pudo encontrar
+      noaction: No se llevó a cabo ninguna acción
+      object_not_found: "%{model} con id '%{id}' no se pudo encontrar"
+      successful: "%{name} %{action} con éxito"
+    form:
+      all_of_the_following_related_items_will_be_deleted: "? Los siguientes elementos relacionados pueden ser eliminados o quedar huérfanos:"
+      are_you_sure_you_want_to_delete_the_object: "¿Está seguro de que quiere eliminar este %{model_name}"
+      basic_info: Información Básica
+      bulk_delete: 'Los siguientes objetos serán eliminados, lo cual puede eliminar o dejar huérfanas algunas de sus dependencias relacionadas:'
+      cancel: Cancelar
+      char_length_of: longitud de
+      char_length_up_to: longitud de hasta
+      confirmation: Si, estoy seguro
+      new_model: "%{name} (nuevo)"
+      one_char: carácter
+      optional: Opcional
+      required: Requerido
+      save: Guardar
+      save_and_add_another: Guardar y añadir otro
+      save_and_edit: Guardar y editar
+    misc:
+      add_filter: Añadir filtro
+      add_new: Agregar nuevo
+      ago: atrás
+      bulk_menu_title: Elementos seleccionados
+      chose_all: Elegir todos
+      chosen: Elegido %{name}
+      clear_all: Borrar todos
+      down: Abajo
+      filter: Filtrar
+      filter_date_format: dd/mm/yy
+      log_out: Desconectar
+      navigation: Navegación
+      refresh: Actualizar
+      remove: Quitar
+      search: Buscar
+      show_all: Mostrar todo
+      up: Arriba
+    table_headers:
+      changes: Cambios
+      created_at: Fecha/Hora
+      item: Elemento
+      last_used: "Último uso"
+      message: Mensaje
+      model_name: Nombre del modelo
+      records: Registros
+      username: Usuario
+    home:
+      name: Inicio
+    pagination:
+      next: Siguiente &raquo;
+      previous: "&laquo; Anterior"
+      truncate: "…"
