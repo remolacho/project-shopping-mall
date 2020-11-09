@@ -18,12 +18,35 @@ Things you may want to cover:
   - crear aplication.yml basado en aplication.yml.example
 
 * Configuration
+  - application.yml asignar valor a esas variables
+    * development:
+        * DATABASE:
+        * USERNAME:
+        * PASSWORD:
+        * DATABASE_TEST:
+        * ALGOLIASEARCH_APPLICATION_ID:
+        * ALGOLIASEARCH_API_KEY:
+        * ALGOLIASEARCH_API_KEY_SEARCH:
+        * JWT_SECRET:
+        * SECRET_API:
+     * test:
+        * DATABASE:
+        * USERNAME:
+        * PASSWORD:
+        * DATABASE_TEST:
+        * JWT_SECRET:
+        * SECRET_API:
+  
   - bundle install
+  
+  - crear bd de test y correr migrate en env test 
  
 * How to run the test suite
-  - rswag:specs:swaggerize (correra los test y asu ves creara la documentacion)
- 
+  - rails rswag:specs:swaggerize (correra los test y asu ves creara la documentacion)
+  - rails g rspec:swagger namespace::controller_name
+  - rspec
 * Services (job queues, cache servers, search engines, etc.)
   - Algolia como motor de busqueda
+  - swagger como doc para los EP
   
 * Deployment instructions
