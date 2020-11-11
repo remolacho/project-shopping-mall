@@ -42,9 +42,6 @@ class OrderProductReview < ApplicationRecord
                                        .is_active
                                        .average(:rating)
     product.save!
-    return true if Rails.env.test?
-
-    product.index!
   end
 
 end

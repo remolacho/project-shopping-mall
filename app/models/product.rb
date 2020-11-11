@@ -24,7 +24,7 @@
 #  index_products_on_store_id     (store_id)
 #
 class Product < ApplicationRecord
-  include AlgoliaSearch
+  include Indexable
 
   translates :name, :short_description
 
@@ -43,23 +43,5 @@ class Product < ApplicationRecord
 
   has_rich_text :description
 
-  after_save :update_repository
-
   validates_presence_of %i[name short_description store_id category_id brand_id],  message: "es un campo obligatorio"
-
-  private
-
-  # se hace de esta forma y no find or create by para evitar
-  # la doble reindex en algolia
-  def update_repository
-    repository = RepositoryProduct.find_by(slug: self.slug, category_id: self.category_id, brand: self.brand.name)
-    repository ||= RepositoryProduct.new(slug: self.slug,
-                                         category_id: self.category_id,
-                                         brand: self.brand.name,
-                                         code: "ZOFRI#{Time.now.strftime('%S%d%m%Y%H%M')}",
-                                         side_code: "ZOFRI")
-
-    repository.name = self.name_translations
-    repository.save!
-  end
 end

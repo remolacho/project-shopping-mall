@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_140139) do
     t.bigint "product_id", null: false
     t.bigint "user_id"
     t.integer "rating", default: 0
-    t.string "comment", default: "0"
+    t.string "comment"
     t.integer "status", default: 0
     t.boolean "active", default: false
     t.datetime "created_at", precision: 6, null: false
@@ -287,7 +287,6 @@ ActiveRecord::Schema.define(version: 2020_11_11_140139) do
     t.hstore "short_description_translations"
     t.string "slug"
     t.integer "group_products_store_id"
-    t.float "rating", default: 0.0
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["deleted_at"], name: "index_products_on_deleted_at"

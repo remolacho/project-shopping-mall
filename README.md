@@ -27,6 +27,8 @@ Things you may want to cover:
         * ALGOLIASEARCH_APPLICATION_ID:
         * ALGOLIASEARCH_API_KEY:
         * ALGOLIASEARCH_API_KEY_SEARCH:
+        * ALGOLIA_PER_PAGE: "12"
+        * ALGOLIA_LIMIT: "5000"
         * JWT_SECRET:
         * SECRET_API:
      * test:
@@ -36,6 +38,9 @@ Things you may want to cover:
         * DATABASE_TEST:
         * JWT_SECRET:
         * SECRET_API:
+        * ALGOLIASEARCH_APPLICATION_ID:
+        * ALGOLIASEARCH_API_KEY:
+        * ALGOLIASEARCH_API_KEY_SEARCH:
   
   - bundle install
   
