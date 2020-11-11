@@ -6,6 +6,7 @@
 #  deleted_at                     :datetime
 #  hide_from_results              :boolean          default(FALSE)
 #  name_translations              :hstore
+#  rating                         :float            default(0.0)
 #  short_description_translations :hstore
 #  slug                           :string
 #  created_at                     :datetime         not null
@@ -23,6 +24,8 @@
 #  index_products_on_store_id     (store_id)
 #
 class Product < ApplicationRecord
+  include AlgoliaSearch
+
   translates :name, :short_description
 
   acts_as_paranoid

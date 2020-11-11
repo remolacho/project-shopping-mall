@@ -67,3 +67,4 @@ gem 'acts_as_paranoid', '~> 0.7.0' # Soft delete
 gem 'ancestry'
 gem 'rolify'
 gem 'activestorage-validator'
+gem 'kaminari'
