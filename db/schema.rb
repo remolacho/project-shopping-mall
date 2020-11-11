@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_03_161755) do
+ActiveRecord::Schema.define(version: 2020_11_11_140139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -191,6 +191,21 @@ ActiveRecord::Schema.define(version: 2020_11_03_161755) do
     t.index ["store_order_id"], name: "index_order_items_on_store_order_id"
   end
 
+  create_table "order_product_reviews", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.bigint "user_id"
+    t.integer "rating", default: 0
+    t.string "comment", default: "0"
+    t.integer "status", default: 0
+    t.boolean "active", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_order_product_reviews_on_order_id"
+    t.index ["product_id"], name: "index_order_product_reviews_on_product_id"
+    t.index ["user_id"], name: "index_order_product_reviews_on_user_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
     t.integer "address_id"
@@ -204,6 +219,7 @@ ActiveRecord::Schema.define(version: 2020_11_03_161755) do
     t.string "payment_state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "token"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -271,6 +287,7 @@ ActiveRecord::Schema.define(version: 2020_11_03_161755) do
     t.hstore "short_description_translations"
     t.string "slug"
     t.integer "group_products_store_id"
+    t.float "rating", default: 0.0
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
