@@ -230,6 +230,7 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rainbow (3.0.0)
     rake (13.0.1)
+    random_name_generator (1.2.1)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -352,6 +353,7 @@ DEPENDENCIES
   puma (~> 4.1)
   rack-cors
   rails (~> 6.0.3, >= 6.0.3.4)
+  random_name_generator (~> 1.2, >= 1.2.1)
   rolify
   roo (~> 2.8.0)
   rspec-rails (~> 3.5)

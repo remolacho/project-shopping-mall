@@ -24,6 +24,17 @@
 #
 FactoryBot.define do
   factory :user do
-    
+    name { FFaker::Name.first_name }
+    lastname { FFaker::Name.last_name }
+    email { email }
+    password { 'passwordtest123' }
+    password_confirmation { 'passwordtest123'}
+    rut { "#{FFaker::IdentificationESCL.rut}-#{20 + Random.rand(11)}" }
+  end
+
+  trait :is_admin do
+    after(:create) do |user|
+      user.add_role :admin
+    end
   end
 end
