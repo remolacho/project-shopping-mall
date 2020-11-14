@@ -1,0 +1,9 @@
+shared_context 'store_stuff' do
+  let!(:store) {
+    FactoryBot.create(:store,
+                      :is_active,
+                      commune: Commune.first,
+                      category: Category.first,
+                      company: Company.first)
+  }
+end

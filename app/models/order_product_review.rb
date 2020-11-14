@@ -4,7 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  active     :boolean          default(FALSE)
-#  comment    :string           default("0")
+#  comment    :string
 #  rating     :integer          default(0)
 #  status     :integer          default(0)
 #  created_at :datetime         not null

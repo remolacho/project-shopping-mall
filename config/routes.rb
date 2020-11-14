@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
 
@@ -22,4 +21,12 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  namespace(:v1, defaults: { format: :json }) {
+    namespace :categories, path: '' do
+      resources :category, only: [] do
+        resources :products, only: [:index]
+      end
+    end
+  }
 end
