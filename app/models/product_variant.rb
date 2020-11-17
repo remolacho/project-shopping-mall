@@ -47,6 +47,8 @@ class ProductVariant < ApplicationRecord
 
   after_save :assign_history_price
 
+  scope :is_active, -> { where(active: true) }
+
   public def assign_movement_in(quantity)
     stock_movements.create!(quantity: quantity, movement_type: StockMovement::INVENTORY_IN)
   end

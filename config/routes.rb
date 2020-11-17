@@ -28,5 +28,11 @@ Rails.application.routes.draw do
         resources :products, only: [:index]
       end
     end
+
+    namespace :products, path: '' do
+      scope :product do
+        resources :detail, param: :product_id, only: [:show]
+      end
+    end
   }
 end

@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe Categories::ListProducts, type: :request do
+RSpec.describe V1::Categories::ProductsController, type: :request do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'
