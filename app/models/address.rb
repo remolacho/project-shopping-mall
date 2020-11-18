@@ -13,6 +13,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  commune_id       :integer
+#  order_id         :integer
 #  store_id         :integer
 #  user_id          :integer
 #
@@ -25,5 +26,6 @@
 class Address < ApplicationRecord
   belongs_to :store, optional: true
   belongs_to :user, optional: true
+  belongs_to :order, optional: true
   belongs_to :commune
 end

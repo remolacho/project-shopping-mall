@@ -7,6 +7,7 @@
 #  unit_value         :float
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  order_id           :integer          not null
 #  product_variant_id :bigint
 #  store_id           :bigint
 #  store_order_id     :bigint
@@ -19,6 +20,8 @@
 #
 class OrderItem < ApplicationRecord
   belongs_to :product_variant
-  belongs_to :store_order
+  belongs_to :store_order, optional: true
   belongs_to :store
+  belongs_to :order
+  has_many :order_items
 end
