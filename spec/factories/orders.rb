@@ -23,27 +23,35 @@
 #
 #  index_orders_on_user_id  (user_id)
 #
-class Order < ApplicationRecord
-  belongs_to :user, optional: true
-  belongs_to :address, optional: true
-  has_many :store_orders
-  has_many :payments
-  has_many :order_adjustments, as: :adjustable
-  has_many :order_items
 
-  before_create :generate_token
-  before_create :generate_ticket
-
-  ON_PURCHASE = 'on_purchase'.freeze
-  IS_COMPLETED = 'completed'.freeze
-
-  private
-
-  def generate_token
-    self.token = Digest::MD5.hexdigest("Zofr12020Et1n3R#{Time.now.strftime('%d%m%Y%H%M%S')}")
+FactoryBot.define do
+  factory :order do
+    state { 'on_purchase' }
+    delivery_state { 'unstarted' }
+    payment_state  { 'unstarted' }
+    payment_total  { 0 }
+    shipment_total { 0 }
+    tax_total      { 0 }
+    adjustment_total { 0 }
+    address { nil }
+    user { nil }
   end
 
-  def generate_ticket
-    self.number_ticket = "ZNT-#{Time.now.strftime('%d%m%Y%H%M%S')}"
+  trait :with_user do
+    user { user }
+  end
+
+  trait :with_address do
+    address { FactoryBot.create(:address, commune: Commune.last) }
+  end
+
+  trait :is_completed do
+    state { 'completed' }
+    completed_at { Time.now }
+  end
+
+  trait :with_usr_data do
+    user_data { user_data }
   end
 end
+

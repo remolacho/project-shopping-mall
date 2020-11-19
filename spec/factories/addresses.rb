@@ -22,9 +22,24 @@
 #  index_addresses_on_store_id    (store_id)
 #  index_addresses_on_user_id     (user_id)
 #
-class Address < ApplicationRecord
-  belongs_to :store, optional: true
-  belongs_to :user, optional: true
-  belongs_to :commune
-  has_one :order
+
+FactoryBot.define do
+  factory :address do
+    apartment_number { FFaker::Address.building_number }
+    condominium { FFaker::Address.street_suffix }
+    firstname { FFaker::Address.street_suffix }
+    lastname {  FFaker::Address.street_suffix }
+    phone { "#{rand(5)}#{rand(5)}#{rand(5)}-#{rand(5)}#{rand(5)}#{rand(5)}#{rand(5)}" }
+    street { FFaker::Address.street_name }
+    street_number { FFaker::Address.building_number }
+    commune { commune }
+  end
+
+  trait :has_user do
+    user { user }
+  end
+
+  trait :with_store do
+    store { store }
+  end
 end

@@ -343,6 +343,7 @@ DEPENDENCIES
   haikunator
   hstore_translate
   httparty
+  jwt
   kaminari
   listen (~> 3.2)
   pager_api

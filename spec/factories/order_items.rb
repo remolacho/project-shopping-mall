@@ -18,9 +18,13 @@
 #  index_order_items_on_store_id            (store_id)
 #  index_order_items_on_store_order_id      (store_order_id)
 #
-class OrderItem < ApplicationRecord
-  belongs_to :product_variant
-  belongs_to :store_order, optional: true
-  belongs_to :store
-  belongs_to :order
+FactoryBot.define do
+  factory :order_item do
+    item_qty { 1 }
+    unit_value { product_variant.price }
+    order { order }
+    product_variant { product_variant }
+    store { store }
+    store_order { nil }
+  end
 end
