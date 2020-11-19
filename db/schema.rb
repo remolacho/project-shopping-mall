@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_13_155051) do
+ActiveRecord::Schema.define(version: 2020_11_18_220029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_155051) do
     t.string "phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "order_id"
     t.index ["commune_id"], name: "index_addresses_on_commune_id"
     t.index ["store_id"], name: "index_addresses_on_store_id"
     t.index ["user_id"], name: "index_addresses_on_user_id"
@@ -186,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_155051) do
     t.float "unit_value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "order_id", null: false
     t.index ["product_variant_id"], name: "index_order_items_on_product_variant_id"
     t.index ["store_id"], name: "index_order_items_on_store_id"
     t.index ["store_order_id"], name: "index_order_items_on_store_order_id"
@@ -220,6 +222,8 @@ ActiveRecord::Schema.define(version: 2020_11_13_155051) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "token"
+    t.string "number_ticket"
+    t.json "user_data", default: {}
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
