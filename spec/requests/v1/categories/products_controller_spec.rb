@@ -15,7 +15,7 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
         description "retorna la lista de productos por categoria, en su filtro puede estar por rango de precio,
 <p>ordenado por precio asc o desc, marca, calificacion Qyery ?prices=['1000-2000', '2000-5000']&brand_ids=[1, 2, 3]&order_by=DESC&rating=3</p>"
         produces 'application/json'
-        parameter name: 'secret-api', in: :header
+        parameter name: 'secret-api', in: :header, required: true
         parameter name: :category_id, in: :path
         parameter name: :brand_ids, in: :query, required: false, type: :string
         parameter name: :prices, in: :query, required: false, type: :string

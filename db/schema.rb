@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_123935) do
+ActiveRecord::Schema.define(version: 2020_11_20_010023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -212,10 +212,6 @@ ActiveRecord::Schema.define(version: 2020_11_19_123935) do
     t.integer "address_id"
     t.datetime "completed_at"
     t.string "state"
-    t.integer "payment_total"
-    t.integer "tax_total"
-    t.integer "shipment_total"
-    t.integer "adjustment_total"
     t.string "delivery_state"
     t.string "payment_state"
     t.datetime "created_at", precision: 6, null: false
@@ -223,6 +219,12 @@ ActiveRecord::Schema.define(version: 2020_11_19_123935) do
     t.string "token"
     t.string "number_ticket"
     t.json "user_data", default: {}
+    t.float "adjustment_total", default: 0.0
+    t.float "payment_total", default: 0.0
+    t.float "shipment_total", default: 0.0
+    t.float "tax_total", default: 0.0
+    t.index ["number_ticket"], name: "index_orders_on_number_ticket", unique: true
+    t.index ["token"], name: "index_orders_on_token", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

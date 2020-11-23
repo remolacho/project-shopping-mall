@@ -3,15 +3,15 @@
 # Table name: orders
 #
 #  id               :bigint           not null, primary key
-#  adjustment_total :integer
+#  adjustment_total :float            default(0.0)
 #  completed_at     :datetime
 #  delivery_state   :string
 #  number_ticket    :string
 #  payment_state    :string
-#  payment_total    :integer
-#  shipment_total   :integer
+#  payment_total    :float            default(0.0)
+#  shipment_total   :float            default(0.0)
 #  state            :string
-#  tax_total        :integer
+#  tax_total        :float            default(0.0)
 #  token            :string
 #  user_data        :json
 #  created_at       :datetime         not null
@@ -21,7 +21,9 @@
 #
 # Indexes
 #
-#  index_orders_on_user_id  (user_id)
+#  index_orders_on_number_ticket  (number_ticket) UNIQUE
+#  index_orders_on_token          (token) UNIQUE
+#  index_orders_on_user_id        (user_id)
 #
 
 FactoryBot.define do

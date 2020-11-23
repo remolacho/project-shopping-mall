@@ -10,7 +10,7 @@ RSpec.describe Users::SessionsController, type: :request do
         description 'retorna los datos usuario y en el header el JWT response.header["Authorization"]'
         consumes 'application/json'
         produces 'application/json'
-        parameter name: 'secret-api', in: :header
+        parameter name: 'secret-api', in: :header, required: true
         parameter name: :params_user, in: :body, schema: {
           type: :object,
           properties: {

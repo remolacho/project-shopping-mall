@@ -34,5 +34,15 @@ Rails.application.routes.draw do
         resources :detail, param: :product_id, only: [:show]
       end
     end
+
+    namespace :orders do
+      resources :shopping_car, path: 'shoppingCar', param: :order_item_id,
+                only: [:update, :destroy, :index] do
+
+        collection do
+          get :create, path: 'addItem'
+        end
+      end
+    end
   }
 end
