@@ -1,4 +1,4 @@
-require 'swagger_helper'
+require 'rails_helper'
 
 RSpec.describe V1::Categories::ProductsController, type: :controller do
   include_context 'user_stuff'

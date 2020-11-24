@@ -23,4 +23,7 @@ class OrderItem < ApplicationRecord
   belongs_to :store_order, optional: true
   belongs_to :store
   belongs_to :order
+
+  validates :item_qty, numericality: { only_integer: true }, allow_blank: true
+  validates_presence_of :item_qty, on: :update
 end

@@ -15,7 +15,7 @@ RSpec.describe V1::Products::DetailController, type: :request do
         description '<p>Retorna el producto con cada variante precio de variante y opciones de variantes
 mas sus imagenes por variante</p>'
         produces 'application/json'
-        parameter name: 'secret-api', in: :header
+        parameter name: 'secret-api', in: :header, required: true
         parameter name: :product_id, in: :path
         response 200, 'success!!!' do
           schema type: :object,
@@ -76,7 +76,7 @@ mas sus imagenes por variante</p>'
           run_test!
         end
 
-        response 404, 'Secret api error!!!' do
+        response 404, 'product api error!!!' do
           schema type: :object,
                  properties: {
                      success: {type: :boolean, default: false},

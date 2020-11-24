@@ -85,6 +85,7 @@ class Categories::ListProducts
   end
 
   def serializer(products)
-    products.map{ |product| Categories::ProductsListSerializer.new(product) }
+    ActiveModelSerializers::SerializableResource.new(products,
+                                                     each_serializer: ::Categories::ProductsListSerializer)
   end
 end

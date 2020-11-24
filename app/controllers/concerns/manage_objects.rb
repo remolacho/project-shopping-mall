@@ -31,8 +31,7 @@ module ManageObjects
     return Order.find(params[:order_id]) if params[:order_id].present?
     return Order.find_by(number_ticket: params[:number_ticket]) if params[:number_ticket].present?
 
-    Order.find_by(token: params[:order_token],
-                  state: Order::ON_PURCHASE)
+    Order.find_by(token: params[:order_token], state: Order::ON_PURCHASE)
   end
 
   def product_variant
