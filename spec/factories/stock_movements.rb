@@ -14,13 +14,17 @@
 #
 #  index_stock_movements_on_product_variant_id  (product_variant_id)
 #
-class StockMovement < ApplicationRecord
-  belongs_to :product_variant
-  belongs_to :order, optional: true
 
-  INVENTORY_IN = 'inventory in'.freeze
-  INVENTORY_OUT = 'inventory out'.freeze
+FactoryBot.define do
+  factory :stock_movement do
+    movement_type { StockMovement::INVENTORY_IN }
+    quantity { quantity }
+    product_variant { product_variant }
+  end
 
-  validates_presence_of %i[movement_type], message: "es un campo obligatorio"
-  validates_numericality_of :quantity, message: "Debe ser numerico"
+  trait :inventory_out do
+    movement_type { StockMovement::INVENTORY_OUT }
+    quantity { quantity }
+  end
 end
+

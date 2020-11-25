@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe V1::Orders::ShoppingCarController, type: :request do
+RSpec.describe V1::Orders::ShoppingCartController, type: :request do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'
@@ -8,15 +8,16 @@ RSpec.describe V1::Orders::ShoppingCarController, type: :request do
   include_context 'products_stuff'
   include_context 'order_stuff'
 
-  describe "Busca y lista lo items del carrito de compras por token" do
-    path "/v1/orders/shoppingCar" do
-      get 'Orden de compra y sus items' do
-        tags 'Zofri Shopping car'
-        description '<p>Lista todos los items y sus cantidaedes totales etc...<b> NOTA: EL Authorization de la cabecera puede ir o no ir ya que es para asociar
+  describe "Busca elimina item al carrito de compras" do
+    path "/v1/orders/shoppingCart/{order_item_id}" do
+      delete 'Orden de compra y sus items' do
+        tags 'Zofri Shopping cart'
+        description '<p>Elimina el item seleccionado<b> NOTA: EL Authorization de la cabecera puede ir o no ir ya que es para asociar
 la orden a un user o no</b></p>'
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
         parameter name: 'Authorization', in: :header, required: false
+        parameter name: :order_item_id, in: :path, required: true, type: :integer
         parameter name: :order_token, in: :query, required: true, type: :string
         response 200, 'success!!!' do
           schema type: :object,
@@ -52,7 +53,7 @@ la orden a un user o no</b></p>'
             current_order.save
             current_order.token
           }
-
+          let(:order_item_id) { list_order_item.last.id }
           run_test!
         end
 
@@ -64,35 +65,26 @@ la orden a un user o no</b></p>'
                  }
 
           let(:order_token) { current_order.token }
+          let(:order_item_id) { list_order_item.last.id }
           let(:'secret-api') { 'error secret' }
           run_test!
         end
 
-        response 404, 'Order token error!!!' do
+        response 404, 'Order Item error!!!' do
           schema type: :object,
                  properties: {
                      success: {type: :boolean, default: false},
                      message: {type: :string}
                  }
 
-          let(:order_token) { 'test error' }
-          run_test!
-
-          let(:order_token) {
-            current_order.state = Order::IS_COMPLETED
-            current_order.save
-            current_order.token
-          }
-
+          let(:order_token) { current_order.token }
+          let(:order_item_id) { 9999 }
           run_test!
         end
-
 
       end
     end
   end
 
 end
-
-
 

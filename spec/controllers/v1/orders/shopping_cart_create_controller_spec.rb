@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::Orders::ShoppingCarController, type: :controller do
+RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'

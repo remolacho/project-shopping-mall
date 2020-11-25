@@ -32,6 +32,7 @@ class Order < ApplicationRecord
   has_many :payments
   has_many :order_adjustments, as: :adjustable
   has_many :order_items
+  has_many :stock_movements
 
   before_create :generate_token
   before_create :on_purchase
@@ -44,6 +45,14 @@ class Order < ApplicationRecord
   def consolidate_payment_total
     self.payment_total = order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
     save!
+  end
+
+  def is_completed?
+    self.state.eql?(IS_COMPLETED)
+  end
+
+  def on_purchase?
+    self.state.eql?(ON_PURCHASE)
   end
 
   private

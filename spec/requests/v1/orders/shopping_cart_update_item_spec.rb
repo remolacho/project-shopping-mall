@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe V1::Orders::ShoppingCarController, type: :request do
+RSpec.describe V1::Orders::ShoppingCartController, type: :request do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'
@@ -9,9 +9,9 @@ RSpec.describe V1::Orders::ShoppingCarController, type: :request do
   include_context 'order_stuff'
 
   describe "Busca y edita la cantidad de items al carrito de compras" do
-    path "/v1/orders/shoppingCar/{order_item_id}" do
+    path "/v1/orders/shoppingCart/{order_item_id}" do
       put 'Orden de compra y sus items' do
-        tags 'Zofri Shopping car'
+        tags 'Zofri Shopping cart'
         description '<p>Edita la cantidad del item seleccionado<b> NOTA: EL Authorization de la cabecera puede ir o no ir ya que es para asociar
 la orden a un user o no</b></p>'
         consumes 'application/json'

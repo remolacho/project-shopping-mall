@@ -36,13 +36,15 @@ Rails.application.routes.draw do
     end
 
     namespace :orders do
-      resources :shopping_car, path: 'shoppingCar', param: :order_item_id,
+      resources :shopping_cart, path: 'shoppingCart', param: :order_item_id,
                 only: [:update, :destroy, :index] do
 
         collection do
           get :create, path: 'addItem'
         end
       end
+
+      resources :check_order, path: 'checkOrder', param: :order_token, only: [:show]
     end
   }
 end
