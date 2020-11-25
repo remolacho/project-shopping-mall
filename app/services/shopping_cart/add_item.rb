@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class ShoppingCar::AddItem
+class ShoppingCart::AddItem
 
   attr_accessor :user, :order, :product_variant, :store
 
@@ -17,7 +17,7 @@ class ShoppingCar::AddItem
       order.consolidate_payment_total
     end
 
-    {success: true, order: ::Orders::ShoppingCarSerializer.new(order)}
+    {success: true, order: ::Orders::ShoppingCartSerializer.new(order)}
   end
 
   private

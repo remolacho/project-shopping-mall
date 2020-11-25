@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  active                         :boolean
+#  current_stock                  :integer          default(0)
 #  deleted_at                     :datetime
 #  discount_value                 :float
 #  height                         :float

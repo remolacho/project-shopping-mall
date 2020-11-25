@@ -4,7 +4,10 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    render json: { success: true, message: 'Se inicio sesion con exito', user: UserSerializer.new(resource) }, state: 200
+    render json: { success: true,
+                   message: 'Se inicio sesion con exito',
+                   user: UserSerializer.new(resource) },
+           status: 200
   end
 
   def respond_to_on_destroy

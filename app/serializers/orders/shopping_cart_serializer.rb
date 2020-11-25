@@ -16,7 +16,7 @@
 #  address_id       :integer
 #  user_id          :integer
 #
-class Orders::ShoppingCarSerializer < ActiveModel::Serializer
+class Orders::ShoppingCartSerializer < ActiveModel::Serializer
 
   attributes :id, :order_token, :number_ticket, :state, :payment_total, :user_id
   attribute :order_items

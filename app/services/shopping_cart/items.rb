@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class ShoppingCar::Items
+class ShoppingCart::Items
 
   attr_accessor :user, :order
 
@@ -11,7 +11,7 @@ class ShoppingCar::Items
   def perform
     raise ActiveRecord::RecordNotFound, 'the order state in not ON_PURCHASE' unless order.present?
 
-    {success: true, order: ::Orders::ShoppingCarSerializer.new(order)}
+    {success: true, order: ::Orders::ShoppingCartSerializer.new(order)}
   end
 end
 

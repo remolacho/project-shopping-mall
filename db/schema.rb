@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_20_010023) do
+ActiveRecord::Schema.define(version: 2020_11_25_134541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -275,6 +275,7 @@ ActiveRecord::Schema.define(version: 2020_11_20_010023) do
     t.hstore "name_translations"
     t.hstore "short_description_translations"
     t.boolean "is_master", default: false
+    t.integer "current_stock", default: 0
     t.index ["deleted_at"], name: "index_product_variants_on_deleted_at"
     t.index ["internal_sku"], name: "index_product_variants_on_internal_sku"
     t.index ["product_id"], name: "index_product_variants_on_product_id"
@@ -372,6 +373,7 @@ ActiveRecord::Schema.define(version: 2020_11_20_010023) do
     t.string "movement_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "order_id"
     t.index ["product_variant_id"], name: "index_stock_movements_on_product_variant_id"
   end
 
