@@ -8,7 +8,7 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
   include_context 'products_stuff'
   include_context 'order_stuff'
 
-  describe 'Post#create' do
+  describe 'Post#gateway' do
 
     let!(:auth_header) {
       request.headers['secret-api'] = ENV['SECRET_API']

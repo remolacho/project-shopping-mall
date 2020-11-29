@@ -1,4 +1,5 @@
 shared_context 'order_stuff' do
+  let!(:payment_method) { FactoryBot.create(:payment_method) }
 
   let(:current_order) {
     FactoryBot.create(:order)
@@ -12,7 +13,18 @@ shared_context 'order_stuff' do
     products = Product.includes(:product_variants, :store).limit(3)
     products.map do |product|
       product_variant = product.product_variants.sample(random: SecureRandom)
-      FactoryBot.create(:order_item, product_variant: product_variant, order: current_order, store: product.store )
+      FactoryBot.create(:order_item, product_variant: product_variant, order: current_order, store: product.store)
     end
+  }
+
+  let(:list_order_item_consolidate) {
+    products = Product.includes(:product_variants, :store).limit(3)
+    order_items = products.map do |product|
+      product_variant = product.product_variants.sample(random: SecureRandom)
+      FactoryBot.create(:order_item, product_variant: product_variant, order: current_order, store: product.store)
+    end
+
+    current_order.consolidate_payment_total
+    order_items
   }
 end

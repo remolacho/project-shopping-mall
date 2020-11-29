@@ -28,8 +28,21 @@ RSpec.describe V1::Orders::CheckOrderController, type: :controller do
     it 'success with stock_movements' do
       list_order_item
       get :show, params: {order_token: current_order.token}
-      stock_movements = current_order.stock_movements
+      stock_movements = StockMovement.where(order_id: current_order.id)
       expect(stock_movements.size.zero?).to eq(false)
+      expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
+    end
+
+    it 'the user repeat the order check and not duplicate stock negative' do
+      list_order_item
+      get :show, params: {order_token: current_order.token}
+      stock_movements = StockMovement.where(order_id: current_order.id)
+      expect(stock_movements.size == list_order_item.size).to eq(true)
+      expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
+
+      get :show, params: {order_token: current_order.token}
+      stock_movements = StockMovement.where(order_id: current_order.id)
+      expect(stock_movements.size == list_order_item.size).to eq(true)
       expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
     end
 

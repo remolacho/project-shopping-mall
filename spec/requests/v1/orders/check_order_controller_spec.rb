@@ -58,6 +58,8 @@ la orden a un user o no</b></p>'
             quantity = product_variant.stock_movements.sum(&:quantity)
             FactoryBot.create(:stock_movement,
                               :inventory_out,
+                              :with_order,
+                              order: current_order,
                               product_variant: product_variant,
                               quantity: (quantity * -1))
 
