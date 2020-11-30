@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_134541) do
+ActiveRecord::Schema.define(version: 2020_11_28_165219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -150,6 +150,16 @@ ActiveRecord::Schema.define(version: 2020_11_25_134541) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["jti"], name: "index_jwt_blacklists_on_jti"
+  end
+
+  create_table "loggers_error_payments", force: :cascade do |t|
+    t.string "payment_id"
+    t.string "message"
+    t.string "error"
+    t.string "number_ticket"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.json "log", default: {}
   end
 
   create_table "option_types", force: :cascade do |t|
@@ -382,20 +392,20 @@ ActiveRecord::Schema.define(version: 2020_11_25_134541) do
     t.integer "order_id"
     t.string "mail"
     t.string "order_number"
-    t.integer "payment_total"
     t.string "phone"
     t.string "special_comments"
     t.string "state"
     t.string "user_name"
     t.string "payment_state"
     t.string "delivery_state"
-    t.integer "global_tax_total"
-    t.integer "clean_total"
-    t.integer "adjustment_total"
-    t.integer "shipment_total"
-    t.integer "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "adjustment_total", default: 0.0
+    t.float "clean_total", default: 0.0
+    t.float "global_tax_total", default: 0.0
+    t.float "payment_total", default: 0.0
+    t.float "shipment_total", default: 0.0
+    t.float "total", default: 0.0
     t.index ["order_id"], name: "index_store_orders_on_order_id"
     t.index ["store_id"], name: "index_store_orders_on_store_id"
   end

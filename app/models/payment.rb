@@ -19,4 +19,10 @@
 class Payment < ApplicationRecord
   belongs_to :order
   belongs_to :payment_method
+
+  APPROVED = 'approved'.freeze
+  CANCELLED = 'cancelled'.freeze
+  REJECTED = 'rejected'.freeze
+  IN_PROCESS = 'in_process'.freeze
+  REFUNDED = 'refunded'.freeze
 end

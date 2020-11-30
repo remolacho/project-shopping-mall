@@ -26,5 +26,9 @@ FactoryBot.define do
     movement_type { StockMovement::INVENTORY_OUT }
     quantity { quantity }
   end
+
+  trait :with_order do
+    order { order }
+  end
 end
 

@@ -31,6 +31,10 @@ Things you may want to cover:
         * ALGOLIA_LIMIT: "5000"
         * JWT_SECRET:
         * SECRET_API:
+        * URL_GET_PAYMENT: 'url de la pasarela de pago'
+        * CLIENT_ID_FREE_MARKET:
+        * SECRET_FREE_MARKET:
+
      * test:
         * DATABASE:
         * USERNAME:
@@ -41,6 +45,7 @@ Things you may want to cover:
         * ALGOLIASEARCH_APPLICATION_ID:
         * ALGOLIASEARCH_API_KEY:
         * ALGOLIASEARCH_API_KEY_SEARCH:
+        * URL_GET_PAYMENT: 'url de la pasarela de pago'
   
   - bundle install
   
