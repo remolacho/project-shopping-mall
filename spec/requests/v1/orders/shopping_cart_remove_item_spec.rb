@@ -22,30 +22,38 @@ la orden a un user o no</b></p>'
         response 200, 'success!!!' do
           schema type: :object,
                  properties: {
-                     success: { type: :boolean },
-                     order: { type: :object,
-                              properties: {
-                                  id: { type: :integer },
-                                  token: { type: :string },
-                                  number_ticket: { type: :string },
-                                  payment_total: { type: :number },
-                                  state: { type: :string },
-                                  order_items: {
-                                      type: :array,
-                                      items: {
-                                          type: :object,
-                                          properties: {
-                                              id: { type: :integer },
-                                              product_variant_id: { type: :integer },
-                                              name: { type: :string },
-                                              image_url: { type: :string, nullable: true },
-                                              unit_value: { type: :number},
-                                              item_qty: { type: :integer },
-                                              total: { type: :number }
-                                          }
-                                      }
-                                  }
-                              }
+                   success: { type: :boolean },
+                   order: { type: :object,
+                            properties: {
+                              id: { type: :integer },
+                              token: { type: :string },
+                              number_ticket: { type: :string },
+                              payment_total: { type: :number },
+                              state: { type: :string },
+                              user_data: { type: :object,
+                                           properties: {
+                                               name: { type: :string },
+                                               last_name: { type: :string },
+                                               email: { type: :string },
+                                               phone: { type: :string }
+                                             }
+                                  },
+                              order_items: {
+                                  type: :array,
+                                  items: {
+                                      type: :object,
+                                      properties: {
+                                          id: { type: :integer },
+                                          product_variant_id: { type: :integer },
+                                          name: { type: :string },
+                                          image_url: { type: :string, nullable: true },
+                                          unit_value: { type: :number},
+                                          item_qty: { type: :integer },
+                                          total: { type: :number }
+                                        }
+                                    }
+                                }
+                            }
                      }
                  }
 
@@ -60,8 +68,8 @@ la orden a un user o no</b></p>'
         response 403, 'Secret api error!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: {type: :boolean, default: false},
+                   message: {type: :string}
                  }
 
           let(:order_token) { current_order.token }
@@ -73,8 +81,8 @@ la orden a un user o no</b></p>'
         response 404, 'Order Item error!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: {type: :boolean, default: false},
+                   message: {type: :string}
                  }
 
           let(:order_token) { current_order.token }

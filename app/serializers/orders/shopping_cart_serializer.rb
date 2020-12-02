@@ -18,8 +18,10 @@
 #
 class Orders::ShoppingCartSerializer < ActiveModel::Serializer
 
-  attributes :id, :order_token, :number_ticket, :state, :payment_total, :user_id
+  attributes :id, :order_token, :number_ticket, :state, :payment_total, :user_id, :user_data, :shipment_total
   attribute :order_items
+  attribute :address, if: :has_address?
+  attribute :commune, if: :has_address?
 
   def order_token
     object.token
@@ -28,5 +30,31 @@ class Orders::ShoppingCartSerializer < ActiveModel::Serializer
   def order_items
     ActiveModelSerializers::SerializableResource.new(object.order_items,
                                                      each_serializer: ::Orders::ItemCarSerializer)
+  end
+
+  def address
+    return {} unless obj_address.present?
+
+    ::Orders::AddressSerializer.new(obj_address)
+  end
+
+  def commune
+    return {} unless obj_commune.present?
+
+    { id: obj_commune.id, name: obj_commune.name }
+  end
+
+  def obj_address
+    @obj_address ||= object.address
+  end
+
+  def obj_commune
+    return '' unless obj_address.present?
+
+    @obj_commune ||= obj_address.commune
+  end
+
+  def has_address?
+    instance_options[:has_address] == true
   end
 end

@@ -8,8 +8,6 @@
 #  condominium      :string
 #  firstname        :string
 #  lastname         :string
-#  latitude         :float
-#  longitude        :float
 #  phone            :string
 #  street           :string
 #  street_number    :string
@@ -19,15 +17,17 @@
 #  store_id         :integer
 #  user_id          :integer
 #
-# Indexes
-#
-#  index_addresses_on_commune_id  (commune_id)
-#  index_addresses_on_store_id    (store_id)
-#  index_addresses_on_user_id     (user_id)
-#
-class Address < ApplicationRecord
-  belongs_to :store, optional: true
-  belongs_to :user, optional: true
-  belongs_to :commune, optional: true
-  has_one :order
+
+class Orders::AddressSerializer < ActiveModel::Serializer
+  attributes :id,
+             :commune_id,
+             :condominium,
+             :street,
+             :street_number,
+             :apartment_number,
+             :comment,
+             :firstname,
+             :lastname,
+             :latitude,
+             :longitude
 end

@@ -43,7 +43,7 @@ class Order < ApplicationRecord
   UNSTARTED = 'unstarted'.freeze
 
   def consolidate_payment_total
-    self.payment_total = order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
+    self.payment_total = shipment_total.to_f + order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
     save!
   end
 

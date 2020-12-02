@@ -25,7 +25,7 @@ class ShoppingCart::AddItem
   def find_or_create_order
     self.order ||= Order.create!(user_id: user.try(:id),
                                  adjustment_total: 0,
-                                 delivery_state: Order::UNSTARTED,
+                                 delivery_state: Shipment::UNSTARTED,
                                  payment_state: Order::UNSTARTED,
                                  payment_total: 0,
                                  tax_total: 0)

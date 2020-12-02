@@ -11,8 +11,7 @@ class ShoppingCart::Items
   def perform
     raise ActiveRecord::RecordNotFound, 'the order state in not ON_PURCHASE' unless order.present?
 
-    {success: true, order: ::Orders::ShoppingCartSerializer.new(order)}
+    {success: true, order: ::Orders::ShoppingCartSerializer.new(order, has_address: true)}
   end
 end
-
 

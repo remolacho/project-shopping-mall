@@ -6,6 +6,7 @@ module ManageException
     rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
     rescue_from PolicyException, with: :forbidden
     rescue_from NoMethodError, with: :not_method_error
+    rescue_from ArgumentError, with: :argument_error
     rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
       render json: { success: false, message: "Required parameter missing: #{parameter_missing_exception.param}" }, status: :bad_request
     end
@@ -23,6 +24,10 @@ module ManageException
 
   def record_invalid(invalid)
     render json: {success: false, message: invalid.record.errors.messages }, status: :unprocessable_entity
+  end
+
+  def argument_error(invalid)
+    render json: {success: false, message: invalid.to_s }, status: :unprocessable_entity
   end
 
   def forbidden

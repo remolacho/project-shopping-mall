@@ -41,21 +41,29 @@ la orden a un user o no</b></p>'
                               number_ticket: { type: :string },
                               payment_total: { type: :number },
                               state: { type: :string },
+                              user_data: { type: :object,
+                                           properties: {
+                                             name: { type: :string },
+                                             last_name: { type: :string },
+                                             email: { type: :string },
+                                             phone: { type: :string }
+                                           }
+                              },
                               order_items: {
-                                  type: :array,
-                                  items: {
-                                      type: :object,
-                                      properties: {
-                                          id: { type: :integer },
-                                          product_variant_id: { type: :integer },
-                                          name: { type: :string },
-                                          image_url: { type: :string, nullable: true },
-                                          unit_value: { type: :number},
-                                          item_qty: { type: :integer },
-                                          total: { type: :number }
-                                        }
-                                    }
-                                }
+                                type: :array,
+                                items: {
+                                    type: :object,
+                                    properties: {
+                                        id: { type: :integer },
+                                        product_variant_id: { type: :integer },
+                                        name: { type: :string },
+                                        image_url: { type: :string, nullable: true },
+                                        unit_value: { type: :number},
+                                        item_qty: { type: :integer },
+                                        total: { type: :number }
+                                      }
+                                  }
+                              }
                             }
                      }
                  }
