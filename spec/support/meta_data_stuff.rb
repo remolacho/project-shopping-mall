@@ -28,4 +28,12 @@ shared_context 'meta_data_stuff' do
       FactoryBot.create_list(:option_value, 5, option_type: option)
     }
   }
+
+  let!(:shipment_method){
+    FactoryBot.create(:shipment_method, shipment_type: ShipmentMethod::DELIVERY_TYPE)
+  }
+
+  let!(:shipment_method_in_site){
+    FactoryBot.create(:shipment_method, shipment_type: ShipmentMethod::IN_SITE_TYPE)
+  }
 end

@@ -19,4 +19,12 @@
 class Shipment < ApplicationRecord
   belongs_to :order_adjustment
   belongs_to :shipment_method
+
+  ACTIVE = 'active'
+  INACTIVE = 'inactive'
+
+  UNSTARTED = 'unstarted'.freeze
+  IN_PROCESS = 'in_process'.freeze
+  PENDING = 'pending'.freeze
+  CANCELLED = 'cancelled'.freeze
 end

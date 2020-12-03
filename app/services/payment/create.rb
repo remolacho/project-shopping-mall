@@ -76,7 +76,7 @@ class Payment::Create
       store_order.state = state
       store_order.save!
 
-      asign_items_to_store(items, store_order)
+      assign_items_to_store(items, store_order)
       store_order.consolidate_payment_total
     end
   end
@@ -88,7 +88,7 @@ class Payment::Create
     payment.order.save!
   end
 
-  def asign_items_to_store(items, store_order)
+  def assign_items_to_store(items, store_order)
     items.each do |item|
       item.store_order_id = store_order.id
       item.save!

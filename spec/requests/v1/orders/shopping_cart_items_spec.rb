@@ -29,6 +29,31 @@ la orden a un user o no</b></p>'
                                   number_ticket: { type: :string },
                                   payment_total: { type: :number },
                                   state: { type: :string },
+                                  user_data: { type: :object,
+                                               properties: {
+                                                   name: { type: :string },
+                                                   last_name: { type: :string },
+                                                   email: { type: :string },
+                                                   phone: { type: :string }
+                                               }
+                                  },
+                                  address: {
+                                      type: :object,
+                                      properties: {
+                                          street_number: {type: :string, nullable: true },
+                                          street: {type: :string, nullable: true },
+                                          condominium: {type: :string, nullable: true },
+                                          apartment_number: {type: :string, nullable: true },
+                                          comment: {type: :string, nullable: true },
+                                      }
+                                  },
+                                  commune: {
+                                      type: :object,
+                                      properties: {
+                                          id: {type: :integer, nullable: true },
+                                          name: {type: :string, nullable: true }
+                                      }
+                                  },
                                   order_items: {
                                       type: :array,
                                       items: {
@@ -50,10 +75,14 @@ la orden a un user o no</b></p>'
 
           let(:order_token) {
             current_order.save
+            list_order_item
             current_order.token
           }
 
-          run_test!
+          run_test! do |response|
+            body = JSON.parse(response.body)
+            expect(body.dig('order').key?('address')).to eq(true)
+          end
         end
 
         response 403, 'Secret api error!!!' do

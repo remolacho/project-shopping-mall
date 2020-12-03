@@ -4,9 +4,12 @@
 #
 #  id               :bigint           not null, primary key
 #  apartment_number :string
+#  comment          :string
 #  condominium      :string
 #  firstname        :string
 #  lastname         :string
+#  latitude         :float
+#  longitude        :float
 #  phone            :string
 #  street           :string
 #  street_number    :string

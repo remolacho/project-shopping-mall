@@ -22,7 +22,25 @@ RSpec.describe Users::ProfileController, type: :request do
                                          email: { type: :string },
                                          name: { type: :string },
                                          rut: { type: :string },
-                                         image: {type: :string, nullable: true }}
+                                         image: {type: :string, nullable: true },
+                                         phone: {type: :string, nullable: true },
+                                         address: {
+                                           type: :object,
+                                           properties: {
+                                               street_number: {type: :string, nullable: true },
+                                               street: {type: :string, nullable: true },
+                                               condominium: {type: :string, nullable: true },
+                                               apartment_number: {type: :string, nullable: true }
+                                             }
+                                         },
+                                         commune: {
+                                             type: :object,
+                                             properties: {
+                                                 id: {type: :integer, nullable: true },
+                                                 name: {type: :string, nullable: true }
+                                             }
+                                         }
+                           }
                    }
                  }
 

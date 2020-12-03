@@ -9,6 +9,6 @@
 #  region_id  :integer
 #
 class Commune < ApplicationRecord
-	belongs_to :region
-	has_many :addresses
+	 belongs_to :region, optional: true
+	 has_many :addresses
 end
