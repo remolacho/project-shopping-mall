@@ -53,5 +53,9 @@ Rails.application.routes.draw do
         resources :shipment, only: [:create]
       end
     end
+
+    namespace :stores do
+      resources :list, only: [:index]
+    end
   }
 end

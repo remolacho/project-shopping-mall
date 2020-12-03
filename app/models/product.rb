@@ -24,7 +24,7 @@
 #  index_products_on_store_id     (store_id)
 #
 class Product < ApplicationRecord
-  # include Indexable no esta usando algolia
+  include Querytable
 
   translates :name, :short_description
 
@@ -43,5 +43,5 @@ class Product < ApplicationRecord
 
   has_rich_text :description
 
-  validates_presence_of %i[name short_description store_id category_id brand_id], message: "es un campo obligatorio"
+  validates_presence_of %i[name short_description store_id category_id brand_id], message: 'es un campo obligatorio'
 end

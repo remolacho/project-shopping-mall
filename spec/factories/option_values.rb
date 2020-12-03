@@ -16,9 +16,11 @@
 
 FactoryBot.define do
   factory :option_value do
-    value = FFaker::Book.title
-    value { value }
-    slug { value.str_slug }
+    value { {es: FFaker::Book.title} }
     option_type { option_type }
+
+    before(:create) do |option_value|
+      option_value.slug = option_value.value['es'].str_slug
+    end
   end
 end

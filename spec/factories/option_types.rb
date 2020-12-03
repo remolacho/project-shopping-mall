@@ -9,9 +9,11 @@
 #  updated_at :datetime         not null
 #
 FactoryBot.define do
-	 factory :option_type do
- 		 name = FFaker::Book.title
-     name { name }
-     slug { name.str_slug }
+  factory :option_type do
+    name { {es: FFaker::Book.title} }
+
+    before(:create) do |option|
+      option.slug = option.name['es'].str_slug
+    end
  	end
 end
