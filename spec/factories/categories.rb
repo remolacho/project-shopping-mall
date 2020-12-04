@@ -18,10 +18,12 @@
 
 FactoryBot.define do
   factory :category do
-    title = FFaker::Book.title
-    name { {es: title} }
-    slug { title.str_slug }
-    code { FFaker::Book.title.str_slug }
+    name { {es: FFaker::Book.title.str_slug} }
     depth { depth }
+
+    before(:create) do |category|
+      category.slug = category.name['es'].str_slug
+      category.code = category.name['es'].str_slug
+    end
   end
 end

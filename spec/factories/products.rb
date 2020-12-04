@@ -26,14 +26,16 @@
 
 FactoryBot.define do
   factory :product do
-    name = FFaker::Book.title
-    name { name }
+    name { FFaker::Book.title }
     short_description { FFaker::Book.title }
-    slug { name.str_slug }
     brand { brand }
     category { category }
     store { store }
     rating { rating }
+
+    before(:create) do |product|
+      product.slug = product.name.str_slug
+    end
   end
 
   trait :with_image do

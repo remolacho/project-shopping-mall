@@ -40,4 +40,6 @@ class Store < ApplicationRecord
 
   has_one_attached :icon
   has_one_attached :banner
+
+  scope :is_active, -> { where(active: true) }
 end
