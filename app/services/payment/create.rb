@@ -105,7 +105,7 @@ class Payment::Create
 
   def reverse_stock_movements
     movements = payment.order.stock_movements.where(movement_type: StockMovement::INVENTORY_OUT)
-    movements&.delete_all!
+    movements.each(&:destroy!)
   end
 
   def reverse_store_order

@@ -27,7 +27,8 @@ class Products::VariantSerializer < ActiveModel::Serializer
              :height,
              :length,
              :is_master,
-             :price
+             :price,
+             :current_stock
 
   attribute :images_urls
   attribute :option_variants
