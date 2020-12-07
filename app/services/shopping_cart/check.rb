@@ -40,7 +40,7 @@ class ShoppingCart::Check
   def stock_movements(order_items)
     ActiveRecord::Base.transaction do
       old_movement = order.stock_movements.where(movement_type: StockMovement::INVENTORY_OUT)
-      old_movement&.delete_all!
+      old_movement.each(&:destroy!)
 
       order_items.each do |item|
         order.stock_movements.create!(

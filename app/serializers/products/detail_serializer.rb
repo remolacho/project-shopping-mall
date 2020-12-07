@@ -19,6 +19,7 @@ class Products::DetailSerializer < ActiveModel::Serializer
   attribute :variants
   attribute :brand
   attribute :category
+  attribute :store
 
   def description
     object.description.try(:body)
@@ -29,11 +30,13 @@ class Products::DetailSerializer < ActiveModel::Serializer
   end
 
   def variants
-    object.product_variants
-          .includes(variant_options_values: [:option_value ,:option_type])
-          .is_active.order('is_master DESC').map do |variant|
-      Products::VariantSerializer.new(variant)
-    end
+    objects = object.product_variants
+                    .includes(variant_options_values: [:option_value, :option_type])
+                    .is_active.order('is_master DESC')
+
+    ActiveModelSerializers::SerializableResource.new(objects,
+                                                     each_serializer: ::Products::VariantSerializer)
+
   end
 
   def brand
@@ -42,5 +45,9 @@ class Products::DetailSerializer < ActiveModel::Serializer
 
   def category
     object.category&.name[I18n.locale.to_s]
+  end
+
+  def store
+    Stores::DetailSerializer.new(object.store)
   end
 end

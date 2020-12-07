@@ -27,6 +27,13 @@ mas sus imagenes por variante</p>'
                                             description: { type: :string, nullable: true },
                                             short_description: { type: :string },
                                             image_url: {type: :string, nullable: true },
+                                            store: {
+                                                type: :object,
+                                                properties: {
+                                                    id: { type: :integer },
+                                                    name: { type: :string },
+                                                }
+                                            },
                                             variants: {
                                                 type: :array,
                                                 items: {
@@ -40,6 +47,7 @@ mas sus imagenes por variante</p>'
                                                         length: { type: :number },
                                                         is_master: { type: :boolean },
                                                         price: { type: :number },
+                                                        current_stock: { type: :integer},
                                                         images_urls: {
                                                             type: :array,
                                                             items: {}

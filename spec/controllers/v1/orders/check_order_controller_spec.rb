@@ -31,6 +31,10 @@ RSpec.describe V1::Orders::CheckOrderController, type: :controller do
       stock_movements = StockMovement.where(order_id: current_order.id)
       expect(stock_movements.size.zero?).to eq(false)
       expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
+
+      variants = ProductVariant.where(id: list_order_item.map(&:product_variant_id))
+      result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
+      expect(result).to eq(true)
     end
 
     it 'the user repeat the order check and not duplicate stock negative' do
@@ -44,6 +48,10 @@ RSpec.describe V1::Orders::CheckOrderController, type: :controller do
       stock_movements = StockMovement.where(order_id: current_order.id)
       expect(stock_movements.size == list_order_item.size).to eq(true)
       expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
+
+      variants = ProductVariant.where(id: list_order_item.map(&:product_variant_id))
+      result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
+      expect(result).to eq(true)
     end
 
   end

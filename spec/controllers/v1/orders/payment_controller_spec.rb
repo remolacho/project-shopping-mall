@@ -123,6 +123,10 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payment_state.eql?(Payment::REJECTED)).to eq(true)
       expect(order.payments.present?).to eq(true)
       expect(order.payments.any?{|p| p.state.eql?(Payment::REJECTED)}).to eq(true)
+
+      variants = ProductVariant.where(id: list_order_item_consolidate.map(&:product_variant_id))
+      result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
+      expect(result).to eq(true)
     end
 
     it 'returns success cancelled' do
@@ -145,6 +149,10 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payment_state.eql?(Payment::CANCELLED)).to eq(true)
       expect(order.payments.present?).to eq(true)
       expect(order.payments.any?{|p| p.state.eql?(Payment::CANCELLED)}).to eq(true)
+
+      variants = ProductVariant.where(id: list_order_item_consolidate.map(&:product_variant_id))
+      result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
+      expect(result).to eq(true)
     end
 
     it 'returns success refunded with payment approved' do
