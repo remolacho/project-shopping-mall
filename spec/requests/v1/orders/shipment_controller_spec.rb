@@ -84,10 +84,14 @@ RSpec.describe V1::Orders::ShipmentController, type: :request do
                                                         id: { type: :integer },
                                                         product_variant_id: { type: :integer },
                                                         name: { type: :string },
+                                                        weight: { type: :number },
+                                                        height: { type: :number },
+                                                        width: { type: :number },
+                                                        length: { type: :number },
                                                         image_url: { type: :string, nullable: true },
                                                         unit_value: { type: :number},
                                                         item_qty: { type: :integer },
-                                                        total: { type: :number }
+                                                        total: { type: :number },
                                                     }
                                                 }
                                             }
