@@ -18,7 +18,15 @@
 #
 class Orders::ShoppingCartSerializer < ActiveModel::Serializer
 
-  attributes :id, :order_token, :number_ticket, :state, :payment_total, :user_id, :user_data, :shipment_total
+  attributes :id,
+             :order_token,
+             :number_ticket,
+             :state,
+             :payment_total,
+             :user_id,
+             :user_data,
+             :shipment_total
+
   attribute :order_items
   attribute :address, if: :has_address?
   attribute :commune, if: :has_address?

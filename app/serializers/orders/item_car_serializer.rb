@@ -19,6 +19,10 @@ class Orders::ItemCarSerializer < ActiveModel::Serializer
   attribute :total
   attribute :image_url
   attribute :name
+  attribute :weight
+  attribute :height
+  attribute :width
+  attribute :length
 
   def total
     (object.item_qty * object.unit_value).to_f
@@ -32,6 +36,22 @@ class Orders::ItemCarSerializer < ActiveModel::Serializer
 
   def name
     product_variant.name
+  end
+
+  def weight
+    product_variant.weight
+  end
+
+  def height
+    product_variant.height
+  end
+
+  def width
+    product_variant.width
+  end
+
+  def length
+    product_variant.length
   end
 
   private
