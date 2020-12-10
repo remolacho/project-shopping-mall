@@ -26,7 +26,12 @@ Rails.application.routes.draw do
     namespace :categories, path: '' do
       resources :category, only: [] do
         resources :products, only: [:index]
+        resources :children, only: [:index]
       end
+    end
+
+    namespace :categories do
+      resources :parents, only: [:index]
     end
 
     namespace :products, path: '' do
