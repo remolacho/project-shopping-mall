@@ -16,7 +16,7 @@ class Stores::List
 
     {
       success: true,
-      per_page: ENV['ALGOLIA_PER_PAGE'].to_i,
+      per_page: ENV['PER_PAGE'].to_i,
       total_pages: stores.total_pages,
       total_objects: stores.total_count,
       stores: serializer(stores)
@@ -53,7 +53,7 @@ class Stores::List
   def pagination(stores)
     stores.select('DISTINCT(stores.id), stores.name, stores.mall_location, stores.what_we_do')
           .page(data.dig(:page) || 1)
-          .per(ENV['ALGOLIA_PER_PAGE'])
+          .per(ENV['PER_PAGE'])
   end
 
   def serializer(stores)

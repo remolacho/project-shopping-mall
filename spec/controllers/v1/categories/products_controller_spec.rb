@@ -17,18 +17,38 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
 
       it 'success all hierarchy categories!!!' do
         request.headers['secret-api'] = ENV['SECRET_API']
+        total_product = products_category.size + products_category_child.size
         get :index, params: {category_id: root_category.id, page: 1}, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
-        expect(body.dig('total_objects') == 10).to eq(true)
+        expect(body.dig('total_objects') == total_product).to eq(true)
+      end
+
+      it 'Only products with variants and master true' do
+        request.headers['secret-api'] = ENV['SECRET_API']
+        total_product = products_category.size + products_category_child.size
+
+        product_first = products_category_child.first
+        product_first.product_variants.update_all(active: false)
+
+        product_last = products_category_child.last
+        product_last.product_variants.update_all(is_master: false)
+
+        get :index, params: {category_id: root_category.id, page: 1}, as: :json
+        body = JSON.parse(response.body)
+        expect(body.dig('success')).to eq(true)
+        expect(body.dig('total_objects') < total_product).to eq(true)
+        expect(total_product).to eq(10)
+        expect(body.dig('total_objects')).to eq(8)
       end
 
       it 'success all category child!!!' do
         request.headers['secret-api'] = ENV['SECRET_API']
+        total_product = products_category_child.size
         get :index, params: {category_id: category_child.id, page: 1}, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
-        expect(body.dig('total_objects') == 5).to eq(true)
+        expect(body.dig('total_objects') == total_product).to eq(true)
       end
 
       it 'success all category child page 2!!!' do
@@ -116,7 +136,6 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
         expect(body.dig('success')).to eq(true)
         expect(body.dig('total_objects') == 0).to eq(true)
       end
-
     end
   end
 end

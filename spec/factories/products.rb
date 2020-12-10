@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  deleted_at                     :datetime
+#  featured                       :boolean          default(FALSE)
 #  hide_from_results              :boolean          default(FALSE)
 #  name_translations              :hstore
 #  rating                         :float            default(0.0)
@@ -40,5 +41,9 @@ FactoryBot.define do
 
   trait :with_image do
     image { Rack::Test::UploadedFile.new('spec/fixtures/files/avatar.png', 'image/png') }
+  end
+
+  trait :is_featured do
+    featured { true }
   end
 end
