@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_235621) do
+ActiveRecord::Schema.define(version: 2020_12_09_133258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_235621) do
     t.string "slug"
     t.integer "group_products_store_id"
     t.float "rating", default: 0.0
+    t.boolean "featured", default: false
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
@@ -389,6 +390,27 @@ ActiveRecord::Schema.define(version: 2020_12_02_235621) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "order_id"
     t.index ["product_variant_id"], name: "index_stock_movements_on_product_variant_id"
+  end
+
+  create_table "store_information_reviews", force: :cascade do |t|
+    t.integer "store_id"
+    t.integer "approved_by_id"
+    t.integer "requested_by_id"
+    t.boolean "approved"
+    t.string "certifications"
+    t.string "facebook"
+    t.string "instagram"
+    t.string "mall_location"
+    t.string "name"
+    t.integer "sheets_row"
+    t.string "twitter"
+    t.string "website"
+    t.string "what_we_do"
+    t.integer "category_id"
+    t.integer "commune_id"
+    t.integer "company_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "store_orders", force: :cascade do |t|

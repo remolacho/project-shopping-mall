@@ -45,4 +45,8 @@ module ManageObjects
   def order_item
     @order_item ||= OrderItem.find(params[:order_item_id])
   end
+
+  def store
+    @store ||= Store.find_by!(id: params[:store_id], active: true)
+  end
 end

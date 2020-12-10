@@ -17,7 +17,7 @@ class Categories::ListProducts
 
     {
       success: true,
-      per_page: ENV['ALGOLIA_PER_PAGE'].to_i,
+      per_page: ENV['PER_PAGE'].to_i,
       total_pages: products.total_pages,
       total_objects: products.total_count,
       products: serializer(products)
@@ -27,17 +27,7 @@ class Categories::ListProducts
   private
 
   def list
-    Product.joins(:brand, :store, :product_variants, :category)
-           .select("products.id, categories.name::json->> '#{I18n.locale.to_s}' as category_name,
-                    product_variants.price, brands.name as brand_name,
-                    stores.name as store_name,
-                    product_variants.is_master, product_variants.active as variant_active,
-                    products.rating,
-                    products.name_translations,
-                    products.short_description_translations")
-           .where(product_variants: { is_master: true, active: true })
-           .where(stores: { active: true })
-           .where(categories: {id: hierarchy})
+    Product.list.where(categories: {id: hierarchy})
   end
 
   def filter_brand(products)
@@ -71,7 +61,7 @@ class Categories::ListProducts
   end
 
   def pagination(products)
-    products.page(data.dig(:page) || 1).per(ENV['ALGOLIA_PER_PAGE'])
+    products.page(data.dig(:page) || 1).per(ENV['PER_PAGE'])
   end
 
   def hierarchy

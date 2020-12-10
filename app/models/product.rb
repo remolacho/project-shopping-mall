@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  deleted_at                     :datetime
+#  featured                       :boolean          default(FALSE)
 #  hide_from_results              :boolean          default(FALSE)
 #  name_translations              :hstore
 #  rating                         :float            default(0.0)
@@ -44,4 +45,6 @@ class Product < ApplicationRecord
   has_rich_text :description
 
   validates_presence_of %i[name short_description store_id category_id brand_id], message: 'es un campo obligatorio'
+
+  scope :is_featured, ->(arg){ where(featured: arg) }
 end

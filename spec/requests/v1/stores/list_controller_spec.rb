@@ -11,7 +11,7 @@ RSpec.describe V1::Stores::ListController, type: :request do
   describe "Busca las tiendas segun filtro" do
     path "/v1/stores/list" do
       get 'Obtiene la lista de tiendas' do
-        tags 'Zofri Productos'
+        tags 'Zofri Store'
         description "retorna la lista de tiendas y recibe filtro por categoria, por nombre y orden por nombre asc /desc
  ?category_id=&term=''&order_by=DESC&page=1</p>"
         produces 'application/json'

@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
     namespace :stores do
       resources :list, only: [:index]
+      resources :detail, param: :store_id, only: [:show]
     end
   }
 end

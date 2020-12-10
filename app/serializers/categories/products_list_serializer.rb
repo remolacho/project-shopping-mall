@@ -11,7 +11,8 @@ class Categories::ProductsListSerializer < ActiveModel::Serializer
               :brand_name,
               :store_name,
               :is_master,
-              :variant_active
+              :variant_active,
+              :featured
 
   def category_name
     object.category_name
