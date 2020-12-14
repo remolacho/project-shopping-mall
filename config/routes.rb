@@ -63,5 +63,9 @@ Rails.application.routes.draw do
       resources :list, only: [:index]
       resources :detail, param: :store_id, only: [:show]
     end
+
+    namespace :group_titles, path: 'groupTitles' do
+      resources :categories, param: :title_id, only: [:index, :show]
+    end
   }
 end

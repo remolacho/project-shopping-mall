@@ -24,6 +24,8 @@ class Category < ApplicationRecord
   has_many :brand_categories
   has_many :brands, through: :brand_categories
   has_many :repository_products
+  has_many :group_title_categories, dependent: :destroy
+  has_many :group_titles
 
   has_ancestry
 
