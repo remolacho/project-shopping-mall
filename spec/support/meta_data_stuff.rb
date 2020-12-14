@@ -5,14 +5,16 @@ shared_context 'meta_data_stuff' do
   let!(:categories_list_1) {
     FactoryBot.create_list(:category, 3, depth: 2).map{ |category|
       category.parent = root_category_1
-      category.save
+      category.save!
+      category
     }
   }
 
   let!(:categories_list_2) {
     FactoryBot.create_list(:category, 3, depth: 2).map{ |category|
       category.parent = root_category_2
-      category.save
+      category.save!
+      category
     }
   }
 
@@ -35,5 +37,18 @@ shared_context 'meta_data_stuff' do
 
   let!(:shipment_method_in_site){
     FactoryBot.create(:shipment_method, shipment_type: ShipmentMethod::IN_SITE_TYPE)
+  }
+
+  let(:group_titles) {
+    titles = FactoryBot.create_list(:group_title, 2)
+    categories_list_1.each do |category|
+      FactoryBot.create(:group_title_category, category: category, group_title: titles.first)
+    end
+
+    categories_list_2.each do |category|
+      FactoryBot.create(:group_title_category, category: category, group_title: titles.last)
+    end
+
+    titles
   }
 end

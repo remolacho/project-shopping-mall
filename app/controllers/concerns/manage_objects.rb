@@ -49,4 +49,8 @@ module ManageObjects
   def store
     @store ||= Store.find_by!(id: params[:store_id], active: true)
   end
+
+  def group_title
+    @group_title ||= GroupTitle.find(params[:title_id])
+  end
 end

@@ -12,7 +12,7 @@ RSpec.describe V1::Orders::CheckOrderController, type: :request do
     path "/v1/orders/checkOrder/{order_token}" do
       get 'Validar Orden de compra' do
         tags 'Zofri Shopping cart'
-        description '<p>Valida si el permite el pago o no lo permite<b> NOTA: EL Authorization de la cabecera puede ir o no ir ya que es para asociar
+        description '<p>Valida si permite el pago o no <b> NOTA: EL Authorization de la cabecera puede ir o no ir ya que es para asociar
 la orden a un user o no</b></p>'
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
