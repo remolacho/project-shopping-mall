@@ -3,8 +3,12 @@ class V1::Categories::ChildrenController < ApplicationController
 
   # GET /v1/category/:category_id/children
   def index
-    render json: {success: true,
-                  category: ::Categories::CategorySerializer.new(category,
-                                                                 has_children: true)}, status: 200
+    render json: { success: true, categories: serializer }, status: 200
+  end
+
+  def serializer
+    ActiveModelSerializers::SerializableResource.new(category.children,
+                                                     each_serializer: ::Categories::CategorySerializer)
+                                                .as_json.select { |c| c[:is_visible] }
   end
 end

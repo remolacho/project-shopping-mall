@@ -26,6 +26,8 @@ RSpec.describe V1::Categories::ChildrenController, type: :request do
                          id: { type: :integer },
                          name: { type: :string },
                          slug: { type: :string },
+                         products_count: { type: :integer },
+                         is_visible: { type: :boolean }
                        }
                      }
                    }

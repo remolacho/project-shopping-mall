@@ -19,32 +19,30 @@ RSpec.describe V1::Categories::ChildrenController, type: :request do
           schema type: :object,
                  properties: {
                    success: { type: :boolean },
-                   category: {
-                     type: :object,
-                     properties: {
-                       id: { type: :integer },
-                       name: { type: :string },
-                       slug: { type: :string },
-                       children: {
-                         type: :array,
-                         items: {
+                   categories: {
+                       type: :array,
+                       items: {
                            type: :object,
                            properties: {
-                             id: { type: :integer },
-                             name: { type: :string },
-                             slug: { type: :string },
+                               id: { type: :integer },
+                               name: { type: :string },
+                               slug: { type: :string },
+                               products_count: { type: :integer },
+                               is_visible: { type: :boolean }
                            }
-                         }
                        }
-                     }
                    }
                  }
 
-          let(:category_id) { root_category.id }
+          let(:category_id) {
+            products_category_child
+            products_category_child_depth_3
+            root_category.id
+          }
 
           run_test! do |res|
             body = JSON.parse(res.body)
-            expect(body.dig('category', 'children').size.zero?).to eq(false)
+            expect(body.dig('categories').size.zero?).to eq(false)
           end
         end
 
