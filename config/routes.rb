@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
     namespace :orders do
       resources :shopping_cart, path: 'shoppingCart', param: :order_item_id,
-                only: [:update, :destroy, :index] do
+                only: %i[update destroy index] do
 
         collection do
           get :create, path: 'addItem'
@@ -65,7 +65,10 @@ Rails.application.routes.draw do
     end
 
     namespace :group_titles, path: 'groupTitles' do
-      resources :categories, param: :title_id, only: [:index, :show]
+      resources :categories, param: :title_id, only: %i[index show]
+      resources :title, path: '', only: [] do
+        resources :products, only: [:index]
+      end
     end
   }
 end

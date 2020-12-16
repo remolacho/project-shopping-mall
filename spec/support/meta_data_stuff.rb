@@ -41,14 +41,12 @@ shared_context 'meta_data_stuff' do
 
   let(:group_titles) {
     titles = FactoryBot.create_list(:group_title, 2)
-    categories_list_1.each do |category|
-      FactoryBot.create(:group_title_category, category: category, group_title: titles.first)
-    end
-
-    categories_list_2.each do |category|
-      FactoryBot.create(:group_title_category, category: category, group_title: titles.last)
-    end
-
+    FactoryBot.create(:group_title_category, category: root_category_1, group_title: titles.first)
+    FactoryBot.create(:group_title_category, category: root_category_2, group_title: titles.last)
     titles
+  }
+
+  let(:title_without_categories) {
+    FactoryBot.create(:group_title)
   }
 end
