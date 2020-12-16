@@ -56,6 +56,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
     end
 
     it 'returns success approved' do
+      payment_method
       current_order.save
       list_order_item_consolidate
 
@@ -84,6 +85,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
     end
 
     it 'returns success in_process' do
+      payment_method
       current_order.save
       list_order_item_consolidate
 
@@ -104,6 +106,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
     end
 
     it 'returns success rejected' do
+      payment_method
       current_order.save
       list_order_item_consolidate
 
@@ -130,6 +133,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
     end
 
     it 'returns success cancelled' do
+      payment_method
       current_order.save
       list_order_item_consolidate
 
@@ -156,6 +160,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
     end
 
     it 'returns success refunded with payment approved' do
+      payment_method
       current_order.save
       list_order_item_consolidate
 

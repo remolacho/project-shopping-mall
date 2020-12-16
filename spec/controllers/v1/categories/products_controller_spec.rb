@@ -17,7 +17,10 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
 
       it 'success all hierarchy categories!!!' do
         request.headers['secret-api'] = ENV['SECRET_API']
-        total_product = products_category.size + products_category_child.size
+        total_product = (products_category.size +
+            products_category_child.size +
+            products_category_child_depth_3.size)
+
         get :index, params: {category_id: root_category.id, page: 1}, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
@@ -26,7 +29,9 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
 
       it 'Only products with variants and master true' do
         request.headers['secret-api'] = ENV['SECRET_API']
-        total_product = products_category.size + products_category_child.size
+        total_product = (products_category.size +
+            products_category_child.size +
+            products_category_child_depth_3.size)
 
         product_first = products_category_child.first
         product_first.product_variants.update_all(active: false)
@@ -38,13 +43,13 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
         expect(body.dig('total_objects') < total_product).to eq(true)
-        expect(total_product).to eq(10)
-        expect(body.dig('total_objects')).to eq(8)
+        expect(total_product).to eq(15)
+        expect(body.dig('total_objects')).to eq(13)
       end
 
       it 'success all category child!!!' do
         request.headers['secret-api'] = ENV['SECRET_API']
-        total_product = products_category_child.size
+        total_product = products_category_child.size + products_category_child_depth_3.size
         get :index, params: {category_id: category_child.id, page: 1}, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
@@ -52,11 +57,14 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
       end
 
       it 'success all category child page 2!!!' do
+        products_category_child
+        products_category_child_depth_3
+
         request.headers['secret-api'] = ENV['SECRET_API']
-        get :index, params: {category_id: category_child.id, page: 2}, as: :json
+        get :index, params: {category_id: category_child.id, page: 4}, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
-        expect(body.dig('products').size == 2).to eq(true)
+        expect(body.dig('products').size == 1).to eq(true)
       end
 
       it 'success by brand' do
@@ -79,6 +87,10 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
       end
 
       it 'success order by price DESC' do
+        total_product = (products_category.size +
+            products_category_child.size +
+            products_category_child_depth_3.size)
+
         request.headers['secret-api'] = ENV['SECRET_API']
         get :index, params: {category_id: root_category.id,
                              page: 1,
@@ -86,7 +98,7 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
 
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
-        expect(body.dig('total_objects') == 10).to eq(true)
+        expect(body.dig('total_objects') == total_product).to eq(true)
       end
 
       it 'success filter prices' do
@@ -101,13 +113,15 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
       end
 
       it 'success filter prices string' do
+        products_category_child
+        products_category_child_depth_3
         request.headers['secret-api'] = ENV['SECRET_API']
         get :index, params: {category_id: category_child.id,
                              page: 1,
                              prices: "['4000-5000']"}, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
-        expect(body.dig('total_objects') == 5).to eq(true)
+        expect(body.dig('total_objects') == 10).to eq(true)
       end
 
       it 'success multi filter' do
