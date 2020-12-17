@@ -16,7 +16,10 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
 
     it 'success all hierarchy categories!!!' do
       request.headers['secret-api'] = ENV['SECRET_API']
-      total_product = products_category.size + products_category_child.size
+      total_product = (products_category.size +
+          products_category_child.size +
+          products_category_child_depth_3.size)
+
       get :index, params: {title_id: group_titles.first.id, page: 1}, as: :json
       body = JSON.parse(response.body)
       expect(body.dig('success')).to eq(true)
@@ -25,7 +28,9 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
 
     it 'Only products with variants and master true' do
       request.headers['secret-api'] = ENV['SECRET_API']
-      total_product = products_category.size + products_category_child.size
+      total_product = (products_category.size +
+          products_category_child.size +
+          products_category_child_depth_3.size)
 
       product_first = products_category_child.first
       product_first.product_variants.update_all(active: false)
@@ -37,8 +42,8 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
       body = JSON.parse(response.body)
       expect(body.dig('success')).to eq(true)
       expect(body.dig('total_objects') < total_product).to eq(true)
-      expect(total_product).to eq(10)
-      expect(body.dig('total_objects')).to eq(8)
+      expect(total_product).to eq(15)
+      expect(body.dig('total_objects')).to eq(13)
     end
 
     it 'success by brand' do
@@ -61,6 +66,7 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
     end
 
     it 'success order by price DESC' do
+      products_category_child
       request.headers['secret-api'] = ENV['SECRET_API']
       get :index, params: {title_id: group_titles.first.id,
                            page: 1,
@@ -83,6 +89,7 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
     end
 
     it 'success filter prices string' do
+      products_category_child
       request.headers['secret-api'] = ENV['SECRET_API']
       get :index, params: {title_id: group_titles.first.id,
                            page: 1,

@@ -20,6 +20,7 @@ class Categories::ListProducts
       per_page: ENV['PER_PAGE'].to_i,
       total_pages: products.total_pages,
       total_objects: products.total_count,
+      category: ::Categories::CategorySerializer.new(category),
       products: serializer(products)
     }
   end
@@ -65,7 +66,7 @@ class Categories::ListProducts
   end
 
   def hierarchy
-    [category.id] | category.children.ids
+    [category.id] | category.descendant_ids
   end
 
   def data_array(values)

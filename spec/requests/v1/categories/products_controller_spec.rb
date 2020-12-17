@@ -8,7 +8,6 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
   include_context 'products_stuff'
 
   describe 'Retorna una lista de productos por categoria' do
-
     path "/v1/category/{category_id}/products" do
       get 'Lista de productos' do
         tags 'Zofri categories'
@@ -25,25 +24,32 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
         response 200, 'success!!!' do
           schema type: :object,
                  properties: {
-                     success: { type: :boolean },
-                     per_page: { type: :integer, default: 12 },
-                     total_pages: { type: :integer, default: 4 },
-                     total_objects: { type: :integer, default: 40 },
-                     products: { type: :array,
-                                 items: {
-                                     type: :object,
-                                     properties: {
-                                         id: { type: :integer },
-                                         name: { type: :string },
-                                         category_name: { type: :string },
-                                         short_description: { type: :string },
-                                         price: { type: :number },
-                                         rating: { type: :number },
-                                         image_url: { type: :string, nullable: true },
-                                         brand_name: { type: :string },
-                                     }
-                                 }
+                   success: { type: :boolean },
+                   per_page: { type: :integer, default: 12 },
+                   total_pages: { type: :integer, default: 4 },
+                   total_objects: { type: :integer, default: 40 },
+                   category: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       name: { type: :string },
+                       slug: { type: :string }
                      }
+                   },
+                   products: { type: :array,
+                               items: {
+                                 type: :object,
+                                 properties: {
+                                   id: { type: :integer },
+                                   name: { type: :string },
+                                   category_name: { type: :string },
+                                   short_description: { type: :string },
+                                   price: { type: :number },
+                                   rating: { type: :number },
+                                   image_url: { type: :string, nullable: true },
+                                   brand_name: { type: :string },
+                                 }
+                               } }
                  }
 
           let(:category_id) { root_category.id }
@@ -54,8 +60,8 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
         response 404, 'Error data no encontrada' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
 
           let(:category_id) { 9999 }

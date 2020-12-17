@@ -10,6 +10,14 @@ shared_context 'meta_data_stuff' do
     }
   }
 
+  let!(:categories_children_depth_3) {
+    FactoryBot.create_list(:category, 3, depth: 3).map{ |category|
+      category.parent = categories_list_1.last
+      category.save!
+      category
+    }
+  }
+
   let!(:categories_list_2) {
     FactoryBot.create_list(:category, 3, depth: 2).map{ |category|
       category.parent = root_category_2
@@ -24,18 +32,18 @@ shared_context 'meta_data_stuff' do
     }
   }
 
-  let!(:option_types){
+  let(:option_types){
     FactoryBot.create_list(:option_type, 5).map{ |option|
       FactoryBot.create(:category_option_type, category: root_category_1, option_type: option)
       FactoryBot.create_list(:option_value, 5, option_type: option)
     }
   }
 
-  let!(:shipment_method){
+  let(:shipment_method){
     FactoryBot.create(:shipment_method, shipment_type: ShipmentMethod::DELIVERY_TYPE)
   }
 
-  let!(:shipment_method_in_site){
+  let(:shipment_method_in_site){
     FactoryBot.create(:shipment_method, shipment_type: ShipmentMethod::IN_SITE_TYPE)
   }
 

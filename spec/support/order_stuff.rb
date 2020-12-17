@@ -1,5 +1,5 @@
 shared_context 'order_stuff' do
-  let!(:payment_method) { FactoryBot.create(:payment_method) }
+  let(:payment_method) { FactoryBot.create(:payment_method) }
 
   let(:current_order) {
     FactoryBot.create(:order)

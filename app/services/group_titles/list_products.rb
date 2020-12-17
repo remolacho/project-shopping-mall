@@ -32,7 +32,6 @@ class GroupTitles::ListProducts < ::Categories::ListProducts
   def hierarchy
     categories = group_title.categories
     raise ActiveRecord::RecordNotFound, 'No hay categorias para este titulo' unless categories.present?
-
-    categories.map(&:id) | categories.map{|category| category.children.ids}.flatten
+    categories.map(&:id) | categories.map{|category| category.descendant_ids}.flatten
   end
 end
