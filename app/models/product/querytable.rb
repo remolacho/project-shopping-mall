@@ -24,6 +24,14 @@ class Product
           .where(product_variants: { is_master: true, active: true })
           .where(stores: { active: true })
       end
+
+      def self.counter_by_category(categories_ids)
+        joins(:store, :product_variants)
+          .where(product_variants: { is_master: true, active: true })
+          .where(stores: { active: true })
+          .where(category_id: categories_ids)
+          .count
+      end
     end
 
   end

@@ -3,7 +3,7 @@ class V1::Categories::ParentsController < ApplicationController
 
   # GET /v1/categories/parents
   def index
-    render json: {success: true, categories: serializer}, status: 200
+    render json: { success: true, categories: serializer }, status: 200
   end
 
   private
@@ -11,5 +11,6 @@ class V1::Categories::ParentsController < ApplicationController
   def serializer
     ActiveModelSerializers::SerializableResource.new(Category.roots,
                                                      each_serializer: ::Categories::CategorySerializer)
+                                                .as_json.select { |c| c[:is_visible] }
   end
 end

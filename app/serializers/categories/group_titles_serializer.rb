@@ -5,5 +5,6 @@ class Categories::GroupTitlesSerializer < ActiveModel::Serializer
   def categories
     ActiveModelSerializers::SerializableResource.new(object.categories,
                                                      each_serializer: ::Categories::CategorySerializer)
+                                                .as_json.select { |c| c[:is_visible] }
   end
 end

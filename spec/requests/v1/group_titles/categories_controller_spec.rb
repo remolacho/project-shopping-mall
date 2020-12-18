@@ -4,6 +4,8 @@ RSpec.describe V1::GroupTitles::CategoriesController, type: :request do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'
+  include_context 'store_stuff'
+  include_context 'products_stuff'
 
   describe 'Retorna una lista de categorias agrupadas por cada titulo' do
     path '/v1/groupTitles/categories' do
@@ -32,6 +34,8 @@ RSpec.describe V1::GroupTitles::CategoriesController, type: :request do
                                id: { type: :integer },
                                name: { type: :string },
                                slug: { type: :string },
+                               products_count: { type: :integer },
+                               is_visible: { type: :boolean }
                              }
                            }
                          }
@@ -78,6 +82,8 @@ RSpec.describe V1::GroupTitles::CategoriesController, type: :request do
                              id: { type: :integer },
                              name: { type: :string },
                              slug: { type: :string },
+                             products_count: { type: :integer },
+                             is_visible: { type: :boolean }
                            }
                          }
                        }
