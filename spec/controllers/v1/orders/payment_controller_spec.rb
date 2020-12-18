@@ -7,6 +7,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
   include_context 'store_stuff'
   include_context 'products_stuff'
   include_context 'order_stuff'
+  include_context 'stores_products_stuff'
 
   describe 'GET #gateway' do
     let(:body) {
@@ -57,8 +58,18 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
 
     it 'returns success approved' do
       payment_method
+
+      current_order.user_data = {
+          email: create_user.email,
+          name: create_user.name,
+          last_name: create_user.lastname,
+          phone: '55555555'
+      }
+
       current_order.save
-      list_order_item_consolidate
+
+      products_list
+      list_order_item_many_stores
 
       check = ::ShoppingCart::Check.new(user: nil, order: current_order).perform
       expect(check[:state]).to eq(200)
@@ -174,6 +185,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payment_state.eql?(Payment::APPROVED)).to eq(true)
       expect(order.stock_movements.size.zero?).to eq(false)
       expect(store_orders.size.zero?).to eq(false)
+      expect(LoggersErrorPayment.all.size.zero?).to eq(false)
 
       body[:data].merge!(id: 'refunded')
       post :create, params: body

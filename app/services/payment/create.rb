@@ -27,6 +27,8 @@ class Payment::Create
       update_order(state: Order::IS_COMPLETED, completed_at: Time.now)
     end
 
+    Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
+    Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
     success_response
   end
 
@@ -69,7 +71,7 @@ class Payment::Create
   end
 
   def create_store_order(state:)
-    store_items.each do |store_id, items|
+    stores_items.each do |store_id, items|
       store_order = payment.order.store_orders.find_or_create_by!(store_id: store_id)
       store_order.delivery_state = payment.order.delivery_state
       store_order.payment_state = payment.status
@@ -113,8 +115,12 @@ class Payment::Create
     store_orders&.delete_all!
   end
 
-  def store_items
-    @store_items ||= payment.order.order_items.group_by(&:store_id)
+  def stores_items
+    @stores_items ||= order_items.group_by(&:store_id)
+  end
+
+  def order_items
+    @order_items ||= payment.order.order_items
   end
 
   def payment_method

@@ -27,4 +27,18 @@ shared_context 'order_stuff' do
     current_order.consolidate_payment_total
     order_items
   }
+
+  let(:list_order_item_many_stores) {
+    products = Store.limit(2).map{|store|
+      store.products.includes(:product_variants, :store).limit(2)
+    }.flatten
+
+    order_items = products.map do |product|
+      product_variant = product.product_variants.sample(random: SecureRandom)
+      FactoryBot.create(:order_item, product_variant: product_variant, order: current_order, store: product.store)
+    end
+
+    current_order.consolidate_payment_total
+    order_items
+  }
 end

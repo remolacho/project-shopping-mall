@@ -52,7 +52,7 @@ FactoryBot.define do
     completed_at { Time.now }
   end
 
-  trait :with_usr_data do
+  trait :with_user_data do
     user_data { user_data }
   end
 end
