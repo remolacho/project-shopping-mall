@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_005347) do
+ActiveRecord::Schema.define(version: 2020_12_21_195740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -204,7 +204,9 @@ ActiveRecord::Schema.define(version: 2020_12_14_005347) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "adjustable_type"
     t.bigint "adjustable_id"
+    t.integer "order_id"
     t.index ["adjustable_type", "adjustable_id"], name: "index_order_adjustments_on_adjustable_type_and_adjustable_id"
+    t.index ["order_id"], name: "index_order_adjustments_on_order_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -387,14 +389,15 @@ ActiveRecord::Schema.define(version: 2020_12_14_005347) do
   end
 
   create_table "shipments", force: :cascade do |t|
-    t.bigint "order_adjustment_id"
     t.bigint "shipment_method_id"
     t.string "state"
     t.string "tracking_code"
     t.string "shipment_method_state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_adjustment_id"], name: "index_shipments_on_order_adjustment_id"
+    t.integer "order_id"
+    t.float "value", default: 0.0
+    t.index ["order_id"], name: "index_shipments_on_order_id"
     t.index ["shipment_method_id"], name: "index_shipments_on_shipment_method_id"
   end
 

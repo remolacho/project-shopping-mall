@@ -30,9 +30,10 @@ class Order < ApplicationRecord
   belongs_to :address, optional: true
   has_many :store_orders
   has_many :payments
-  has_many :order_adjustments, as: :adjustable
+  has_many :order_adjustments
   has_many :order_items
   has_many :stock_movements
+  has_one :shipment
 
   before_create :generate_token
   before_create :on_purchase

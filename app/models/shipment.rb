@@ -6,19 +6,20 @@
 #  shipment_method_state :string
 #  state                 :string
 #  tracking_code         :string
+#  value                 :float            default(0.0)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  order_adjustment_id   :bigint
+#  order_id              :integer
 #  shipment_method_id    :bigint
 #
 # Indexes
 #
-#  index_shipments_on_order_adjustment_id  (order_adjustment_id)
-#  index_shipments_on_shipment_method_id   (shipment_method_id)
+#  index_shipments_on_order_id            (order_id)
+#  index_shipments_on_shipment_method_id  (shipment_method_id)
 #
 class Shipment < ApplicationRecord
-  belongs_to :order_adjustment
-  belongs_to :shipment_method
+  belongs_to :order
+  belongs_to :shipment_method, optional: true
 
   ACTIVE = 'active'
   INACTIVE = 'inactive'

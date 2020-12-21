@@ -55,36 +55,29 @@ RSpec.describe V1::Orders::ShipmentController, type: :controller do
 
       post :create, params: shipment_data_in_site.merge!(order_token: current_order.token)
 
-      order_adjustments = current_order.order_adjustments
-      shipments = Shipment.all
-      expect(order_adjustments.size).to eq(1)
-      expect(shipments.size).to eq(1)
+      shipment_first = current_order.shipment
+      expect(shipment_first.present?).to eq(true)
 
-      expect(shipments.select{ |sh|
-               sh.shipment_method_state.eql?(Shipment::INACTIVE) &&
-          sh.state.eql?(Shipment::CANCELLED) }.size).to eq(0)
+      expect(shipment_first.shipment_method_state.eql?(Shipment::INACTIVE) &&
+              shipment_first.state.eql?(Shipment::CANCELLED)).to eq(false)
 
-      expect(shipments.select{ |sh|
-               sh.shipment_method_state.eql?(Shipment::ACTIVE) &&
-          sh.state.eql?(Shipment::PENDING) }.size).to eq(1)
+      expect(shipment_first.shipment_method_state.eql?(Shipment::ACTIVE) &&
+                 shipment_first.state.eql?(Shipment::PENDING)).to eq(true)
 
-      expect(response.status).to eq(200)
+      expect(shipment_first.shipment_method.shipment_type.eql?(ShipmentMethod::IN_SITE_TYPE)).to eq(true)
 
       post :create, params: shipment_data_delivey.merge!(order_token: current_order.token)
 
-      order_adjustments = current_order.order_adjustments
-      shipments = Shipment.all
-      expect(order_adjustments.size).to eq(2)
-      expect(shipments.size).to eq(2)
+      shipment_last = current_order.shipment.reload
+      expect(shipment_last.id == shipment_first.id).to eq(true)
 
-      expect(shipments.select{ |sh|
-        sh.shipment_method_state.eql?(Shipment::INACTIVE) &&
-            sh.state.eql?(Shipment::CANCELLED) }.size).to eq(1)
+      expect(shipment_last.shipment_method_state.eql?(Shipment::INACTIVE) &&
+                 shipment_last.state.eql?(Shipment::CANCELLED)).to eq(false)
 
-      expect(shipments.select{ |sh|
-        sh.shipment_method_state.eql?(Shipment::ACTIVE) &&
-            sh.state.eql?(Shipment::PENDING) }.size).to eq(1)
+      expect(shipment_last.shipment_method_state.eql?(Shipment::ACTIVE) &&
+                 shipment_last.state.eql?(Shipment::PENDING)).to eq(true)
 
+      expect(shipment_last.shipment_method.shipment_type.eql?(ShipmentMethod::DELIVERY_TYPE)).to eq(true)
       expect(response.status).to eq(200)
     end
 

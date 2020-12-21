@@ -9,12 +9,14 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  adjustable_id   :bigint
+#  order_id        :integer
 #
 # Indexes
 #
 #  index_order_adjustments_on_adjustable_type_and_adjustable_id  (adjustable_type,adjustable_id)
+#  index_order_adjustments_on_order_id                           (order_id)
 #
 class OrderAdjustment < ApplicationRecord
   belongs_to :adjustable, polymorphic: true
-  has_many :shipments
+  belongs_to :order
 end

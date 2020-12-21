@@ -48,27 +48,16 @@ class Orders::CreateShipment
   end
 
   def create_shipment
-    order_adjustments = order.order_adjustments
-
-    if order_adjustments.present?
-      Shipment.where(order_adjustment_id: order_adjustments.map(&:id),
-                     shipment_method_state: Shipment::ACTIVE)
-              .update_all(shipment_method_state: Shipment::INACTIVE, state: Shipment::CANCELLED)
-    end
-
-    shipment_method.shipments.create!(order_adjustment_id: order_adjustment.id,
-                                      shipment_method_state: Shipment::ACTIVE,
-                                      state: Shipment::PENDING)
-  end
-
-  def order_adjustment
-    @order_adjustment ||= order.order_adjustments.create!(value: data[:delivery_price],
-                                                          description: shipment_method.name)
+    shipment = Shipment.find_or_create_by!(order_id: order.id)
+    shipment.shipment_method_id = shipment_method.id
+    shipment.value = data[:delivery_price].to_f
+    shipment.shipment_method_state = Shipment::ACTIVE
+    shipment.state = Shipment::PENDING
+    shipment.save!
   end
 
   def update_order
     order.address_id = address.id
-    order.adjustment_total = order.order_adjustments.map{ |adjustment| adjustment.value.to_f }.sum
     order.delivery_state = Shipment::PENDING
     order.shipment_total = data[:delivery_price].to_f
     order.save!
