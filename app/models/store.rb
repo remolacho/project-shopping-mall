@@ -35,6 +35,7 @@ class Store < ApplicationRecord
   has_many :products
   has_many :product_variants, through: :products
   has_many :group_products_stores
+  has_many :store_orders
 
   has_one :user, through: :company
 

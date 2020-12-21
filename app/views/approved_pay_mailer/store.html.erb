@@ -1,0 +1,39 @@
+<h1>Compra aprobada</h1>
+
+<h3>Datos del usuario</h3>
+
+<div>
+  <p>Nombre: <%= @meta_data[:user_data][:name] %></p>
+  <p>Apellido: <%= @meta_data[:user_data][:last_name] %></p>
+  <p>Email: <%= @meta_data[:user_data][:email] %></p>
+  <p>Telefono: <%= @meta_data[:user_data][:phone] %></p>
+</div>
+
+<h3>Datos de la compra</h3>
+<div>
+  <p>Nombre tienda: <%= @meta_data[:store_name] %></p>
+  <p>Numero de orden en tienda: <%= @meta_data[:store_order_number] %></p>
+  <p>Numero de orden general: <%= @meta_data[:number_ticket] %></p>
+  <p>Total pagado: <%= @meta_data[:total] %></p>
+</div>
+
+<hr>
+<h3>Productos:</h3>
+<table>
+  <thead>
+    <tr>
+      <td>Nombre</td>
+      <td>Precio</td>
+      <td>Cantidad</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @meta_data[:products].each do |product| %>
+      <tr>
+        <td><%= product[:name] %></td>
+        <td><%= product[:price] %></td>
+        <td><%= product[:quantity] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

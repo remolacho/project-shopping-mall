@@ -48,7 +48,7 @@ class StoreOrder < ApplicationRecord
   private
 
   def generate_ticket
-    self.order_number = "ZNT-#{id}#{Time.now.strftime('%d')}#{Time.now.strftime('%m')}#{Time.now.strftime('%M')}"
+    self.order_number = "ZON-#{id}#{Time.now.strftime('%d')}#{Time.now.strftime('%m')}#{Time.now.strftime('%M')}"
   end
 
 end
