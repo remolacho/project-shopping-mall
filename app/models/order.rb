@@ -2,22 +2,21 @@
 #
 # Table name: orders
 #
-#  id               :bigint           not null, primary key
-#  adjustment_total :float            default(0.0)
-#  completed_at     :datetime
-#  delivery_state   :string
-#  number_ticket    :string
-#  payment_state    :string
-#  payment_total    :float            default(0.0)
-#  shipment_total   :float            default(0.0)
-#  state            :string
-#  tax_total        :float            default(0.0)
-#  token            :string
-#  user_data        :json
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  address_id       :integer
-#  user_id          :integer
+#  id             :bigint           not null, primary key
+#  completed_at   :datetime
+#  delivery_state :string
+#  number_ticket  :string
+#  payment_state  :string
+#  payment_total  :float            default(0.0)
+#  shipment_total :float            default(0.0)
+#  state          :string
+#  tax_total      :float            default(0.0)
+#  token          :string
+#  user_data      :json
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  address_id     :integer
+#  user_id        :integer
 #
 # Indexes
 #
@@ -44,8 +43,14 @@ class Order < ApplicationRecord
   UNSTARTED = 'unstarted'.freeze
 
   def consolidate_payment_total
-    self.payment_total = shipment_total.to_f + order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
+    self.payment_total = total_sum_order_items
+    self.payment_total += shipment_total.to_f
+    self.payment_total += order_adjustments.where(adjustable_type: 'Promotion'.freeze).sum(&:value)
     save!
+  end
+
+  def total_sum_order_items
+    order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
   end
 
   def is_completed?
@@ -54,6 +59,10 @@ class Order < ApplicationRecord
 
   def on_purchase?
     self.state.eql?(ON_PURCHASE)
+  end
+
+  def has_promotion?
+    !order_adjustments.where(adjustable_type: 'Promotion'.freeze).count.zero?
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_21_195740) do
+ActiveRecord::Schema.define(version: 2020_12_22_180623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -199,12 +199,12 @@ ActiveRecord::Schema.define(version: 2020_12_21_195740) do
 
   create_table "order_adjustments", force: :cascade do |t|
     t.string "description"
-    t.string "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "adjustable_type"
     t.bigint "adjustable_id"
     t.integer "order_id"
+    t.float "value", default: 0.0
     t.index ["adjustable_type", "adjustable_id"], name: "index_order_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["order_id"], name: "index_order_adjustments_on_order_id"
   end
@@ -250,7 +250,6 @@ ActiveRecord::Schema.define(version: 2020_12_21_195740) do
     t.string "token"
     t.string "number_ticket"
     t.json "user_data", default: {}
-    t.float "adjustment_total", default: 0.0
     t.float "payment_total", default: 0.0
     t.float "shipment_total", default: 0.0
     t.float "tax_total", default: 0.0
@@ -334,8 +333,6 @@ ActiveRecord::Schema.define(version: 2020_12_21_195740) do
   end
 
   create_table "promotions", force: :cascade do |t|
-    t.integer "store_id"
-    t.string "ambit"
     t.json "name", default: {}
     t.datetime "starts_at"
     t.datetime "expires_at"
@@ -344,7 +341,9 @@ ActiveRecord::Schema.define(version: 2020_12_21_195740) do
     t.string "rules"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["store_id"], name: "index_promotions_on_store_id"
+    t.string "promotion_type"
+    t.float "promotion_value"
+    t.index ["promo_code"], name: "index_promotions_on_promo_code", unique: true
   end
 
   create_table "regions", force: :cascade do |t|
@@ -445,7 +444,6 @@ ActiveRecord::Schema.define(version: 2020_12_21_195740) do
     t.string "delivery_state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "adjustment_total", default: 0.0
     t.float "clean_total", default: 0.0
     t.float "global_tax_total", default: 0.0
     t.float "payment_total", default: 0.0

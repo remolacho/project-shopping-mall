@@ -30,6 +30,7 @@ la orden a un user o no</b></p>'
                               number_ticket: { type: :string },
                               payment_total: { type: :number },
                               state: { type: :string },
+                              promotion_total: { type: :number },
                               user_data: { type: :object,
                                            properties: {
                                                name: { type: :string },

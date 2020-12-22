@@ -1,6 +1,5 @@
 #
 #  id               :bigint           not null, primary key
-#  adjustment_total :float            default(0.0)
 #  completed_at     :datetime
 #  delivery_state   :string
 #  number_ticket    :string
@@ -27,6 +26,7 @@ class Orders::ShoppingCartSerializer < ActiveModel::Serializer
              :user_data,
              :shipment_total
 
+  attribute :promotion_total
   attribute :order_items
   attribute :address, if: :has_address?
   attribute :commune, if: :has_address?
@@ -60,6 +60,10 @@ class Orders::ShoppingCartSerializer < ActiveModel::Serializer
     return '' unless obj_address.present?
 
     @obj_commune ||= obj_address.commune
+  end
+
+  def promotion_total
+    object.order_adjustments.where(adjustable_type: 'Promotion'.freeze).sum(&:value)
   end
 
   def has_address?

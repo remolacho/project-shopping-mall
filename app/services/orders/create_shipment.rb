@@ -15,7 +15,6 @@ class Orders::CreateShipment
       create_address
       create_shipment
       update_order
-      order.consolidate_payment_total
     end
 
     ::Orders::ShoppingCartSerializer.new(order, has_address: true)
@@ -61,6 +60,7 @@ class Orders::CreateShipment
     order.delivery_state = Shipment::PENDING
     order.shipment_total = data[:delivery_price].to_f
     order.save!
+    order.consolidate_payment_total
   end
 
   def create_address

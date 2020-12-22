@@ -131,6 +131,36 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
       expect(current_order.payment_total > order['payment_total']).to eq(true)
 
     end
+
+    it 'success add +1 consolidate promotion' do
+      promotion_adjustment
+      _item = list_order_item_consolidate.last
+      current_order.consolidate_payment_total
+
+      put :update, params: {order_token: current_order.token,
+                            order_item_id: _item.id,
+                            order_item: { item_qty: 2 } }
+
+      body = JSON.parse(response.body)
+      order = body['order']
+
+      expect(order['promotion_total'] < promotion_adjustment.value).to eq(true)
+    end
+
+    it 'success remove -1 consolidate promotion' do
+      promotion_adjustment
+      _item = list_order_item_consolidate.last
+      current_order.consolidate_payment_total
+
+      put :update, params: {order_token: current_order.token,
+                            order_item_id: _item.id,
+                            order_item: { item_qty: 0 } }
+
+      body = JSON.parse(response.body)
+      order = body['order']
+
+      expect(order['promotion_total'] > promotion_adjustment.value).to eq(true)
+    end
   end
 end
 

@@ -9,7 +9,6 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
   include_context 'order_stuff'
 
   describe 'Post#gateway' do
-
     let!(:auth_header) {
       request.headers['secret-api'] = ENV['SECRET_API']
       request.headers['Authorization'] = auth_bearer(current_user, {})
@@ -112,6 +111,19 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
       current_item = order['order_items'].detect{|item| item['product_variant_id'] == product_variant.id }
       expect(current_item['item_qty']).to eq(2)
       expect(current_item['total']).to eq((product_variant.price * 2).to_f)
+    end
+
+    it 'success consolidate promotion' do
+      promotion_adjustment
+      product_variant = list_order_item_consolidate.last.product_variant
+      current_order.consolidate_payment_total
+
+      get :create, params: {order_token: current_order.token, product_variant_id: product_variant.id}
+
+      body = JSON.parse(response.body)
+      order = body['order']
+
+      expect(order['promotion_total'] < promotion_adjustment.value).to eq(true)
     end
   end
 end
