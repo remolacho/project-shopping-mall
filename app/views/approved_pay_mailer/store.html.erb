@@ -58,29 +58,3 @@
   <h4><b>Cliente</b></h4>
   <p>Nombre: <%= @meta_data[:user_data][:name] %> <%= @meta_data[:user_data][:last_name] %> </p>
 </section>
-
-<section class="center card">
-  <h4><b>Detalle del Pago</b></h4>
-  <table>
-    <tbody>
-      <tr style="color: #707070; font-size: 0.7rem">
-        <td>Producto</td>
-        <td style="text-align: right"><%= @meta_data[:total] %></td>
-      </tr>
-      <tr style="color: #707070; font-size: 0.7rem">
-        <td>Envio</td>
-        <td style="text-align: right">0</td>
-      </tr>
-      <tr style="font-size: 1.1rem">
-        <%# Total productos + costo de envio %>
-        <td>Total</td>
-        <td style="text-align: right"><%= @meta_data[:total] + 0 %></td>
-      </tr>
-    </tbody>
-  </table>
-  <hr />
-  <p style="font-size: 0.7rem">Redcompra Webpay</p>
-  <p style="font-size: 0.7rem">Pago en 3 cuotas sin interes</p>
-  <p style="font-size: 0.7rem">Pago $<%= @meta_data[:total] %></p>
-  <p style="font-size: 0.7rem">Pago # acreditado el 05 de Mayo</p>
-</section>
