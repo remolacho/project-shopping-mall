@@ -1,39 +1,86 @@
-<h1>Compra aprobada</h1>
+<h1 class="center" style="text-align: center">
+  Has recibido una compra!
+</h1>
 
-<h3>Datos del usuario</h3>
+<section class="center card">
+  <h2><b>Próximos pasos</b></h2>
+  <p>
+    ¡Prepara el paquete y entrégalo al centro de acopio!<br />
+    Tienes <b># hrs</b> para entregar el pedido <%= @meta_data[:number_ticket] %>.
+  </p>
+  <a href="#" style="color: white; text-decoration: none;">
+    <button>
+      Ver orden
+    </button>
+  </a>
+</section>
 
-<div>
-  <p>Nombre: <%= @meta_data[:user_data][:name] %></p>
-  <p>Apellido: <%= @meta_data[:user_data][:last_name] %></p>
-  <p>Email: <%= @meta_data[:user_data][:email] %></p>
-  <p>Telefono: <%= @meta_data[:user_data][:phone] %></p>
-</div>
-
-<h3>Datos de la compra</h3>
-<div>
-  <p>Nombre tienda: <%= @meta_data[:store_name] %></p>
-  <p>Numero de orden en tienda: <%= @meta_data[:store_order_number] %></p>
-  <p>Numero de orden general: <%= @meta_data[:number_ticket] %></p>
-  <p>Total pagado: <%= @meta_data[:total] %></p>
-</div>
-
-<hr>
-<h3>Productos:</h3>
-<table>
-  <thead>
-    <tr>
-      <td>Nombre</td>
-      <td>Precio</td>
-      <td>Cantidad</td>
-    </tr>
-  </thead>
-  <tbody>
-    <% @meta_data[:products].each do |product| %>
+<section class="center card">
+  <h2><b>Detalle de la compra</b></h2>
+  <p>Pedido <%= @meta_data[:number_ticket] %></p>
+  <table>
+    <thead>
       <tr>
-        <td><%= product[:name] %></td>
-        <td><%= product[:price] %></td>
-        <td><%= product[:quantity] %></td>
+        <td>Producto</td>
+        <td>Precio</td>
+        <td>Cant</td>
+        <td>Subtotal</td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @meta_data[:products].each do |product| %>
+      <tr>
+        <td>
+          <span style="font-size: .7rem; font-weight: 200; color: #707070; display: block;"><%= @meta_data[:store_order_number] %></span>
+          <%= product[:name] %>
+          <span style="font-size: .7rem; font-weight: 200; color: #707070; display: block;"><%= @meta_data[:store_name] %></span>
+        </td>
+        <td style="color: #00a2c6; text-align: center">
+          <%= product[:quantity] %>
+        </td>
+        <td>$ <%= product[:price]*product[:quantity] %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <hr />
+  <table>
+    <tbody>
+      <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
+        <td>Total</td>
+        <td style="text-align: right"><%= @meta_data[:total] %></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="center card">
+  <h4><b>Cliente</b></h4>
+  <p>Nombre: <%= @meta_data[:user_data][:name] %> <%= @meta_data[:user_data][:last_name] %> </p>
+</section>
+
+<section class="center card">
+  <h4><b>Detalle del Pago</b></h4>
+  <table>
+    <tbody>
+      <tr style="color: #707070; font-size: 0.7rem">
+        <td>Producto</td>
+        <td style="text-align: right"><%= @meta_data[:total] %></td>
+      </tr>
+      <tr style="color: #707070; font-size: 0.7rem">
+        <td>Envio</td>
+        <td style="text-align: right">0</td>
+      </tr>
+      <tr style="font-size: 1.1rem">
+        <%# Total productos + costo de envio %>
+        <td>Total</td>
+        <td style="text-align: right"><%= @meta_data[:total] + 0 %></td>
+      </tr>
+    </tbody>
+  </table>
+  <hr />
+  <p style="font-size: 0.7rem">Redcompra Webpay</p>
+  <p style="font-size: 0.7rem">Pago en 3 cuotas sin interes</p>
+  <p style="font-size: 0.7rem">Pago $<%= @meta_data[:total] %></p>
+  <p style="font-size: 0.7rem">Pago # acreditado el 05 de Mayo</p>
+</section>
