@@ -2,22 +2,21 @@
 #
 # Table name: orders
 #
-#  id               :bigint           not null, primary key
-#  adjustment_total :float            default(0.0)
-#  completed_at     :datetime
-#  delivery_state   :string
-#  number_ticket    :string
-#  payment_state    :string
-#  payment_total    :float            default(0.0)
-#  shipment_total   :float            default(0.0)
-#  state            :string
-#  tax_total        :float            default(0.0)
-#  token            :string
-#  user_data        :json
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  address_id       :integer
-#  user_id          :integer
+#  id             :bigint           not null, primary key
+#  completed_at   :datetime
+#  delivery_state :string
+#  number_ticket  :string
+#  payment_state  :string
+#  payment_total  :float            default(0.0)
+#  shipment_total :float            default(0.0)
+#  state          :string
+#  tax_total      :float            default(0.0)
+#  token          :string
+#  user_data      :json
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  address_id     :integer
+#  user_id        :integer
 #
 # Indexes
 #
@@ -34,7 +33,6 @@ FactoryBot.define do
     payment_total  { 0 }
     shipment_total { 0 }
     tax_total      { 0 }
-    adjustment_total { 0 }
     address { nil }
     user { nil }
   end

@@ -53,4 +53,8 @@ module ManageObjects
   def group_title
     @group_title ||= GroupTitle.find(params[:title_id])
   end
+
+  def promotion
+    @promotion ||= Promotion.find_by!(promo_code: params[:promo_code])
+  end
 end

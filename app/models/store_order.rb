@@ -3,7 +3,6 @@
 # Table name: store_orders
 #
 #  id               :bigint           not null, primary key
-#  adjustment_total :float            default(0.0)
 #  clean_total      :float            default(0.0)
 #  delivery_state   :string
 #  global_tax_total :float            default(0.0)
@@ -32,7 +31,6 @@ class StoreOrder < ApplicationRecord
   belongs_to :order
   belongs_to :store
   has_one :user, through: :order
-  has_many :order_adjustments, as: :adjustable
   has_many :order_items
 
   after_create :generate_ticket
@@ -41,8 +39,12 @@ class StoreOrder < ApplicationRecord
   ON_PURCHASE = 'on_purchase'.freeze
 
   def consolidate_payment_total
-    self.payment_total = order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
+    self.payment_total = total_sum_order_items
     save!
+  end
+
+  def total_sum_order_items
+    order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
   end
 
   private

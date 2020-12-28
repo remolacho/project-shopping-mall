@@ -56,6 +56,11 @@ Rails.application.routes.draw do
       resources :order, path: '', param: :token, only: [] do
         resources :user, only: [:create]
         resources :shipment, only: [:create]
+        resources :promotion, only: [] do
+          collection do
+            get 'apply/:promo_code', to: 'promotion#apply'
+          end
+        end
       end
     end
 

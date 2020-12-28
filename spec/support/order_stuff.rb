@@ -41,4 +41,18 @@ shared_context 'order_stuff' do
     current_order.consolidate_payment_total
     order_items
   }
+
+  let(:promo_code) { FactoryBot.create(:promotion, :percentage) }
+
+  let(:promotion_adjustment){
+
+    total_pay = list_order_item_consolidate.map{ |order_item|
+      (order_item.unit_value * order_item.item_qty).to_f
+    }.sum
+
+    total_percentage = ((total_pay * promo_code.promotion_value) / 100) * -1
+
+    promo_code.order_adjustments.create(order_id: current_order.id,
+                                        value: total_percentage)
+  }
 end
