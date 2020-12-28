@@ -42,6 +42,7 @@ la orden a un user o no</b></p>'
                               payment_total: { type: :number },
                               state: { type: :string },
                               promotion_total: { type: :number },
+                              has_shipment: { type: :boolean },
                               user_data: { type: :object,
                                            properties: {
                                              name: { type: :string },

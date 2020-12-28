@@ -27,8 +27,8 @@ class OrderItem < ApplicationRecord
   validates :item_qty, numericality: { only_integer: true }, allow_blank: true
   validates_presence_of :item_qty, on: :update
 
-  after_update :promotion_adjustment
-  after_destroy :promotion_adjustment
+  after_update :promotion_adjustment, :shipment_adjustment
+  after_destroy :promotion_adjustment, :shipment_adjustment
 
   def promotion_adjustment
     return if store_order_id.present?
@@ -41,5 +41,14 @@ class OrderItem < ApplicationRecord
 
     adjust.value = ((current_order.total_sum_order_items * adjust.adjustable.promotion_value) / 100) * -1
     adjust.save!
+  end
+
+  def shipment_adjustment
+    return if store_order_id.present?
+
+    shipment = order.shipment
+    return unless shipment.present?
+
+    shipment.destroy!
   end
 end

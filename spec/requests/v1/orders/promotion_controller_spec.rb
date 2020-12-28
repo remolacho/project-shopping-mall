@@ -30,6 +30,7 @@ RSpec.describe V1::Orders::PromotionController, type: :request do
                                             payment_total: { type: :number },
                                             promotion_total: { type: :number },
                                             state: { type: :string },
+                                            has_shipment: { type: :boolean },
                                             user_data: { type: :object,
                                                          properties: {
                                                              name: { type: :string },

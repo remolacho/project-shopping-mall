@@ -28,4 +28,13 @@ class Shipment < ApplicationRecord
   IN_PROCESS = 'in_process'.freeze
   PENDING = 'pending'.freeze
   CANCELLED = 'cancelled'.freeze
+
+  after_destroy :consolidate_order
+
+  private
+
+  def consolidate_order
+    order.update!(shipment_total: 0, delivery_state: Shipment::UNSTARTED)
+    order.consolidate_payment_total
+  end
 end

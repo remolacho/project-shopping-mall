@@ -58,6 +58,24 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
       expect(order['promotion_total'] > promotion_adjustment.value).to eq(true)
     end
 
+    it 'success consolidate shipment' do
+      delete_item_id = list_order_item_consolidate.last.id
+      Orders::CreateShipment.new(order: current_order, data: shipment_data_delivey[:shipment]).perform
+
+      current_order.reload
+      expect(current_order.shipment_total > 0).to eq(true)
+      expect(current_order.delivery_state).to eq(Shipment::PENDING)
+      expect(current_order.shipment.present?).to eq(true)
+
+      delete :destroy, params: {order_token: current_order.token, order_item_id: delete_item_id}
+
+      body = JSON.parse(response.body)
+      order = body['order']
+
+      expect(order['shipment_total'].zero?).to eq(true)
+      expect(current_order.reload.shipment.nil?).to eq(true)
+    end
+
   end
 end
 
