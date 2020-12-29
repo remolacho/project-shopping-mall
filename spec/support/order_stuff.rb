@@ -2,7 +2,7 @@ shared_context 'order_stuff' do
   let(:payment_method) { FactoryBot.create(:payment_method) }
 
   let(:current_order) {
-    FactoryBot.create(:order)
+    FactoryBot.create(:order, :with_user, user: User.find_by(email: 'usertest@email.com'))
   }
 
   let(:current_order_with_user) {

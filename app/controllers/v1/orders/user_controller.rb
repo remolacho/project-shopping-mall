@@ -1,5 +1,11 @@
 class V1::Orders::UserController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, except: [:index]
+
+  # GET /v1/orders/listUser
+  def index
+    service = Orders::ListByUser.new(user: current_user)
+    render json: { success: true, orders: service.perform }, status: 200
+  end
 
   # POST /v1/orders/:order_token/user
   def create
