@@ -63,6 +63,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :user, path: 'userOrder', param: :order_token, only: [:show]
       resources :user, path: 'listUser',only: [:index]
     end
 

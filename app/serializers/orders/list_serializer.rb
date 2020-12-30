@@ -16,7 +16,7 @@
 #  user_id          :integer
 #
 class Orders::ListSerializer < ActiveModel::Serializer
-  attributes :id, :delivery_state, :number_ticket, :payment_state
+  attributes :id, :delivery_state, :number_ticket, :payment_state, :token
   attribute :items_qty
   attribute :products
 

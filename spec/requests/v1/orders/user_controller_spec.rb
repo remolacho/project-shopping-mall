@@ -156,6 +156,7 @@ RSpec.describe V1::Orders::UserController, type: :request do
                          number_ticket: { type: :string },
                          payment_state: { type: :string },
                          items_qty: { type: :integer },
+                         token: { type: :string },
                          products: { type: :array, items: {
                            type: :object,
                            properties: {
