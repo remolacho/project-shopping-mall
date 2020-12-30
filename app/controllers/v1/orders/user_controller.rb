@@ -1,5 +1,5 @@
 class V1::Orders::UserController < ApplicationController
-  skip_before_action :authenticate_user!, except: [:index]
+  skip_before_action :authenticate_user!, only: [:create]
 
   # GET /v1/orders/listUser
   def index
@@ -13,11 +13,14 @@ class V1::Orders::UserController < ApplicationController
     render json: { success: true, user: service.perform }, status: 200
   end
 
+  # GET /v1/orders/userOrder/:order_token
+  def show
+    render json: { success: true, order: ::Orders::DetailSerializer.new(user_order) }, status: 200
+  end
+
   private
 
   def allowed_params
     params.require(:user).permit(:name, :last_name, :email, :phone)
   end
-
 end
-

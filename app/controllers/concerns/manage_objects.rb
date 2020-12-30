@@ -38,6 +38,10 @@ module ManageObjects
     Order.find_by(token: params[:order_token], state: Order::ON_PURCHASE)
   end
 
+  def user_order
+    current_user.orders.find_by!(token: params[:order_token])
+  end
+
   def product_variant
     @product_variant ||= ProductVariant.find(params[:product_variant_id])
   end
