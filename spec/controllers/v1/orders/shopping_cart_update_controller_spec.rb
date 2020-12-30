@@ -161,6 +161,46 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
 
       expect(order['promotion_total'] > promotion_adjustment.value).to eq(true)
     end
+
+    it 'success remove -1 consolidate shipment' do
+      _item = list_order_item_consolidate.last
+
+      Orders::CreateShipment.new(order: current_order, data: shipment_data_delivey[:shipment]).perform
+
+      current_order.reload
+      expect(current_order.shipment_total > 0).to eq(true)
+      expect(current_order.delivery_state).to eq(Shipment::PENDING)
+      expect(current_order.shipment.present?).to eq(true)
+
+      put :update, params: {order_token: current_order.token,
+                            order_item_id: _item.id,
+                            order_item: { item_qty: 0 } }
+
+      body = JSON.parse(response.body)
+      order = body['order']
+      expect(order['shipment_total'].zero?).to eq(true)
+      expect(current_order.reload.shipment.nil?).to eq(true)
+    end
+
+    it 'success add +1 consolidate shipment' do
+      _item = list_order_item_consolidate.last
+      Orders::CreateShipment.new(order: current_order, data: shipment_data_delivey[:shipment]).perform
+
+      current_order.reload
+      expect(current_order.shipment_total > 0).to eq(true)
+      expect(current_order.delivery_state).to eq(Shipment::PENDING)
+      expect(current_order.shipment.present?).to eq(true)
+
+      put :update, params: {order_token: current_order.token,
+                            order_item_id: _item.id,
+                            order_item: { item_qty: 2 } }
+
+      body = JSON.parse(response.body)
+      order = body['order']
+      expect(order['shipment_total'].zero?).to eq(true)
+      expect(current_order.reload.shipment.nil?).to eq(true)
+    end
+
   end
 end
 

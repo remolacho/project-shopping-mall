@@ -14,33 +14,6 @@ RSpec.describe V1::Orders::ShipmentController, type: :controller do
       request.headers['secret-api'] = ENV['SECRET_API']
     }
 
-    let(:shipment_data_delivey){
-      {shipment: {
-          commune_id: commune.id,
-          shipment_id: shipment_method.id,
-          in_site: false,
-          delivery_price: 2500,
-          latitude: 0,
-          longitude: 0,
-          apartment_number: '',
-          condominium: '',
-          street: 'test street',
-          street_number: '2568',
-          comment: 'es una prueba de direccion'
-      }}
-    }
-
-    let(:shipment_data_in_site){
-      {shipment: {
-          shipment_id: shipment_method_in_site.id,
-          delivery_price: 0,
-          latitude: 0,
-          longitude: 0,
-          firstname: 'test firstname',
-          lastname: 'test lastname'
-      }}
-    }
-
     it 'success in site' do
       current_order.save
       list_order_item

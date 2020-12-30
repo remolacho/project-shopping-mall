@@ -26,6 +26,7 @@ class Orders::ShoppingCartSerializer < ActiveModel::Serializer
              :user_data,
              :shipment_total
 
+  attribute :has_shipment
   attribute :promotion_total
   attribute :order_items
   attribute :address, if: :has_address?
@@ -68,5 +69,9 @@ class Orders::ShoppingCartSerializer < ActiveModel::Serializer
 
   def has_address?
     instance_options[:has_address] == true
+  end
+
+  def has_shipment
+    object.shipment.present?
   end
 end

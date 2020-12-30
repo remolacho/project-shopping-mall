@@ -51,6 +51,7 @@ RSpec.describe V1::Orders::ShipmentController, type: :request do
                                             number_ticket: { type: :string },
                                             payment_total: { type: :number },
                                             state: { type: :string },
+                                            has_shipment: { type: :boolean },
                                             user_data: { type: :object,
                                                          properties: {
                                                              name: { type: :string },
