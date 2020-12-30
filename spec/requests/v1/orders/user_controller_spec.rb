@@ -31,7 +31,7 @@ RSpec.describe V1::Orders::UserController, type: :request do
               }
             }
           },
-          required: ['name', 'lastname',  'email', 'phone']
+          required: ['name', 'lastname', 'email', 'phone']
         }
         response 200, 'success!!!' do
           schema type: :object,
@@ -44,7 +44,7 @@ RSpec.describe V1::Orders::UserController, type: :request do
                                    lastname: { type: :string },
                                    phone: { type: :string }
                                  }
-                               }}
+                               } }
 
           let(:order_token) {
             current_order.save
@@ -52,13 +52,13 @@ RSpec.describe V1::Orders::UserController, type: :request do
             current_order.token
           }
 
-          let(:user_data){
-            {user: {
-                email: create_user.email,
-                name: create_user.name,
-                last_name: create_user.lastname,
-                phone: '55555555'
-            }}
+          let(:user_data) {
+            { user: {
+              email: create_user.email,
+              name: create_user.name,
+              last_name: create_user.lastname,
+              phone: '55555555'
+            } }
           }
 
           run_test!
@@ -67,17 +67,17 @@ RSpec.describe V1::Orders::UserController, type: :request do
         response 403, 'Secret api error!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
 
-          let(:user_data){
-            {user: {
-                email: create_user.email,
-                name: create_user.name,
-                last_name: create_user.lastname,
-                phone: '55555555'
-            }}
+          let(:user_data) {
+            { user: {
+              email: create_user.email,
+              name: create_user.name,
+              last_name: create_user.lastname,
+              phone: '55555555'
+            } }
           }
 
           let(:order_token) { current_order.token }
@@ -88,17 +88,17 @@ RSpec.describe V1::Orders::UserController, type: :request do
         response 404, 'Order token error!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
 
-          let(:user_data){
-            {user: {
-                email: create_user.email,
-                name: create_user.name,
-                last_name: create_user.lastname,
-                phone: '55555555'
-            }}
+          let(:user_data) {
+            { user: {
+              email: create_user.email,
+              name: create_user.name,
+              last_name: create_user.lastname,
+              phone: '55555555'
+            } }
           }
 
           let(:order_token) { 'testerror' }
@@ -108,17 +108,17 @@ RSpec.describe V1::Orders::UserController, type: :request do
         response 422, 'Campo vacio!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
 
-          let(:user_data){
-            {user: {
-                email: '',
-                name: create_user.name,
-                last_name: create_user.lastname,
-                phone: '55555555'
-            }}
+          let(:user_data) {
+            { user: {
+              email: '',
+              name: create_user.name,
+              last_name: create_user.lastname,
+              phone: '55555555'
+            } }
           }
 
           let(:order_token) {
@@ -132,5 +132,79 @@ RSpec.describe V1::Orders::UserController, type: :request do
       end
     end
   end
-end
 
+  describe "Lista de ordenes por usuario" do
+    path "/v1/orders/listUser" do
+      get 'Devuelve la lista de ordenes que tiene un usuario' do
+        tags 'Zofri Orders'
+        description '<p>Es el listado de ordenes que posee el usuario logueado</p>'
+        produces 'application/json'
+        parameter name: 'secret-api', in: :header, required: true
+        parameter name: 'Authorization', in: :header, required: true
+
+        response 200, 'Success!!!' do
+          schema type: :object,
+                 properties: {
+                   success: { type: :boolean, default: false },
+                   orders: {
+                     type: :array,
+                     items: {
+                       type: :object,
+                       properties: {
+                         id: { type: :integer },
+                         delivery_state: { type: :string },
+                         number_ticket: { type: :string },
+                         payment_state: { type: :string },
+                         items_qty: { type: :integer },
+                         products: { type: :array, items: {
+                           type: :object,
+                           properties: {
+                             id: { type: :integer },
+                             name: { type: :string },
+                             image_url: { type: :string, nullable: true },
+                             unit_value: { type: :number },
+                             total: { type: :number },
+                             item_qty: { type: :integer }
+                           }
+                         } }
+                       }
+                     }
+                   }
+                 }
+
+          let(:'Authorization') {
+            list_order_item_consolidate
+            auth_bearer(current_user, {})
+          }
+
+          run_test! do |response|
+            body = JSON.parse(response.body)
+            return_order = body['orders'].detect{|o| o['id'] == current_order.id}
+            expect(return_order['products'].size == 2).to eq(true)
+            expect( current_order.order_items.size > return_order['products'].size).to eq(true)
+          end
+        end
+
+        response 404, 'Not found!!!' do
+          schema type: :object,
+                 properties: {
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
+                 }
+
+          let(:'Authorization') {
+            list_order_item_consolidate
+            auth_bearer(current_user_2, {})
+          }
+
+          run_test!
+        end
+
+        response 401, 'Jwt error!!!' do
+          let(:'Authorization') { 'Bearer tokenErroe-125' }
+          run_test!
+        end
+      end
+    end
+  end
+end

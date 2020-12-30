@@ -62,6 +62,8 @@ Rails.application.routes.draw do
           end
         end
       end
+
+      resources :user, path: 'listUser',only: [:index]
     end
 
     namespace :stores do
