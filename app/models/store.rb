@@ -30,7 +30,6 @@ class Store < ApplicationRecord
   belongs_to :company
   belongs_to :commune, optional: true
   has_many :addresses
-  has_many :promotions
   has_many :order_items
   has_many :products
   has_many :product_variants, through: :products

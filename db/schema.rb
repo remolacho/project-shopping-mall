@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_180623) do
+ActiveRecord::Schema.define(version: 2020_12_30_072310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -221,6 +221,16 @@ ActiveRecord::Schema.define(version: 2020_12_22_180623) do
     t.index ["product_variant_id"], name: "index_order_items_on_product_variant_id"
     t.index ["store_id"], name: "index_order_items_on_store_id"
     t.index ["store_order_id"], name: "index_order_items_on_store_order_id"
+  end
+
+  create_table "order_logs", force: :cascade do |t|
+    t.bigint "store_order_id"
+    t.bigint "order_id"
+    t.string "log"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_order_logs_on_order_id"
+    t.index ["store_order_id"], name: "index_order_logs_on_store_order_id"
   end
 
   create_table "order_product_reviews", force: :cascade do |t|
