@@ -3,11 +3,12 @@ class ShoppingCart::AddItem
 
   attr_accessor :user, :order, :product_variant, :store
 
-  def initialize(user:, order:, product_variant:, store:)
+  def initialize(user:, order:, product_variant:, store:, item_qty:)
     @user = user
     @order = order
     @product_variant = product_variant
     @store = store
+    @item_qty = item_qty 
   end
 
   def perform
@@ -34,7 +35,7 @@ class ShoppingCart::AddItem
     order_item = order.order_items.find_or_create_by(product_variant_id: product_variant.id,
                                                      store_id: store.id)
 
-    order_item.item_qty = (order_item.item_qty.to_i + 1)
+    order_item.item_qty = @item_qty.present? ? (order_item.item_qty.to_i + @item_qty.to_i) : (order_item.item_qty.to_i + 1)
     order_item.unit_value = product_variant.price
     order_item.save!
   end
