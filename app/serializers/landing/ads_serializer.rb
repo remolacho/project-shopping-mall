@@ -4,7 +4,7 @@ class Landing::AdsSerializer < ActiveModel::Serializer
   attributes :id, :name, :image_url, :url_destination
 
   def image_url
-    polymorphic_url(object.image, host: "http://localhost:3002") if object.image.attached?
+    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
   end
 
 end
