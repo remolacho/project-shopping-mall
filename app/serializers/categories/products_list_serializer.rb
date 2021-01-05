@@ -39,6 +39,6 @@ class Categories::ProductsListSerializer < ActiveModel::Serializer
   end
 
   def image_url
-    rails_blob_url(object.image, disposition: "attachment", only_path: true) if object.image.attached?
+    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
   end
 end

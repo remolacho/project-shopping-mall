@@ -78,5 +78,11 @@ Rails.application.routes.draw do
         resources :products, only: [:index]
       end
     end
+
+    namespace :landing do
+      resources :ads, only: [:index]
+      resources :slides, only: [:index]
+    end
+
   }
 end
