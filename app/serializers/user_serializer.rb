@@ -30,7 +30,7 @@ class UserSerializer < ActiveModel::Serializer
   attribute :commune
 
   def image
-    rails_blob_url(object.image, disposition: 'attachment', only_path: true) if object.image.attached?
+    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
   end
 
   def address

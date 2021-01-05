@@ -14,11 +14,11 @@ class Stores::DetailSerializer < ActiveModel::Serializer
   attribute :products_featured, if: :with_product?
 
   def banner_url
-    rails_blob_url(object.banner, disposition: "attachment", only_path: true) if object.banner.attached?
+    polymorphic_url(object.banner, host: "zofri-dev.etiner.com") if object.banner.attached?
   end
 
   def icon_url
-    rails_blob_url(object.icon, disposition: "attachment", only_path: true) if object.icon.attached?
+    polymorphic_url(object.icon, host: "zofri-dev.etiner.com") if object.icon.attached?
   end
 
   def all_fields?

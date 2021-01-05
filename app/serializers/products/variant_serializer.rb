@@ -36,7 +36,7 @@ class Products::VariantSerializer < ActiveModel::Serializer
   def images_urls
     object.images.map do |img|
       next '' unless img.present?
-      rails_blob_url(img, disposition: "attachment", only_path: true)
+      polymorphic_url(img, host: "zofri-dev.etiner.com")
     end
   end
 
