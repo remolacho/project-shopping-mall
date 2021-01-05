@@ -23,6 +23,7 @@ class GroupTitles::ListProducts < ::Categories::ListProducts
       per_page: ENV['PER_PAGE'].to_i,
       total_pages: products.total_pages,
       total_objects: products.total_count,
+      category: ::Categories::GroupTitlesSerializer.new(group_title),
       products: serializer(products)
     }
   end
