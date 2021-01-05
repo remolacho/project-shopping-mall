@@ -12,6 +12,7 @@ class V1::Orders::ShoppingCartController < ApplicationController
     service = ShoppingCart::AddItem.new(user: with_user,
                                         order: order,
                                         product_variant: product_variant,
+                                        item_qty: params[:item_qty],
                                         store: product_variant.product.store)
 
     render json: service.perform, status: 200
