@@ -41,12 +41,7 @@ class ProductVariant < ApplicationRecord
   has_many_attached :images
   has_rich_text :description
 
-  validates_presence_of %i[sku internal_sku product_id weight width length height],  message: "es un campo obligatorio"
-  validates_uniqueness_of %i[sku internal_sku], message: "ya esta registrado"
-  validates_numericality_of %i[weight width length height], :greater_than_or_equal_to => 0, message: "Debe ser numerico"
-  validates_numericality_of %i[price discount_value], allow_blank: true, message: "Debe ser numerico"
-
-  after_save :assign_history_price
+  # after_save :product_reindex
 
   scope :is_active, -> { where(active: true) }
 
@@ -54,7 +49,10 @@ class ProductVariant < ApplicationRecord
     stock_movements.create!(quantity: quantity, movement_type: StockMovement::INVENTORY_IN)
   end
 
-  private def assign_history_price
-    variant_history_prices.find_or_create_by!(value: self.price, discount_value: self.discount_value)
+  private def product_reindex
+    return true if Rails.env.test?
+
+    prod_index = Product.find(product_id)
+    prod_index.index!
   end
 end

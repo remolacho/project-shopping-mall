@@ -46,8 +46,8 @@ class Product
           product_variants.map(&:sku)
         end
 
-        attribute :internal_skus do
-          product_variants.map(&:internal_sku)
+        attribute :total_stock do
+          product_variants.map(&:current_stock).sum
         end
 
         attribute :rating
