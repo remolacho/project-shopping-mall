@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     resources :profile, only: [] do
       collection do
         get :me
+        put :update
       end
+      resources :address, param: :address_id, only: [:create, :update]
     end
   end
 
