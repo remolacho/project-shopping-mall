@@ -42,6 +42,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtBlacklist
 
+  MALE = 'male'.freeze
+  FEMALE = 'female'.freeze
+  OTHER = 'other'.freeze
+  
+  validates_inclusion_of :gender, in: [MALE, FEMALE, OTHER], allow_blank: true
+
   validates_presence_of :password, on: :create
   validates_presence_of :name, :email
 
