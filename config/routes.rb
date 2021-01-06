@@ -20,8 +20,8 @@ Rails.application.routes.draw do
         get :me
         put :update
       end
-      resources :address, param: :address_id, only: [:create, :update]
     end
+    resources :address, param: :address_id, only: [:create, :update]
   end
 
   namespace(:v1, defaults: { format: :json }) {
