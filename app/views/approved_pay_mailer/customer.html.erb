@@ -1,37 +1,55 @@
-<h1>Compra aprobada</h1>
+<h1 class="center">
+  ¡Gracias por comprar en ZofriShop!
+</h1>
 
-<h3>Datos del usuario</h3>
+<section class="center card">
+  <h2><b>Próximos pasos</b></h2>
+  <p>
+    ¡Ya estamos preparando tu pedido! Tu número de es
+    <b><%= @meta_data[:number_ticket] %>.</b> <br />
+    Puedes ir revisando el estado de tu pedido <a href="#">aquí</a>, o puedes
+    iniciar sesión y guardarla en tu perfil para que la puedas dar seguimiento
+    más fácilmente (recomendado).
+  </p>
+  <a href="#" style="color: white; text-decoration: none;">
+    <button>
+      Ver mi orden
+    </button>
+  </a>
+</section>
 
-<div>
-  <p>Nombre: <%= @meta_data[:name] %></p>
-  <p>Apellido: <%= @meta_data[:last_name] %></p>
-  <p>Email: <%= @meta_data[:email] %></p>
-  <p>Telefono: <%= @meta_data[:phone] %></p>
-</div>
-
-<h3>Datos de la compra</h3>
-<div>
-  <p>Numero de orden: <%= @meta_data[:number_ticket] %></p>
-  <p>Total pagado: <%= @meta_data[:total] %></p>
-</div>
-
-<hr>
-<h3>Productos:</h3>
-<table>
-  <thead>
-  <tr>
-    <td>Nombre</td>
-    <td>Precio</td>
-    <td>Cantidad</td>
-  </tr>
-  </thead>
-  <tbody>
-  <% @meta_data[:products].each do |product| %>
-    <tr>
-      <td><%= product[:name] %></td>
-      <td><%= product[:price] %></td>
-      <td><%= product[:quantity] %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<section class="center card">
+  <h2><b>Detalle de la compra</b></h2>
+  <p>Pedido <%= @meta_data[:number_ticket] %></p>
+  <table>
+    <thead>
+      <tr>
+        <td>Producto</td>
+        <td>Precio</td>
+        <td>Cant</td>
+        <td>Subtotal</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @meta_data[:products].each do |product| %>
+      <tr>
+        <td><%= product[:name] %></td>
+        <td>$ <%= product[:price] %></td>
+        <td style="color: #00a2c6; text-align: center">
+          <%= product[:quantity] %>
+        </td>
+        <td>$ <%= product[:price]*product[:quantity] %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <hr />
+  <table>
+    <tbody>
+      <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
+        <td>Total</td>
+        <td style="text-align: right"><%= @meta_data[:total] %></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
