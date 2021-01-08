@@ -3,10 +3,12 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  birthdate              :date
 #  complementary_info     :json
 #  create_by              :integer
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  gender                 :string
 #  jti                    :string
 #  lastname               :string
 #  name                   :string
@@ -20,12 +22,13 @@
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_gender                (gender)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class UserSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :name, :lastname, :email, :rut, :image, :phone
+  attributes :id, :name, :lastname, :email, :rut, :image, :phone, :gender, :birthdate
   attribute :address
   attribute :commune
 

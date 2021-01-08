@@ -21,6 +21,8 @@ RSpec.describe Users::RegistrationsController, type: :request do
                 password: { type: :string },
                 name: { type: :string },
                 lastname: { type: :string },
+                gender: {type: :string, nullable: true },
+                birthdate: {type: :date, nullable: true},
                 password_confirmation: { type: :string },
                 rut: { type: :string },
                 image: { type: :string, format: :binary }
@@ -39,7 +41,10 @@ RSpec.describe Users::RegistrationsController, type: :request do
                                          email: { type: :string },
                                          name: { type: :string },
                                          rut: { type: :string },
-                                         image: {type: :string, nullable: true }}
+                                         image: {type: :string, nullable: true },
+                                         gender: {type: :string, nullable: true },
+                                         birthdate: {type: :date, nullable: true},
+                                        }
                      }
                  }
 

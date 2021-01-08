@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_132917) do
+ActiveRecord::Schema.define(version: 2021_01_08_175529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -216,8 +216,8 @@ ActiveRecord::Schema.define(version: 2021_01_08_132917) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "adjustable_type"
     t.bigint "adjustable_id"
-    t.integer "order_id"
     t.float "value", default: 0.0
+    t.integer "order_id"
     t.index ["adjustable_type", "adjustable_id"], name: "index_order_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["order_id"], name: "index_order_adjustments_on_order_id"
   end
@@ -538,7 +538,10 @@ ActiveRecord::Schema.define(version: 2021_01_08_132917) do
     t.string "jti"
     t.json "complementary_info"
     t.integer "create_by"
+    t.date "birthdate"
+    t.string "gender"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["gender"], name: "index_users_on_gender"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    attributes = %i[name lastname rut password password_confirmation image]
+    attributes = %i[name lastname rut password password_confirmation gender birthdate image]
     devise_parameter_sanitizer.permit(:sign_up, keys: attributes)
   end
 
