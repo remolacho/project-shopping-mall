@@ -24,6 +24,7 @@ class Product
           .where(product_variants: { is_master: true, active: true })
           .where.not(product_variants: { current_stock: 0 })
           .where(stores: { active: true })
+          .where(products: { active: true })
       end
 
       def self.counter_by_category(categories_ids)

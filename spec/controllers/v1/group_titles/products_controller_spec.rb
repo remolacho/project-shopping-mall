@@ -138,6 +138,18 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
       expect(body.dig('total_objects') == 0).to eq(true)
     end
 
+    it 'success products empty product inactive' do
+      Product.where(active: true).update(active: false)
+
+      request.headers['secret-api'] = ENV['SECRET_API']
+      get :index, params: {title_id: group_titles.first.id,
+                           page: 1 }, as: :json
+
+      body = JSON.parse(response.body)
+      expect(body.dig('success')).to eq(true)
+      expect(body.dig('total_objects') == 0).to eq(true)
+    end
+
   end
 
 end
