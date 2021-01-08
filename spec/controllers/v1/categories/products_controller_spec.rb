@@ -150,6 +150,19 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
         expect(body.dig('success')).to eq(true)
         expect(body.dig('total_objects') == 0).to eq(true)
       end
+
+      it 'success products empty stock 0' do
+        ProductVariant.where.not(current_stock: 0).update(current_stock: 0)
+
+        request.headers['secret-api'] = ENV['SECRET_API']
+        get :index, params: { category_id: root_category.id,
+                             page: 1 }, as: :json
+
+        body = JSON.parse(response.body)
+        expect(body.dig('success')).to eq(true)
+        expect(body.dig('total_objects') == 0).to eq(true)
+      end
+
     end
   end
 end
