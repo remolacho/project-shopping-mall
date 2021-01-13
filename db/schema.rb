@@ -216,8 +216,8 @@ ActiveRecord::Schema.define(version: 2021_01_08_175529) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "adjustable_type"
     t.bigint "adjustable_id"
-    t.float "value", default: 0.0
     t.integer "order_id"
+    t.float "value", default: 0.0
     t.index ["adjustable_type", "adjustable_id"], name: "index_order_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["order_id"], name: "index_order_adjustments_on_order_id"
   end
