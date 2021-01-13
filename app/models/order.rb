@@ -42,6 +42,9 @@ class Order < ApplicationRecord
   IS_COMPLETED = 'completed'.freeze
   UNSTARTED = 'unstarted'.freeze
 
+  PENDING_DELIVERY = 'Recepción pendiente'.freeze
+  UNSTARTED_DELIVERY = 'unstarted'.freeze
+
   def consolidate_payment_total
     self.payment_total = total_sum_order_items
     self.payment_total += shipment_total.to_f

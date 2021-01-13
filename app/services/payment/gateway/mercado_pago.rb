@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'mercadopago'
 
 class Payment::Gateway::MercadoPago
   attr_accessor :attributes, :response
@@ -23,27 +24,24 @@ class Payment::Gateway::MercadoPago
   def find_payment
     return sandbox_local_test if Rails.env.test?
 
-    client_gateway.search_payment(payment_id)
+    result = client_gateway.get_payment(payment_id)
+    return unless result['response'].present?
+
+    result['response'].deep_symbolize_keys
   end
 
   def sandbox_local_test
     service = Payment::Sandbox::MercadoPago.new(payment: payment_id,
-                                                number_ticket: attributes[:data][:number_ticket])
+                                                external_reference: attributes[:data][:external_reference])
     service.perform
   end
 
   def client_gateway
-    @client_gateway ||= Mercadopago::Sdk.new(ENV['CLIENT_ID_FREE_MARKET'],
-                                             ENV['SECRET_FREE_MARKET'],
-                                             is_sandbox?)
-  end
-
-  def is_sandbox?
-    Rails.env.development?
+    @client_gateway ||= MercadoPago.new(ENV['ACCESS_TOKEN_PAYMENT'])
   end
 
   def current_order
-    @current_order ||= Order.find_by!(number_ticket: external_reference)
+    @current_order ||= Order.find_by!(token: external_reference)
   end
 
   def change_status_types
@@ -71,7 +69,7 @@ class Payment::Gateway::MercadoPago
                :status,
                :change_status_types,
                :skip_status_types,
-               :number_ticket,
+               :order_token,
                :payment_id,
                :errors_types,
                :message,

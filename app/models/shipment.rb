@@ -34,7 +34,7 @@ class Shipment < ApplicationRecord
   private
 
   def consolidate_order
-    order.update!(shipment_total: 0, delivery_state: Shipment::UNSTARTED)
+    order.update!(shipment_total: 0, delivery_state: Order::UNSTARTED_DELIVERY)
     order.consolidate_payment_total
   end
 end

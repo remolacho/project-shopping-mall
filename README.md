@@ -41,6 +41,7 @@ Things you may want to cover:
         * EMAIL_PROVIDER: 'smtp.gmail.com'
         * EMAIL_PORT: 587
         * EMAIL_DOMAIN: 'localhost'
+        * ACCESS_TOKEN_PAYMENT: token de mercado pago
      * test:
         * DATABASE:
         * USERNAME:

@@ -1,13 +1,13 @@
 class Payment::Sandbox::MercadoPago
-  attr_accessor :payment, :number_ticket
+  attr_accessor :payment, :external_reference
 
-  def initialize(payment:, number_ticket:)
+  def initialize(payment:, external_reference:)
     @payment = payment
-    @number_ticket = number_ticket
+    @external_reference = external_reference
   end
 
   def perform
-    payments || {status: 'other', external_reference: number_ticket}
+    payments || {status: 'other', external_reference: external_reference}
   end
 
   private
@@ -25,22 +25,22 @@ class Payment::Sandbox::MercadoPago
   end
 
   def get_approved
-    {status: 'approved', external_reference: number_ticket}
+    {status: 'approved', external_reference: external_reference}
   end
 
   def get_rejected
-    {status: 'rejected', external_reference: number_ticket}
+    {status: 'rejected', external_reference: external_reference}
   end
 
   def get_in_process
-    {status: 'in_process', external_reference: number_ticket}
+    {status: 'in_process', external_reference: external_reference}
   end
 
   def get_cancelled
-    {status: 'cancelled', external_reference: number_ticket}
+    {status: 'cancelled', external_reference: external_reference}
   end
 
   def get_in_refunded
-    {status: 'refunded', external_reference: number_ticket}
+    {status: 'refunded', external_reference: external_reference}
   end
 end
