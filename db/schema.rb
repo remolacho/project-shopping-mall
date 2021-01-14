@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_175529) do
+ActiveRecord::Schema.define(version: 2021_01_13_151240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -188,10 +188,10 @@ ActiveRecord::Schema.define(version: 2021_01_08_175529) do
     t.string "payment_id"
     t.string "message"
     t.string "error"
-    t.string "number_ticket"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "log", default: {}
+    t.string "order_token"
   end
 
   create_table "option_types", force: :cascade do |t|
@@ -216,8 +216,8 @@ ActiveRecord::Schema.define(version: 2021_01_08_175529) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "adjustable_type"
     t.bigint "adjustable_id"
-    t.float "value", default: 0.0
     t.integer "order_id"
+    t.float "value", default: 0.0
     t.index ["adjustable_type", "adjustable_id"], name: "index_order_adjustments_on_adjustable_type_and_adjustable_id"
     t.index ["order_id"], name: "index_order_adjustments_on_order_id"
   end

@@ -64,7 +64,7 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
 
       current_order.reload
       expect(current_order.shipment_total > 0).to eq(true)
-      expect(current_order.delivery_state).to eq(Shipment::PENDING)
+      expect(current_order.delivery_state).to eq(Order::PENDING_DELIVERY)
       expect(current_order.shipment.present?).to eq(true)
 
       delete :destroy, params: {order_token: current_order.token, order_item_id: delete_item_id}

@@ -73,7 +73,7 @@ class Payment::Create
   def create_store_order(state:)
     stores_items.each do |store_id, items|
       store_order = payment.order.store_orders.find_or_create_by!(store_id: store_id)
-      store_order.delivery_state = payment.order.delivery_state
+      store_order.delivery_state = StoreOrder::PENDING_DELIVERY
       store_order.payment_state = payment.status
       store_order.state = state
       store_order.save!
@@ -140,7 +140,7 @@ class Payment::Create
       payment_id: payment.payment_id,
       message: message || payment.message,
       error: payment.status,
-      number_ticket: payment.number_ticket,
+      order_token: payment.order_token,
       log: payment.response
     )
   end

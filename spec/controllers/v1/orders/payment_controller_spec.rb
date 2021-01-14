@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe V1::Orders::PaymentController, type: :controller do
@@ -10,19 +11,20 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
   include_context 'stores_products_stuff'
 
   describe 'GET #gateway' do
-    let(:body) {
+    let(:body) do
       {
         "id": 'approved',
         "live_mode": true,
         "type": 'payment',
         "date_created": '2015-03-25T10:04:58.396-04:00',
         "action": 'payment.created',
+        "data.id": 'approved',
         "data": {
           "id": 'approved',
-          "number_ticket": current_order.number_ticket
+          "external_reference": current_order.token
         }
       }
-    }
+    end
 
     it 'returns error logger' do
       current_order.save
@@ -32,7 +34,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(check[:state]).to eq(200)
       expect(current_order.stock_movements.size.zero?).to eq(false)
 
-      body[:data].merge!(number_ticket: 'no valid')
+      body[:data].merge!(external_reference: 'no valid')
       post :create, params: body
       expect(LoggersErrorPayment.all.size.zero?).to eq(false)
       expect(response.status).to eq(404)
