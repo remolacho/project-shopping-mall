@@ -35,7 +35,20 @@ RSpec.describe V1::GroupTitles::CategoriesController, type: :request do
                                name: { type: :string },
                                slug: { type: :string },
                                products_count: { type: :integer },
-                               is_visible: { type: :boolean }
+                               is_visible: { type: :boolean },
+                               childrens: {
+                                type: :array,
+                                items: {
+                                  type: :object,
+                                  properties: {
+                                    id: { type: :integer },
+                                    name: { type: :string },
+                                    slug: { type: :string },
+                                    products_count: { type: :integer },
+                                    is_visible: { type: :boolean }
+                                  }
+                                }
+                              }
                              }
                            }
                          }
