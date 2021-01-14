@@ -9,6 +9,10 @@ shared_context 'order_stuff' do
     FactoryBot.create(:order, :with_user, user: User.find_by(email: 'usertest@email.com'))
   }
 
+  let(:current_order_without_user) {
+    FactoryBot.create(:order)
+  }
+
   let(:list_order_item) {
     products = Product.includes(:product_variants, :store).limit(3)
     products.map do |product|

@@ -1,5 +1,4 @@
 shared_context 'user_stuff' do
-
   before(:each) do
     Warden.test_mode!
   end
@@ -17,7 +16,7 @@ shared_context 'user_stuff' do
                    password: 'passwordtest123',
                    password_confirmation: 'passwordtest123',
                    rut: '1231321313',
-                   image: fixture_file_upload('/files/avatar.png', 'image/png')})
+                   image: fixture_file_upload('/files/avatar.png', 'image/png') })
   }
 
   let(:create_user_2) {
@@ -29,14 +28,14 @@ shared_context 'user_stuff' do
                    password: 'passwordtest123',
                    password_confirmation: 'passwordtest123',
                    rut: '12313213132',
-                   image: fixture_file_upload('/files/avatar.png', 'image/png')})
+                   image: fixture_file_upload('/files/avatar.png', 'image/png') })
   }
 
   let(:current_user) { User.find_by(email: 'usertest@email.com') }
 
   let(:current_user_2) { create_user_2 }
 
-  let(:params_user){
+  let(:params_user) {
     {
       user: { name: 'usertest2',
               lastname: 'userTest2',
@@ -46,10 +45,9 @@ shared_context 'user_stuff' do
               password: 'passwordtest123',
               password_confirmation: 'passwordtest123',
               rut: '12313213132',
-              image: fixture_file_upload('/files/avatar.png', 'image/png')}
+              image: fixture_file_upload('/files/avatar.png', 'image/png') }
     }
   }
 
   let(:'secret-api') { ENV['SECRET_API'] }
-
 end
