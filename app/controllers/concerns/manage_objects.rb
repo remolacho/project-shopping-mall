@@ -38,6 +38,10 @@ module ManageObjects
     Order.find_by(token: params[:order_token], state: Order::ON_PURCHASE)
   end
 
+  def order_by_token
+    @order_by_token ||= Order.find_by(token: params[:order_token])
+  end
+
   def user_order
     current_user.orders.find_by!(token: params[:order_token])
   end
