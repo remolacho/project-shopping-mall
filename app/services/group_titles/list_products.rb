@@ -11,20 +11,19 @@ class GroupTitles::ListProducts < ::Categories::ListProducts
   end
 
   def perform
-    products = list
-    products = filter_brand(products)
-    products = filter_rating(products)
-    products = filter_prices(products)
-    products = filter_order(products)
-    products = pagination(products)
+    products_group = group_list
+    products_group = filter_brand(products_group)
+    products_group = filter_rating(products_group)
+    products_group = filter_prices(products_group)
+    products_group = pagination(products_group)
 
     {
       success: true,
       per_page: ENV['PER_PAGE'].to_i,
-      total_pages: products.total_pages,
-      total_objects: products.total_count,
+      total_pages: products_group.total_pages,
+      total_objects: products_group.total_count,
       category: ::Categories::GroupTitlesSerializer.new(group_title),
-      products: serializer(products)
+      products: serializer(products_group)
     }
   end
 

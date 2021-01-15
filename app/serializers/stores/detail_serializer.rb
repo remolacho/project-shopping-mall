@@ -10,6 +10,8 @@ class Stores::DetailSerializer < ActiveModel::Serializer
   attribute :instagram, if: :all_fields?
   attribute :twitter, if: :all_fields?
   attribute :mall_location, if: :all_fields?
+  attribute :products, if: :with_product?
+  attribute :products_featured, if: :with_product?
 
   def banner_url
     polymorphic_url(object.banner, host: "zofri-dev.etiner.com") if object.banner.attached?
@@ -29,13 +31,13 @@ class Stores::DetailSerializer < ActiveModel::Serializer
 
   def products
     page = instance_options[:page].present? ? instance_options[:page].to_i : 1
-    objects = object.products.list.is_featured(false)
+    objects = object.products.group_stock.is_featured(false)
     product_json(pagination(objects, page), page)
   end
 
   def products_featured
     page = instance_options[:page_f].present? ? instance_options[:page_f].to_i : 1
-    objects = object.products.list.is_featured(true)
+    objects = object.products.group_stock.is_featured(true)
     product_json(pagination(objects, page), page)
   end
 
@@ -49,7 +51,7 @@ class Stores::DetailSerializer < ActiveModel::Serializer
         current_page: page,
         total_pages: objects.total_pages,
         total_objects: objects.total_count,
-        list: ActiveModelSerializers::SerializableResource.new(objects,
+        list: ActiveModelSerializers::SerializableResource.new(Product.list_by_ids(objects&.ids),
                                                                each_serializer: ::Categories::ProductsListSerializer)
     }
   end
