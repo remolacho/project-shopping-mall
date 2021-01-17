@@ -22,20 +22,20 @@
 FactoryBot.define do
   factory :promotion do
     name { FFaker::Book.title }
-    expires_at { (Time.now + 1.day).strftime('%Y-%m-%d') }
-    starts_at { Time.now .strftime('%Y-%m-%d') }
+    expires_at { (Time.now + 1.day) }
+    starts_at { Time.now }
     usage_limit { 1 }
     promo_code { "ZNT-#{rand(1000)}#{Time.now.strftime('%d')}#{Time.now.strftime('%m')}#{Time.now.strftime('%M')}" }
   end
 
   trait :not_started do
-    starts_at { (Time.now + 1.day).strftime('%Y-%m-%d') }
-    expires_at { (Time.now + 2.day).strftime('%Y-%m-%d') }
+    starts_at { (Time.now + 1.day) }
+    expires_at { (Time.now + 2.day) }
   end
 
   trait :expired do
-    starts_at { (Time.now - 1.day).strftime('%Y-%m-%d') }
-    expires_at { (Time.now - 1.day).strftime('%Y-%m-%d') }
+    starts_at { (Time.now - 1.day) }
+    expires_at { (Time.now - 1.day) }
   end
 
   trait :percentage do
