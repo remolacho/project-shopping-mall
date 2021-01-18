@@ -1,25 +1,39 @@
 development:
   DATABASE: zofri_dev
-  USERNAME:
-  PASSWORD:
-  DATABASE_TEST: zofri_text
+  USERNAME: <your-user-db>
+  PASSWORD: <your-pass-db>
+  DATABASE_TEST: zofri_test
   ALGOLIASEARCH_APPLICATION_ID:
   ALGOLIASEARCH_API_KEY:
   ALGOLIASEARCH_API_KEY_SEARCH:
   ALGOLIA_PER_PAGE: "12"
-  PER_PAGE: "12"
   ALGOLIA_LIMIT: "5000"
+  PER_PAGE: "12"
   JWT_SECRET:
   SECRET_API:
+  EMAIL_FROM: no-reply@etiner.com
+  EMAIL_PASSWORD: 
+  EMAIL_TO: <your-email>
+  EMAIL_PROVIDER: smtp.gmail.com
+  EMAIL_PORT: 587
+  EMAIL_DOMAIN: localhost
+  SEND_EMAIL: true
 test:
   ALGOLIASEARCH_APPLICATION_ID:
   ALGOLIASEARCH_API_KEY:
   ALGOLIASEARCH_API_KEY_SEARCH:
-  DATABASE: zofri_text
-  USERNAME:
-  PASSWORD:
-  DATABASE_TEST: zofri_text
+  DATABASE: zofri_test
+  USERNAME: <your-user-db>
+  PASSWORD: <your-pass-db>
+  DATABASE_TEST: zofri_test
   ALGOLIA_PER_PAGE: "3"
   PER_PAGE: "3"
   JWT_SECRET:
   SECRET_API:
+  EMAIL_FROM: no-reply@etiner.com
+  EMAIL_PASSWORD: 
+  EMAIL_TO: <your-email>
+  EMAIL_PROVIDER: smtp.gmail.com
+  EMAIL_PORT: 587
+  EMAIL_DOMAIN: localhost
+  SEND_EMAIL: true

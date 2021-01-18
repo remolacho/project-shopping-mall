@@ -46,8 +46,8 @@ class Product
           product_variants.map(&:sku)
         end
 
-        attribute :internal_skus do
-          product_variants.map(&:internal_sku)
+        attribute :total_stock do
+          product_variants.map(&:current_stock).sum
         end
 
         attribute :rating
@@ -75,7 +75,9 @@ class Product
     private
 
     def is_active?
-      product_variants.any?{ |variant| variant.active } && !hide_from_results
+      variants = product_variants
+      has_variant = variants.detect{|variant| variant.is_master && variant.active }.present?
+      has_variant && !hide_from_results && active && !variants.map(&:current_stock).sum.zero?
     end
   end
 end

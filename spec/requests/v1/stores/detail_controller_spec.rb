@@ -99,6 +99,18 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
             expect(body.dig('store', 'products_featured', 'current_page')).to eq(1)
             expect(body.dig('store', 'products_featured', 'list').all?{ |item| item['featured'] }).to eq(true)
           end
+
+          let(:page) {
+            Product.where(active: true).update(active: false)
+            2
+          }
+
+          run_test! do |res|
+            body = JSON.parse(res.body)
+            expect(body.dig('store', 'products', 'list').size.zero?).to eq(true)
+            expect(body.dig('store', 'products_featured', 'list').size.zero?).to eq(true)
+          end
+
         end
 
         response 404, 'not found!!!' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_30_072310) do
+ActiveRecord::Schema.define(version: 2021_01_13_151240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -68,6 +68,17 @@ ActiveRecord::Schema.define(version: 2020_12_30_072310) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
+  create_table "ads", force: :cascade do |t|
+    t.string "name"
+    t.string "url_destination"
+    t.integer "ad_type"
+    t.boolean "active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["active"], name: "index_ads_on_active"
+    t.index ["ad_type"], name: "index_ads_on_ad_type"
+  end
+
   create_table "brand_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "brand_id"
@@ -93,6 +104,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_072310) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "ancestry"
     t.string "code"
+    t.float "commission", default: 0.0
+    t.boolean "featured", default: false
     t.index ["ancestry"], name: "index_categories_on_ancestry"
   end
 
@@ -175,10 +188,10 @@ ActiveRecord::Schema.define(version: 2020_12_30_072310) do
     t.string "payment_id"
     t.string "message"
     t.string "error"
-    t.string "number_ticket"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.json "log", default: {}
+    t.string "order_token"
   end
 
   create_table "option_types", force: :cascade do |t|
@@ -336,6 +349,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_072310) do
     t.integer "group_products_store_id"
     t.float "rating", default: 0.0
     t.boolean "featured", default: false
+    t.boolean "active", default: true
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
@@ -408,6 +422,15 @@ ActiveRecord::Schema.define(version: 2020_12_30_072310) do
     t.float "value", default: 0.0
     t.index ["order_id"], name: "index_shipments_on_order_id"
     t.index ["shipment_method_id"], name: "index_shipments_on_shipment_method_id"
+  end
+
+  create_table "slides", force: :cascade do |t|
+    t.string "name"
+    t.string "url_destination"
+    t.boolean "active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["active"], name: "index_slides_on_active"
   end
 
   create_table "stock_movements", force: :cascade do |t|
@@ -515,7 +538,10 @@ ActiveRecord::Schema.define(version: 2020_12_30_072310) do
     t.string "jti"
     t.json "complementary_info"
     t.integer "create_by"
+    t.date "birthdate"
+    t.string "gender"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["gender"], name: "index_users_on_gender"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

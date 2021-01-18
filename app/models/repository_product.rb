@@ -21,26 +21,4 @@ class RepositoryProduct < ApplicationRecord
   include AlgoliaSearch
 
   belongs_to :category
-
-  algoliasearch per_environment: true do
-    attribute :id
-    attribute :slug
-    attribute :active
-    attribute :brand
-    attribute :category_id
-    attribute :name_es do
-      name['es']
-    end
-
-    tags do
-      ["active_#{active}"]
-    end
-
-    attributesToHighlight ['name_es']
-    highlightPreTag '<strong>'
-    highlightPostTag '</strong>'
-    searchableAttributes ['name_es']
-    hitsPerPage 10
-    paginationLimitedTo 5000
-  end
 end

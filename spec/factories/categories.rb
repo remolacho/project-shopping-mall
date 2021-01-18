@@ -5,7 +5,9 @@
 #  id         :bigint           not null, primary key
 #  ancestry   :string
 #  code       :string
+#  commission :float            default(0.0)
 #  depth      :integer
+#  featured   :boolean          default(FALSE)
 #  name       :json
 #  slug       :string
 #  created_at :datetime         not null

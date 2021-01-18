@@ -28,6 +28,7 @@ class Orders::AddressSerializer < ActiveModel::Serializer
              :comment,
              :firstname,
              :lastname,
+             :phone,
              :latitude,
              :longitude
 end

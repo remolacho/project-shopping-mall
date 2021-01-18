@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    attributes = %i[name lastname rut password password_confirmation image]
+    attributes = %i[name lastname rut password password_confirmation gender birthdate image]
     devise_parameter_sanitizer.permit(:sign_up, keys: attributes)
   end
 
@@ -24,11 +24,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     add_role(resource)
+    add_order(resource)
 
     render json: { success: success, message: message, user: UserSerializer.new(resource) }, status: status
   end
 
   def add_role(resource)
     resource.add_role :buyer if resource.persisted?
+  end
+
+  def add_order(resource)
+    return unless resource.persisted?
+    return unless order_by_token.present?
+
+    order_by_token.user_id = resource.id
+    order_by_token.save
   end
 end

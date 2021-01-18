@@ -32,3 +32,4 @@ config/credentials.yml.enc
 # Ignore application configuration
 /config/application.yml
 /swagger/*
+/.DS_Store

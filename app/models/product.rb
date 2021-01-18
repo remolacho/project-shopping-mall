@@ -3,6 +3,7 @@
 # Table name: products
 #
 #  id                             :bigint           not null, primary key
+#  active                         :boolean          default(TRUE)
 #  deleted_at                     :datetime
 #  featured                       :boolean          default(FALSE)
 #  hide_from_results              :boolean          default(FALSE)
@@ -26,6 +27,7 @@
 #
 class Product < ApplicationRecord
   include Querytable
+  # include Indexable
 
   translates :name, :short_description
 
