@@ -29,13 +29,13 @@ FactoryBot.define do
   end
 
   trait :not_started do
-    starts_at { (Time.now + 1.day) }
-    expires_at { (Time.now + 2.day) }
+    starts_at { (Time.current + 1.day) }
+    expires_at { (Time.current + 2.day) }
   end
 
   trait :expired do
-    starts_at { (Time.now - 1.day) }
-    expires_at { (Time.now - 1.day) }
+    starts_at { (Time.current - 1.day) }
+    expires_at { (Time.current - 1.day) }
   end
 
   trait :percentage do
