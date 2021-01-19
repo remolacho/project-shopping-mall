@@ -4,7 +4,6 @@ RSpec.describe Users::ProfileController, type: :request do
   include_context 'user_stuff'
 
   describe 'Retorna data del user' do
-
     path "/users/profile/me" do
       get 'Devuelve el perfil' do
         tags 'Zofri Users'
@@ -12,44 +11,44 @@ RSpec.describe Users::ProfileController, type: :request do
         produces 'application/json'
         parameter name: 'Authorization', in: :header
         parameter name: 'secret-api', in: :header
-        
+
         response 200, 'success!!!' do
           schema type: :object,
-            properties: {
-              success: {type: :boolean},
-              message: {type: :string},
-              user: { 
-                type: :object,
-                properties: { 
-                  id: { type: :integer },
-                  email: { type: :string },
-                  name: { type: :string },
-                  rut: { type: :string },
-                  image: {type: :string, nullable: true },
-                  phone: {type: :string, nullable: true },
-                  gender: {type: :string, nullable: true},
-                  birthdate: {type: :string, nullable: true},
-                  address: {
-                    type: :object,
-                    properties: {
-                      street_number: {type: :string, nullable: true },
-                      street: {type: :string, nullable: true },
-                      condominium: {type: :string, nullable: true },
-                      apartment_number: {type: :string, nullable: true }
-                    }
-                  },
-                  commune: {
-                    type: :object,
-                    properties: {
-                      id: {type: :integer, nullable: true },
-                      name: {type: :string, nullable: true }
-                    }
-                  }
-                }
-              }
-            }
+                 properties: {
+                   success: { type: :boolean },
+                   message: { type: :string },
+                   user: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       email: { type: :string },
+                       name: { type: :string },
+                       rut: { type: :string },
+                       image: { type: :string, nullable: true },
+                       phone: { type: :string, nullable: true },
+                       gender: { type: :string, nullable: true },
+                       birthdate: { type: :string, nullable: true },
+                       address: {
+                         type: :object,
+                         properties: {
+                           street_number: { type: :string, nullable: true },
+                           street: { type: :string, nullable: true },
+                           condominium: { type: :string, nullable: true },
+                           apartment_number: { type: :string, nullable: true }
+                         }
+                       },
+                       commune: {
+                         type: :object,
+                         properties: {
+                           id: { type: :integer, nullable: true },
+                           name: { type: :string, nullable: true }
+                         }
+                       }
+                     }
+                   }
+                 }
 
-          let(:'Authorization') {auth_bearer(current_user, {})}
+          let(:'Authorization') { auth_bearer(current_user, {}) }
 
           run_test! do |response|
             body = JSON.parse(response.body)
@@ -89,42 +88,42 @@ RSpec.describe Users::ProfileController, type: :request do
 
         response 200, 'Success!!' do
           schema type: :object,
-            properties: {
-              success: {type: :boolean},
-              message: {type: :string},
-              user: { 
-                type: :object,
-                properties: { 
-                  id: { type: :integer },
-                  email: { type: :string },
-                  name: { type: :string },
-                  rut: { type: :string },
-                  image: {type: :string, nullable: true },
-                  phone: {type: :string, nullable: true },
-                  gender: {type: :string, nullable: true},
-                  birthdate: {type: :string, nullable: true},
-                  address: {
-                    type: :object,
-                    properties: {
-                      street_number: {type: :string, nullable: true },
-                      street: {type: :string, nullable: true },
-                      condominium: {type: :string, nullable: true },
-                      apartment_number: {type: :string, nullable: true }
-                    }
-                  },
-                  commune: {
-                    type: :object,
-                    properties: {
-                      id: {type: :integer, nullable: true },
-                      name: {type: :string, nullable: true }
-                    }
-                  }
-                }
-              }
-            }
+                 properties: {
+                   success: { type: :boolean },
+                   message: { type: :string },
+                   user: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       email: { type: :string },
+                       name: { type: :string },
+                       rut: { type: :string },
+                       image: { type: :string, nullable: true },
+                       phone: { type: :string, nullable: true },
+                       gender: { type: :string, nullable: true },
+                       birthdate: { type: :string, nullable: true },
+                       address: {
+                         type: :object,
+                         properties: {
+                           street_number: { type: :string, nullable: true },
+                           street: { type: :string, nullable: true },
+                           condominium: { type: :string, nullable: true },
+                           apartment_number: { type: :string, nullable: true }
+                         }
+                       },
+                       commune: {
+                         type: :object,
+                         properties: {
+                           id: { type: :integer, nullable: true },
+                           name: { type: :string, nullable: true }
+                         }
+                       }
+                     }
+                   }
+                 }
 
-          let(:'Authorization') {auth_bearer(current_user, {})}
-          let(:user_data){{ user: { name: 'Paulo' } }}
+          let(:'Authorization') { auth_bearer(current_user, {}) }
+          let(:user_data) { { user: { name: 'Paulo' } } }
 
           run_test! do |response|
             expected_user = JSON.parse(response.body)
@@ -135,12 +134,11 @@ RSpec.describe Users::ProfileController, type: :request do
 
         response 401, 'JWT error!!!' do
           let(:'Authorization') { 'Bearer tokenErroe-125' }
-          let(:user_data){{ user: { name: 'Paulo' } }}
-         
+          let(:user_data) { { user: { name: 'Paulo' } } }
+
           run_test!
         end
       end
     end
   end
 end
-

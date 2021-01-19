@@ -42,6 +42,7 @@ RSpec.describe Users::SessionsController, type: :request do
           run_test! do |response|
             body = JSON.parse(response.body)
             expect(body.dig('success')).to eq(true)
+            expect(response.header['Authorization'].present?).to eq(true)
             expect(response.status).to eq(200)
           end
         end

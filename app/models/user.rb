@@ -12,10 +12,12 @@
 #  jti                    :string
 #  lastname               :string
 #  name                   :string
+#  provider               :string           default("zofri")
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  rut                    :string
+#  uid                    :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -24,9 +26,9 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_gender                (gender)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid                   (uid) UNIQUE
 #
 class User < ApplicationRecord
-
   rolify
 
   has_one_attached :image
@@ -46,7 +48,7 @@ class User < ApplicationRecord
   MALE = 'male'.freeze
   FEMALE = 'female'.freeze
   OTHER = 'other'.freeze
-  
+
   validates_inclusion_of :gender, in: [MALE, FEMALE, OTHER], allow_blank: true
 
   validates_presence_of :password, on: :create
@@ -60,7 +62,17 @@ class User < ApplicationRecord
     { id: id, email: email, full_name: full_name, roles: roles.map(&:name) }
   end
 
+  def jwt_exp
+    { sub: id, scp: 'user', aud: nil, iat: Time.now.to_i, exp: (Time.now + 1.day).to_i, jti: create_jti }
+  end
+
   def on_jwt_dispatch(_token, _payload)
     JwtBlacklist.where('exp < ?', Date.today).destroy_all
+  end
+
+  private
+
+  def create_jti
+    Digest::MD5.hexdigest("Zofr12020Et1n3R#{Time.now.strftime('%d%m%Y%H%M%S')}")
   end
 end
