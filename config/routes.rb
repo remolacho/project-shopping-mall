@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       end
     end
     resources :address, param: :address_id, only: [:create, :update]
+    resources :provider_sessions, path: 'loginProvider', only: [:create]
   end
 
   namespace(:v1, defaults: { format: :json }) {

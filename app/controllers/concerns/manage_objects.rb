@@ -39,7 +39,7 @@ module ManageObjects
   end
 
   def order_by_token
-    @order_by_token ||= Order.find_by(token: params[:order_token])
+    @order_by_token ||= Order.where(token: params[:order_token]).where.not(token: nil).first
   end
 
   def user_order

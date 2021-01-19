@@ -19,71 +19,63 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
         parameter name: :store_id, in: :path, required: false, type: :integer
-        parameter name: :page_f, in: :query, required: false, type: :integer
+        parameter name: :brand_ids, in: :query, required: false, type: :string
+        parameter name: :prices, in: :query, required: false, type: :string
+        parameter name: :order_by, in: :query, required: false, type: :string
+        parameter name: :rating, in: :query, required: false, type: :integer
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,
-                 properties: {
-                   success: { type: :boolean },
-                   store: {
-                     type: :object,
-                     properties: {
-                       id: { type: :integer },
-                       name: { type: :string },
-                       banner_url: { type: :string, nullable: true },
-                       icon_url: { type: :string, nullable: true },
-                       what_we_do: { type: :string, nullable: true },
-                       facebook: { type: :string, nullable: true },
-                       instagram: { type: :string, nullable: true },
-                       twitter: { type: :string, nullable: true },
-                       mall_location: { type: :string, nullable: true },
-                       products: {
-                         type: :object,
-                         properties: {
-                             per_page: { type: :integer, default: 12 },
-                             total_pages: { type: :integer, default: 4 },
-                             total_objects: { type: :integer, default: 40 },
-                             list: {
-                                 type: :array,
-                                 items: {
-                                     type: :object,
-                                     properties: {
-                                         id: { type: :integer },
-                                         image_url: { type: :string, nullable: true },
-                                         name: { type: :string },
-                                         price: { type: :number },
-                                         rating: { type: :number },
-                                         featured: { type: :boolean }
-                                       }
-                                   }
-                             }
-                         }
-                       },
-                       products_featured: {
-                           type: :object,
-                           properties: {
-                               per_page: { type: :integer, default: 12 },
-                               total_pages: { type: :integer, default: 4 },
-                               total_objects: { type: :integer, default: 40 },
-                               list: {
-                                   type: :array,
-                                   items: {
-                                       type: :object,
-                                       properties: {
-                                           id: { type: :integer },
-                                           image_url: { type: :string, nullable: true },
-                                           name: { type: :string },
-                                           price: { type: :number },
-                                           rating: { type: :number },
-                                           featured: { type: :boolean }
-                                       }
-                                   }
-                               }
-                           }
-                       }
-                     }
-                   }
-                 }
+                properties: {
+                  success: { type: :boolean },
+                  per_page: { type: :integer, default: 12 },
+                  total_pages: { type: :integer, default: 4 },
+                  total_objects: { type: :integer, default: 40 },
+                  store: {
+                    type: :object,
+                    properties: {
+                      id: { type: :integer },
+                      name: { type: :string },
+                      banner_url: { type: :string, nullable: true },
+                      icon_url: { type: :string, nullable: true },
+                      what_we_do: { type: :string, nullable: true },
+                      facebook: { type: :string, nullable: true },
+                      instagram: { type: :string, nullable: true },
+                      twitter: { type: :string, nullable: true },
+                      mall_location: { type: :string, nullable: true },
+                    }
+                  },
+                  products: { type: :array,
+                    items: {
+                      type: :object,
+                      properties: {
+                        id: { type: :integer },
+                        name: { type: :string },
+                        category_name: { type: :string },
+                        short_description: { type: :string },
+                        price: { type: :number },
+                        rating: { type: :number },
+                        image_url: { type: :string, nullable: true },
+                        brand_name: { type: :string },
+                      }
+                    } 
+                  },
+                  products_featured: { type: :array,
+                    items: {
+                      type: :object,
+                      properties: {
+                        id: { type: :integer },
+                        name: { type: :string },
+                        category_name: { type: :string },
+                        short_description: { type: :string },
+                        price: { type: :number },
+                        rating: { type: :number },
+                        image_url: { type: :string, nullable: true },
+                        brand_name: { type: :string },
+                      }
+                    } 
+                  }
+                }
 
           let(:store_id) {
             products_featured_category
