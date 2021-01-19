@@ -10,8 +10,6 @@ class Stores::DetailSerializer < ActiveModel::Serializer
   attribute :instagram, if: :all_fields?
   attribute :twitter, if: :all_fields?
   attribute :mall_location, if: :all_fields?
-  attribute :products, if: :with_product?
-  attribute :products_featured, if: :with_product?
 
   def banner_url
     polymorphic_url(object.banner, host: "zofri-dev.etiner.com") if object.banner.attached?
