@@ -7,6 +7,7 @@
 #  delivery_state   :string
 #  global_tax_total :float            default(0.0)
 #  mail             :string
+#  module           :string
 #  order_number     :string
 #  payment_state    :string
 #  payment_total    :float            default(0.0)
@@ -14,6 +15,8 @@
 #  shipment_total   :float            default(0.0)
 #  special_comments :string
 #  state            :string
+#  ticket_date      :date
+#  ticket_number    :string
 #  total            :float            default(0.0)
 #  user_name        :string
 #  created_at       :datetime         not null
