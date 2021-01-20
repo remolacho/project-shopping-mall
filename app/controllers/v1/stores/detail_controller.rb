@@ -3,8 +3,11 @@ class V1::Stores::DetailController < ApplicationController
 
   # /v1/stores/detail/:store_id
   def show
-
-    service = Stores::Detail.new(store: store, data: params)
-    render json: service.perform
+    render json: { success: true,
+                   store: ::Stores::DetailSerializer.new(store,
+                                                         page: params[:page],
+                                                         page_f: params[:page_f],
+                                                         all_fields: true,
+                                                         with_product: true) }, status: 200
   end
 end
