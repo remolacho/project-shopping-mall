@@ -44,6 +44,9 @@ class Product < ApplicationRecord
   has_one_attached :image
   validates :image, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png'], size_range: 1..3.megabytes }
 
+  has_many_attached :gallery_images, dependent: :destroy_all
+  validates :gallery_images, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png'], size_range: 1..3.megabytes }
+
   has_rich_text :description
 
   validates_presence_of %i[name short_description store_id category_id brand_id], message: 'es un campo obligatorio'

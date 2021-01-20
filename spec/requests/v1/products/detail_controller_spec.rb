@@ -27,6 +27,10 @@ mas sus imagenes por variante</p>'
                                             description: { type: :string, nullable: true },
                                             short_description: { type: :string },
                                             image_url: {type: :string, nullable: true },
+                                            gallery_images_urls: {
+                                              type: :array,
+                                              items: {}
+                                            },
                                             store: {
                                                 type: :object,
                                                 properties: {
