@@ -15,7 +15,7 @@
 class Products::DetailSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :name, :description, :short_description, :image_url
+  attributes :id, :name, :description, :short_description, :image_url, :gallery_images_urls
   attribute :variants
   attribute :brand
   attribute :category
@@ -27,6 +27,13 @@ class Products::DetailSerializer < ActiveModel::Serializer
 
   def image_url
     polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
+  end
+
+  def gallery_images_urls
+    object.gallery_images.map do |img|
+      next '' unless img.present?
+      polymorphic_url(img, host: "zofri-dev.etiner.com")
+    end
   end
 
   def variants
