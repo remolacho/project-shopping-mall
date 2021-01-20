@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_15_173325) do
+ActiveRecord::Schema.define(version: 2021_01_19_061155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -482,6 +482,9 @@ ActiveRecord::Schema.define(version: 2021_01_15_173325) do
     t.float "payment_total", default: 0.0
     t.float "shipment_total", default: 0.0
     t.float "total", default: 0.0
+    t.string "ticket_number"
+    t.date "ticket_date"
+    t.string "module"
     t.index ["order_id"], name: "index_store_orders_on_order_id"
     t.index ["store_id"], name: "index_store_orders_on_store_id"
   end
