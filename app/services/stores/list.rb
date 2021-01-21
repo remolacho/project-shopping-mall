@@ -45,13 +45,13 @@ class Stores::List
   end
 
   def filter_order(stores)
-    return stores.order("RANDOM()") unless data.dig(:order_by).present?
+    return stores unless data.dig(:order_by).present?
 
     stores.order("stores.name #{data.dig(:order_by)}")
   end
 
   def pagination(stores)
-    stores.select('stores.id, stores.name, stores.mall_location, stores.what_we_do')
+    stores.select('DISTINCT(stores.id), stores.name, stores.mall_location, stores.what_we_do')
           .page(data.dig(:page) || 1)
           .per(ENV['PER_PAGE'])
   end

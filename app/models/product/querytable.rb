@@ -11,20 +11,13 @@ class Product
           .limit(limit)
       end
 
-      def self.list
+      def self.list_prices
         joins(:brand, :store, :product_variants, :category)
-          .select("products.id, categories.name::json->> '#{I18n.locale.to_s}' as category_name,
-                      product_variants.price, brands.name as brand_name,
-                      stores.name as store_name,
-                      product_variants.is_master, product_variants.active as variant_active,
-                      products.rating,
-                      products.name_translations,
-                      products.short_description_translations,
-                      products.featured")
+          .select("DISTINCT(product_variants.price) price")
           .where(product_variants: { is_master: true, active: true })
-          .where.not(product_variants: { current_stock: 0 })
           .where(stores: { active: true })
           .where(products: { active: true })
+          .order('product_variants.price ASC')
       end
 
       def self.list_by_ids(products_ids)
