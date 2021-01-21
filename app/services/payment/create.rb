@@ -24,7 +24,7 @@ class Payment::Create
     ActiveRecord::Base.transaction do
       create_payment
       create_store_order(state: Order::IS_COMPLETED)
-      update_order(state: Order::IS_COMPLETED, completed_at: Time.now)
+      update_order(state: Order::IS_COMPLETED, delivery_state: Order::PENDING_DELIVERY, completed_at: Time.now)
     end
 
     Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
@@ -83,10 +83,11 @@ class Payment::Create
     end
   end
 
-  def update_order(state:, completed_at: nil)
+  def update_order(state:, delivery_state:, completed_at: nil)
     payment.order.completed_at = completed_at
     payment.order.payment_state = payment.status
     payment.order.state = state
+    payment.order.delivery_state = delivery_state
     payment.order.save!
   end
 
