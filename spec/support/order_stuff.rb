@@ -21,6 +21,15 @@ shared_context 'order_stuff' do
     end
   }
 
+  let(:list_order_item_with_discount) {
+    ProductVariant.update_all(discount_value: 800)
+    products = Product.includes(:product_variants, :store).limit(3)
+    products.map do |product|
+      product_variant = product.product_variants.sample(random: SecureRandom)
+      FactoryBot.create(:order_item, product_variant: product_variant, order: current_order, store: product.store)
+    end
+  }
+
   let(:list_order_item_consolidate) {
     products = Product.includes(:product_variants, :store).limit(3)
     order_items = products.map do |product|

@@ -83,7 +83,7 @@ class Payment::Create
     end
   end
 
-  def update_order(state:, delivery_state:, completed_at: nil)
+  def update_order(state:, delivery_state: Order::UNSTARTED_DELIVERY, completed_at: nil)
     payment.order.completed_at = completed_at
     payment.order.payment_state = payment.status
     payment.order.state = state
