@@ -68,6 +68,10 @@ class Order < ApplicationRecord
     !order_adjustments.where(adjustable_type: 'Promotion'.freeze).count.zero?
   end
 
+  def total_weight
+    order_items.map{ |order_item| order_item.product_variant.weight }.sum
+  end
+
   private
 
   def generate_token

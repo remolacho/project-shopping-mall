@@ -10,5 +10,6 @@
 #
 class Commune < ApplicationRecord
 	 belongs_to :region, optional: true
-	 has_many :addresses
+   has_many :addresses
+   has_many :shipment_costs
 end

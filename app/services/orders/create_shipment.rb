@@ -49,7 +49,7 @@ class Orders::CreateShipment
   def create_shipment
     shipment = Shipment.find_or_create_by!(order_id: order.id)
     shipment.shipment_method_id = shipment_method.id
-    shipment.value = data[:delivery_price].to_f
+    shipment.value = shipment_cost
     shipment.shipment_method_state = Shipment::ACTIVE
     shipment.state = Shipment::PENDING
     shipment.save!
@@ -58,7 +58,7 @@ class Orders::CreateShipment
   def update_order
     order.address_id = address.id
     order.delivery_state = Order::PENDING_DELIVERY
-    order.shipment_total = data[:delivery_price].to_f
+    order.shipment_total = shipment_cost
     order.save!
     order.consolidate_payment_total
   end
@@ -76,6 +76,15 @@ class Orders::CreateShipment
     address.lastname = data[:lastname]
     address.save!
     address.reload
+  end
+
+  def shipment_cost
+    total_weight ||= order.total_weight.ceil.clamp(0, 50)
+    if total_weight <= 20 && commune.name == "Iquique"
+      @shipment_cost = 2990
+    else
+      @shipment_cost ||= ShipmentCost.find_by(commune_id: commune.id, weight: total_weight).try(:cost) || data[:delivery_price].to_f
+    end
   end
 
   def address
