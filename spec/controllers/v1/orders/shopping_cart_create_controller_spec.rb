@@ -30,6 +30,26 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
       expect(order['order_items'][0]['item_qty']).to eq(1)
     end
 
+    it 'success creating order has user with discount_value' do
+      discount_value = 800
+      product_variant = ProductVariant.where(id: product_variant_id).update(discount_value: discount_value)[0]
+
+      expect(Order.all.count.zero?).to eq(true)
+      get :create, params: {product_variant_id: product_variant_id}
+      expect(Order.all.count.zero?).to eq(false)
+      expect(response.status).to eq(200)
+
+      body = JSON.parse(response.body)
+      order = body['order']
+      expect(order['user_id'].present?).to eq(true)
+      expect(order['state']).to eq(Order::ON_PURCHASE)
+      expect(order['order_items'].size.zero?).to eq(false)
+      expect(order['order_items'][0]['item_qty']).to eq(1)
+      expect(order['order_items'][0]['unit_value'] == discount_value).to eq(true)
+      expect(order['order_items'][0]['unit_value'] < product_variant.price ).to eq(true)
+    end
+
+
     it 'success creating order has not user' do
       request.headers['Authorization'] = ''
       expect(Order.all.count.zero?).to eq(true)

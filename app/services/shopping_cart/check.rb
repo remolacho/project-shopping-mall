@@ -26,8 +26,8 @@ class ShoppingCart::Check
         next
       end
 
-      unless item.unit_value == item.product_variant.price
-        error_item << object(item, :price, "error en precio: #{item.unit_value}, precio actual: #{item.product_variant.price}")
+      unless item.unit_value == item.product_variant.current_price
+        error_item << object(item, :price, "error en precio: #{item.unit_value}, precio actual: #{item.product_variant.current_price}")
         next
       end
     end

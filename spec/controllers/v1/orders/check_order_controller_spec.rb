@@ -25,6 +25,28 @@ RSpec.describe V1::Orders::CheckOrderController, type: :controller do
       expect(body['items_errors'].present?).to eq(true)
     end
 
+    it 'success there are errors in price, there is discount' do
+      item = list_order_item.last
+      product_variant = item.product_variant
+      product_variant.discount_value = 800
+      product_variant.save
+      get :show, params: {order_token: current_order.token}
+      body = JSON.parse(response.body)
+      expect(response.status).to eq(203)
+      expect(body['items_errors'].present?).to eq(true)
+    end
+
+    it 'success there are errors in discount' do
+      item = list_order_item_with_discount.last
+      product_variant = item.product_variant
+      product_variant.discount_value = 0.0
+      product_variant.save
+      get :show, params: {order_token: current_order.token}
+      body = JSON.parse(response.body)
+      expect(response.status).to eq(203)
+      expect(body['items_errors'].present?).to eq(true)
+    end
+
     it 'success with stock_movements' do
       list_order_item
       get :show, params: {order_token: current_order.token}
@@ -33,6 +55,19 @@ RSpec.describe V1::Orders::CheckOrderController, type: :controller do
       expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
 
       variants = ProductVariant.where(id: list_order_item.map(&:product_variant_id))
+      result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
+      expect(result).to eq(true)
+    end
+
+    it 'success with stock_movements and discount' do
+      list_order_item_with_discount
+
+      get :show, params: {order_token: current_order.token}
+      stock_movements = StockMovement.where(order_id: current_order.id)
+      expect(stock_movements.size.zero?).to eq(false)
+      expect(stock_movements.all?{|movement| movement.quantity < 0}).to eq(true)
+
+      variants = ProductVariant.where(id: list_order_item_with_discount.map(&:product_variant_id))
       result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
       expect(result).to eq(true)
     end

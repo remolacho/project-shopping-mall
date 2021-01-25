@@ -45,11 +45,23 @@ class ProductVariant < ApplicationRecord
 
   scope :is_active, -> { where(active: true) }
 
-  public def assign_movement_in(quantity)
+  public
+
+  def assign_movement_in(quantity)
     stock_movements.create!(quantity: quantity, movement_type: StockMovement::INVENTORY_IN)
   end
 
-  private def product_reindex
+  def current_price
+    if discount_value.present? && !discount_value.zero? && discount_value < price
+      return discount_value
+    end
+
+    price
+  end
+
+  private
+
+  def product_reindex
     return true if Rails.env.test?
 
     prod_index = Product.find(product_id)

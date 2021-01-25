@@ -33,6 +33,7 @@ class Order < ApplicationRecord
   has_many :order_items
   has_many :stock_movements
   has_one :shipment
+  has_many :product_variants, through: :order_items
 
   before_create :generate_token
   before_create :on_purchase
