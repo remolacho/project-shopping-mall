@@ -10,6 +10,7 @@
 #  mall_location  :string
 #  name           :string
 #  sheets_row     :integer
+#  terms_accepted :boolean          default(FALSE)
 #  twitter        :string
 #  website        :string
 #  what_we_do     :string
