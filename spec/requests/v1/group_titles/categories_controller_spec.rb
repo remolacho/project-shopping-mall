@@ -26,6 +26,10 @@ RSpec.describe V1::GroupTitles::CategoriesController, type: :request do
                          id: { type: :integer },
                          name: { type: :string },
                          slug: { type: :string },
+                         image_url: {type: :string, nullable: true },
+                         icon_url: {type: :string, nullable: true },
+                         home: { type: :boolean },
+                         burger: { type: :boolean },
                          categories: {
                            type: :array,
                            items: {
@@ -87,6 +91,10 @@ RSpec.describe V1::GroupTitles::CategoriesController, type: :request do
                        id: { type: :integer },
                        name: { type: :string },
                        slug: { type: :string },
+                       image_url: {type: :string, nullable: true },
+                       icon_url: {type: :string, nullable: true },
+                       home: { type: :boolean },
+                       burger: { type: :boolean },
                        categories: {
                          type: :array,
                          items: {
