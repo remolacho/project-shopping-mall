@@ -62,9 +62,7 @@ class ProductVariant < ApplicationRecord
   private
 
   def product_reindex
-    return true if Rails.env.test?
-
     prod_index = Product.find(product_id)
-    prod_index.index!
+    prod_index.reindex
   end
 end
