@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_061155) do
+ActiveRecord::Schema.define(version: 2021_01_25_103459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -174,6 +174,8 @@ ActiveRecord::Schema.define(version: 2021_01_19_061155) do
     t.hstore "name_translations"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "home", default: false
+    t.boolean "burger", default: false
   end
 
   create_table "jwt_blacklists", force: :cascade do |t|
@@ -401,6 +403,16 @@ ActiveRecord::Schema.define(version: 2021_01_19_061155) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  create_table "shipment_costs", force: :cascade do |t|
+    t.bigint "commune_id", null: false
+    t.integer "weight", null: false
+    t.float "cost"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commune_id"], name: "index_shipment_costs_on_commune_id"
+    t.index ["weight"], name: "index_shipment_costs_on_weight"
+  end
+
   create_table "shipment_methods", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -522,6 +534,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_061155) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category_id"
     t.integer "company_id"
+    t.boolean "terms_accepted", default: false
     t.index ["commune_id"], name: "index_stores_on_commune_id"
     t.index ["mall_location"], name: "index_stores_on_mall_location"
     t.index ["name"], name: "index_stores_on_name"
