@@ -79,6 +79,7 @@ class Orders::CreateShipment
   end
 
   def shipment_cost
+    return @shipment_cost = 0 if in_site?
     total_weight ||= order.total_weight.ceil.clamp(0, 50)
     if total_weight <= 20 && commune.name == "Iquique"
       @shipment_cost = 2990
