@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_103459) do
+ActiveRecord::Schema.define(version: 2021_01_28_215342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -150,6 +150,13 @@ ActiveRecord::Schema.define(version: 2021_01_25_103459) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["code"], name: "index_countries_on_code"
+  end
+
+  create_table "frequent_questions", force: :cascade do |t|
+    t.text "question"
+    t.string "answer"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "group_products_stores", force: :cascade do |t|
