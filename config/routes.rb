@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   end
 
   namespace(:v1, defaults: { format: :json }) {
+    resources :frequent_questions, path: 'faq', only: [:index]
+
     namespace :categories, path: '' do
       resources :category, only: [] do
         resources :products, only: [:index]
