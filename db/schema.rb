@@ -153,8 +153,8 @@ ActiveRecord::Schema.define(version: 2021_01_28_215342) do
   end
 
   create_table "frequent_questions", force: :cascade do |t|
-    t.text "question"
-    t.string "answer"
+    t.string "question"
+    t.text "answer"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
