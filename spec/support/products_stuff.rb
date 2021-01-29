@@ -25,6 +25,25 @@ shared_context 'products_stuff' do
     }
   }
 
+  let(:products_category_2) {
+    FactoryBot.create_list(:product, 5,
+                           :with_image,
+                           category: root_category_2,
+                           store: current_store,
+                           brand: brands_list.first,
+                           rating: 3).map { |product|
+
+      [4500, 5000, 6500].each_with_index do |price, index|
+        product_variant = FactoryBot.create(:product_variant, :is_active, product: product, price: price, is_master: index.zero?)
+        FactoryBot.create(:stock_movement, product_variant: product_variant, quantity: 100)
+        FactoryBot.create(:stock_movement, product_variant: product_variant, quantity: 12)
+        FactoryBot.create(:stock_movement, :inventory_out, product_variant: product_variant, quantity: -10)
+      end
+
+      product
+    }
+  }
+
   let(:products_category_child) {
     FactoryBot.create_list(:product, 5,
                            category: category_child,
