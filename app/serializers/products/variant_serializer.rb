@@ -42,7 +42,7 @@ class Products::VariantSerializer < ActiveModel::Serializer
     object.images.map do |img|
       next '' unless img.present?
 
-      polymorphic_url(img, host: "zofri-dev.etiner.com")
+      polymorphic_url(img, host: ENV['HOST_IMAGES'])
     end
   end
 

@@ -36,7 +36,7 @@ class UserSerializer < ActiveModel::Serializer
   attribute :commune
 
   def image
-    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
+    polymorphic_url(object.image, host: ENV['HOST_IMAGES']) if object.image.attached?
   end
 
   def address

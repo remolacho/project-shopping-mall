@@ -45,6 +45,11 @@ Rails.application.routes.draw do
 
     namespace :products do
       resources :price_range, path: 'priceRange', only: [:index]
+      resources :list, path: '', only: [] do
+        collection do
+          get 'discount/list', to: 'list#discount'
+        end
+      end
     end
 
     namespace :orders do

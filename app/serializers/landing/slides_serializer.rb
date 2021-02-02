@@ -4,7 +4,7 @@ class Landing::SlidesSerializer < ActiveModel::Serializer
   attributes :original, :url_destination
 
   def original
-    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
+    polymorphic_url(object.image, host: ENV['HOST_IMAGES']) if object.image.attached?
   end
 
 end

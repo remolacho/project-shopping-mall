@@ -5,11 +5,11 @@ class Categories::GroupTitlesSerializer < ActiveModel::Serializer
   attribute :categories
 
   def image_url
-    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
+    polymorphic_url(object.image, host: ENV['HOST_IMAGES']) if object.image.attached?
   end
 
   def icon_url
-    polymorphic_url(object.icon, host: "zofri-dev.etiner.com") if object.icon.attached?
+    polymorphic_url(object.icon, host: ENV['HOST_IMAGES']) if object.icon.attached?
   end
 
   def categories
