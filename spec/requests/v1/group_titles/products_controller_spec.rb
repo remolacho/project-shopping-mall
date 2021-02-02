@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-RSpec.describe V1::Categories::ProductsController, type: :request do
+RSpec.describe V1::GroupTitles::ProductsController, type: :request do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'
@@ -38,6 +38,7 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
                                          category_name: { type: :string },
                                          short_description: { type: :string },
                                          price: { type: :number },
+                                         discount_price: { type: :number },
                                          rating: { type: :number },
                                          image_url: { type: :string, nullable: true },
                                          brand_name: { type: :string },

@@ -26,56 +26,55 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,
-                properties: {
-                  success: { type: :boolean },
-                  per_page: { type: :integer, default: 12 },
-                  total_pages: { type: :integer, default: 4 },
-                  total_objects: { type: :integer, default: 40 },
-                  store: {
-                    type: :object,
-                    properties: {
-                      id: { type: :integer },
-                      name: { type: :string },
-                      banner_url: { type: :string, nullable: true },
-                      icon_url: { type: :string, nullable: true },
-                      what_we_do: { type: :string, nullable: true },
-                      facebook: { type: :string, nullable: true },
-                      instagram: { type: :string, nullable: true },
-                      twitter: { type: :string, nullable: true },
-                      mall_location: { type: :string, nullable: true },
-                    }
-                  },
-                  products: { type: :array,
-                    items: {
-                      type: :object,
-                      properties: {
-                        id: { type: :integer },
-                        name: { type: :string },
-                        category_name: { type: :string },
-                        short_description: { type: :string },
-                        price: { type: :number },
-                        rating: { type: :number },
-                        image_url: { type: :string, nullable: true },
-                        brand_name: { type: :string },
-                      }
-                    } 
-                  },
-                  products_featured: { type: :array,
-                    items: {
-                      type: :object,
-                      properties: {
-                        id: { type: :integer },
-                        name: { type: :string },
-                        category_name: { type: :string },
-                        short_description: { type: :string },
-                        price: { type: :number },
-                        rating: { type: :number },
-                        image_url: { type: :string, nullable: true },
-                        brand_name: { type: :string },
-                      }
-                    } 
-                  }
-                }
+                 properties: {
+                   success: { type: :boolean },
+                   per_page: { type: :integer, default: 12 },
+                   total_pages: { type: :integer, default: 4 },
+                   total_objects: { type: :integer, default: 40 },
+                   store: {
+                     type: :object,
+                     properties: {
+                       id: { type: :integer },
+                       name: { type: :string },
+                       banner_url: { type: :string, nullable: true },
+                       icon_url: { type: :string, nullable: true },
+                       what_we_do: { type: :string, nullable: true },
+                       facebook: { type: :string, nullable: true },
+                       instagram: { type: :string, nullable: true },
+                       twitter: { type: :string, nullable: true },
+                       mall_location: { type: :string, nullable: true },
+                     }
+                   },
+                   products: { type: :array,
+                               items: {
+                                 type: :object,
+                                 properties: {
+                                   id: { type: :integer },
+                                   name: { type: :string },
+                                   category_name: { type: :string },
+                                   short_description: { type: :string },
+                                   price: { type: :number },
+                                   discount_price: { type: :number },
+                                   rating: { type: :number },
+                                   image_url: { type: :string, nullable: true },
+                                   brand_name: { type: :string },
+                                 }
+                               } },
+                   products_featured: { type: :array,
+                                        items: {
+                                          type: :object,
+                                          properties: {
+                                            id: { type: :integer },
+                                            name: { type: :string },
+                                            category_name: { type: :string },
+                                            short_description: { type: :string },
+                                            price: { type: :number },
+                                            rating: { type: :number },
+                                            image_url: { type: :string, nullable: true },
+                                            brand_name: { type: :string },
+                                          }
+                                        } }
+                 }
 
           let(:store_id) {
             products_featured_category
@@ -87,22 +86,10 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
           run_test! do |res|
             body = JSON.parse(res.body)
             expect(body.dig('store', 'products', 'current_page')).to eq(2)
-            expect(body.dig('store', 'products', 'list').all?{ |item| !item['featured'] }).to eq(true)
+            expect(body.dig('store', 'products', 'list').all? { |item| !item['featured'] }).to eq(true)
             expect(body.dig('store', 'products_featured', 'current_page')).to eq(1)
-            expect(body.dig('store', 'products_featured', 'list').all?{ |item| item['featured'] }).to eq(true)
+            expect(body.dig('store', 'products_featured', 'list').all? { |item| item['featured'] }).to eq(true)
           end
-
-          let(:page) {
-            Product.where(active: true).update(active: false)
-            2
-          }
-
-          run_test! do |res|
-            body = JSON.parse(res.body)
-            expect(body.dig('store', 'products', 'list').size.zero?).to eq(true)
-            expect(body.dig('store', 'products_featured', 'list').size.zero?).to eq(true)
-          end
-
         end
 
         response 404, 'not found!!!' do
@@ -116,7 +103,6 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
 
           run_test!
         end
-
       end
     end
   end

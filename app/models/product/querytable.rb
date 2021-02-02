@@ -23,7 +23,7 @@ class Product
       def self.list_by_ids(products_ids)
         joins(:brand, :store, :product_variants, :category)
           .select("products.id, categories.name::json->> '#{I18n.locale.to_s}' as category_name,
-                   product_variants.price, brands.name as brand_name,
+                   product_variants.price, brands.name as brand_name, product_variants.discount_value,
                    stores.name as store_name,
                    product_variants.is_master, product_variants.active as variant_active,
                    products.rating,

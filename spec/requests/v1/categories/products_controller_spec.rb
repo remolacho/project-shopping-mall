@@ -45,6 +45,7 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
                                    category_name: { type: :string },
                                    short_description: { type: :string },
                                    price: { type: :number },
+                                   discount_price: { tyoe: :number },
                                    rating: { type: :number },
                                    image_url: { type: :string, nullable: true },
                                    brand_name: { type: :string },
