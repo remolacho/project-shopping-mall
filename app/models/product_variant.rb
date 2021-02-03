@@ -41,7 +41,7 @@ class ProductVariant < ApplicationRecord
   has_many_attached :images
   has_rich_text :description
 
-  # after_save :product_reindex
+  after_save :product_reindex
 
   scope :is_active, -> { where(active: true) }
 

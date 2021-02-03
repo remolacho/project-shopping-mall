@@ -27,7 +27,7 @@
 #
 class Product < ApplicationRecord
   include Querytable
-  # include Indexable
+  include Indexable
 
   translates :name, :short_description
 
