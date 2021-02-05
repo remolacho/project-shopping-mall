@@ -45,11 +45,14 @@ class Product < ApplicationRecord
   validates :image, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png'], size_range: 1..3.megabytes }
 
   has_many_attached :gallery_images, dependent: :destroy_all
-  validates :gallery_images, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png'], size_range: 1..3.megabytes }
+  validates :gallery_images,
+            blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png'], size_range: 1..3.megabytes }
 
   has_rich_text :description
 
   validates_presence_of %i[name short_description store_id category_id brand_id], message: 'es un campo obligatorio'
 
-  scope :is_featured, ->(arg){ where(featured: arg) }
+  has_many :reviews
+
+  scope :is_featured, ->(arg) { where(featured: arg) }
 end

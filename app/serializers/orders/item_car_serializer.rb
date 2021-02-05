@@ -29,9 +29,10 @@ class Orders::ItemCarSerializer < ActiveModel::Serializer
   end
 
   def image_url
-    return unless product_variant.product.image.attached?
+    image = product_variant.product.image
+    return unless image.present?
 
-    rails_blob_url(product_variant.product.image, disposition: "attachment", only_path: true)
+    polymorphic_url(image, host: ENV['HOST_IMAGES'])
   end
 
   def name

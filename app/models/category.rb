@@ -32,18 +32,17 @@ class Category < ApplicationRecord
   has_ancestry
 
   def category_hierarchy_names
-    ancestors.map{ |c| c.name[I18n.locale.to_s] }.join(' > ')
+    ancestors.map { |c| c.name[I18n.locale.to_s] }.join(' > ')
   end
 
   def all_category_hierarchy_names
-    result = ancestors.map{ |c| c.name[I18n.locale.to_s] }.join(' > ')
+    result = ancestors.map { |c| c.name[I18n.locale.to_s] }.join(' > ')
     return name[I18n.locale.to_s] unless result.present?
 
     "#{result} > #{name[I18n.locale.to_s]}"
   end
 
   def category_hierarchy
-    ancestors.map{ |c| {id: c.id, name: c.name[I18n.locale.to_s]} }
+    ancestors.map { |c| { id: c.id, name: c.name[I18n.locale.to_s] } }
   end
-
 end

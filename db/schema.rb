@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_103459) do
+ActiveRecord::Schema.define(version: 2021_02_01_134713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -391,6 +391,18 @@ ActiveRecord::Schema.define(version: 2021_01_25_103459) do
     t.boolean "active", default: false
     t.string "slug"
     t.index ["category_id"], name: "index_repository_products_on_category_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.float "score", default: 1.0, null: false
+    t.string "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id", "product_id"], name: "index_reviews_on_order_id_and_product_id", unique: true
+    t.index ["order_id"], name: "index_reviews_on_order_id"
+    t.index ["product_id"], name: "index_reviews_on_product_id"
   end
 
   create_table "roles", force: :cascade do |t|
