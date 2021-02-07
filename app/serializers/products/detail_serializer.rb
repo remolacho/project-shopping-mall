@@ -26,13 +26,13 @@ class Products::DetailSerializer < ActiveModel::Serializer
   end
 
   def image_url
-    polymorphic_url(object.image, host: "zofri-dev.etiner.com") if object.image.attached?
+    polymorphic_url(object.image, host: ENV['HOST_IMAGES']) if object.image.attached?
   end
 
   def gallery_images_urls
     object.gallery_images.map do |img|
       next '' unless img.present?
-      polymorphic_url(img, host: "zofri-dev.etiner.com")
+      polymorphic_url(img, host: ENV['HOST_IMAGES'])
     end
   end
 
