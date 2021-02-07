@@ -34,6 +34,7 @@ class Order < ApplicationRecord
   has_many :stock_movements
   has_one :shipment
   has_many :product_variants, through: :order_items
+  has_many :reviews
 
   before_create :generate_token
   before_create :on_purchase
@@ -54,7 +55,7 @@ class Order < ApplicationRecord
   end
 
   def total_sum_order_items
-    order_items.map{ |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
+    order_items.map { |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
   end
 
   def is_completed?
@@ -70,7 +71,7 @@ class Order < ApplicationRecord
   end
 
   def total_weight
-    order_items.map{ |order_item| order_item.product_variant.weight }.sum
+    order_items.map { |order_item| order_item.product_variant.weight }.sum
   end
 
   private

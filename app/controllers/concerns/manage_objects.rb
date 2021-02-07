@@ -26,7 +26,7 @@ module ManageObjects
 
   private def decoded_token(token)
     token = token.split(' ')[1]
-    JWT.decode(token, ENV['JWT_SECRET'], true, {algorithm: 'HS256'})
+    JWT.decode(token, ENV['JWT_SECRET'], true, { algorithm: 'HS256' })
   rescue JWT::DecodeError
     nil
   end
@@ -36,6 +36,10 @@ module ManageObjects
     return Order.find_by(number_ticket: params[:number_ticket]) if params[:number_ticket].present?
 
     Order.find_by(token: params[:order_token], state: Order::ON_PURCHASE)
+  end
+
+  def order_completed
+    Order.find_by!(token: params[:order_token], state: Order::IS_COMPLETED)
   end
 
   def order_by_token
