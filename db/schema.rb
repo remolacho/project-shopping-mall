@@ -152,6 +152,13 @@ ActiveRecord::Schema.define(version: 2021_01_25_103459) do
     t.index ["code"], name: "index_countries_on_code"
   end
 
+  create_table "frequent_questions", force: :cascade do |t|
+    t.string "question"
+    t.text "answer"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "group_products_stores", force: :cascade do |t|
     t.bigint "store_id"
     t.string "file_name"
