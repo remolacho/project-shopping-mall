@@ -43,6 +43,7 @@ RSpec.describe V1::Categories::ChildrenController, type: :request do
           run_test! do |res|
             body = JSON.parse(res.body)
             expect(body.dig('categories').size.zero?).to eq(false)
+            expect(body.dig('categories').all?{|cat| !cat['products_count'].zero?})
           end
         end
 

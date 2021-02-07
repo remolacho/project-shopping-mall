@@ -95,6 +95,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(store_orders.all?{|so| so.order_items.present? }).to eq(true)
       expect(store_orders.all?{|so| so.payment_total > 0 }).to eq(true)
       expect(store_orders.map{|so| so.order_items.size }.sum == order.order_items.size).to eq(true)
+      expect(order.delivery_state).to eq(Order::PENDING_DELIVERY)
     end
 
     it 'returns success in_process' do
@@ -116,6 +117,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payment_state.eql?(Payment::IN_PROCESS)).to eq(true)
       expect(order.payments.present?).to eq(true)
       expect(order.payments.any?{|p| p.state.eql?(Payment::IN_PROCESS)}).to eq(true)
+      expect(order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
     end
 
     it 'returns success rejected' do
@@ -143,6 +145,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       variants = ProductVariant.where(id: list_order_item_consolidate.map(&:product_variant_id))
       result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
       expect(result).to eq(true)
+      expect(order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
     end
 
     it 'returns success cancelled' do
@@ -170,6 +173,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       variants = ProductVariant.where(id: list_order_item_consolidate.map(&:product_variant_id))
       result = variants.all?{ |variant| variant.stock_movements.sum(&:quantity) == variant.current_stock }
       expect(result).to eq(true)
+      expect(order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
     end
 
     it 'returns success refunded with payment approved' do
@@ -200,9 +204,8 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payments.any?{|p| p.state.eql?(Payment::APPROVED)}).to eq(true)
       expect(order.payments.any?{|p| p.state.eql?(Payment::REFUNDED)}).to eq(true)
       expect(order.payment_state.eql?(Payment::REFUNDED)).to eq(true)
-      # expect(order.state.eql?(Order::ON_PURCHASE)).to eq(true)
-      # expect(order.stock_movements.size.zero?).to eq(true)
-      # expect(store_orders.size.zero?).to eq(true)
+      expect(order.state.eql?(Order::IS_COMPLETED)).to eq(true)
+      expect(order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
     end
 
   end

@@ -32,7 +32,7 @@ FactoryBot.define do
   factory :product_variant do
     rng = RandomNameGenerator.new
     product { product }
-    discount_value { rand(2) }
+    discount_value { 0.0 }
     height { rand(2) }
     sku { "SKU-#{rng.compose(3)}-#{rand(10000)}" }
     internal_sku { "SKU-INT-#{rng.compose(3)}-#{rand(10000)}" }

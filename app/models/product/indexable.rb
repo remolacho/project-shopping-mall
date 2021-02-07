@@ -34,12 +34,16 @@ class Product
           short_description_translations['es']
         end
 
-        attribute :strore do
+        attribute :store do
           store.name
         end
 
         attribute :prices do
           product_variants.map(&:price)
+        end
+
+        attribute :discount_prices do
+          product_variants.map(&:discount_value)
         end
 
         attribute :skus do

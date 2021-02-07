@@ -70,5 +70,15 @@ RSpec.describe Users::ProviderSessionsController, type: :controller do
       expect(body.dig('success')).to eq(true)
       expect(jwt.present?).to eq(true)
     end
+
+    it 'login success lastname nil!!!' do
+      request.headers['secret-api'] = ENV['SECRET_API']
+      params_user[:user].merge!(lastname: '', email: 'test33@test.com')
+      post :create, params: params_user
+      body = JSON.parse(response.body)
+      jwt = response.header['Authorization']
+      expect(body.dig('success')).to eq(true)
+      expect(jwt.present?).to eq(true)
+    end
   end
 end

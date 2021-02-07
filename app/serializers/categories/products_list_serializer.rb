@@ -8,11 +8,16 @@ class Categories::ProductsListSerializer < ActiveModel::Serializer
               :short_description,
               :category_name,
               :price,
+              :discount_price,
               :brand_name,
               :store_name,
               :is_master,
               :variant_active,
               :featured
+
+  def discount_price
+    object.discount_value
+  end
 
   def category_name
     object.category_name

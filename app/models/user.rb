@@ -55,7 +55,7 @@ class User < ApplicationRecord
   validates_presence_of :name, :email
 
   def full_name
-    "#{name.titleize} #{lastname.titleize}"
+    "#{name.try(:titleize)} #{lastname.try(:titleize)}"
   end
 
   def jwt_payload

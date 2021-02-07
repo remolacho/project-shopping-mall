@@ -1,25 +1,21 @@
 require 'swagger_helper'
 
-RSpec.describe V1::Categories::ProductsController, type: :request do
+RSpec.describe V1::Products::ListController, type: :request do
   include_context 'user_stuff'
   include_context 'meta_data_stuff'
   include_context 'company_stuff'
   include_context 'store_stuff'
   include_context 'products_stuff'
 
-  describe 'Retorna una lista de productos por categoria' do
-    path "/v1/category/{category_id}/products" do
-      get 'Lista de productos' do
-        tags 'Zofri categories'
-        description "retorna la lista de productos por categoria, en su filtro puede estar por rango de precio,
-<p>ordenado por precio asc o desc, marca, calificacion Qyery ?prices=['1000-2000', '2000-5000']&brand_ids=[1, 2, 3]&order_by=DESC&rating=3</p>"
+  describe 'Retorna una lista de productos por descuento y filtro de categoria' do
+    path "/v1/products/discount/list" do
+      get 'Lista de productos con descuento' do
+        tags 'Zofri Productos'
+        description "retorna la lista de productos con descuento paginado y por filtro de categoria <p>ordenado por precio de descuento
+Qyery ?page=1&category_id=xxx</p>"
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
-        parameter name: :category_id, in: :path
-        parameter name: :brand_ids, in: :query, required: false, type: :string
-        parameter name: :prices, in: :query, required: false, type: :string
-        parameter name: :order_by, in: :query, required: false, type: :string
-        parameter name: :rating, in: :query, required: false, type: :integer
+        parameter name: :category_id, in: :query, required: false, type: :integer
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,
@@ -28,14 +24,6 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
                    per_page: { type: :integer, default: 12 },
                    total_pages: { type: :integer, default: 4 },
                    total_objects: { type: :integer, default: 40 },
-                   category: {
-                     type: :object,
-                     properties: {
-                       id: { type: :integer },
-                       name: { type: :string },
-                       slug: { type: :string }
-                     }
-                   },
                    products: { type: :array,
                                items: {
                                  type: :object,
@@ -45,7 +33,7 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
                                    category_name: { type: :string },
                                    short_description: { type: :string },
                                    price: { type: :number },
-                                   discount_price: { tyoe: :number },
+                                   discount_price: { type: :number },
                                    rating: { type: :number },
                                    image_url: { type: :string, nullable: true },
                                    brand_name: { type: :string },
@@ -53,19 +41,17 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
                                } }
                  }
 
-          let(:category_id) { root_category.id }
-
           run_test!
         end
 
-        response 404, 'Error data no encontrada' do
+        response 403, 'Secret api error!!!' do
           schema type: :object,
                  properties: {
                    success: { type: :boolean, default: false },
                    message: { type: :string }
                  }
 
-          let(:category_id) { 9999 }
+          let(:'secret-api') { 'error secret' }
           run_test!
         end
       end

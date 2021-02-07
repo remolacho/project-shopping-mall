@@ -33,6 +33,7 @@ class Order < ApplicationRecord
   has_many :order_items
   has_many :stock_movements
   has_one :shipment
+  has_many :product_variants, through: :order_items
 
   before_create :generate_token
   before_create :on_purchase
@@ -66,6 +67,10 @@ class Order < ApplicationRecord
 
   def has_promotion?
     !order_adjustments.where(adjustable_type: 'Promotion'.freeze).count.zero?
+  end
+
+  def total_weight
+    order_items.map{ |order_item| order_item.product_variant.weight }.sum
   end
 
   private

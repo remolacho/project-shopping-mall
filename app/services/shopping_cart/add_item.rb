@@ -36,7 +36,7 @@ class ShoppingCart::AddItem
                                                      store_id: store.id)
 
     order_item.item_qty = @item_qty.present? ? (order_item.item_qty.to_i + @item_qty.to_i) : (order_item.item_qty.to_i + 1)
-    order_item.unit_value = product_variant.price
+    order_item.unit_value = product_variant.current_price
     order_item.save!
   end
 end

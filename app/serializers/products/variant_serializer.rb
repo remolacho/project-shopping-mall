@@ -28,14 +28,20 @@ class Products::VariantSerializer < ActiveModel::Serializer
              :length,
              :is_master,
              :price,
+             :discount_price,
              :current_stock
 
   attribute :images_urls
   attribute :option_variants
 
+  def discount_price
+    object.discount_value
+  end
+
   def images_urls
     object.images.map do |img|
       next '' unless img.present?
+
       polymorphic_url(img, host: "zofri-dev.etiner.com")
     end
   end
@@ -43,9 +49,9 @@ class Products::VariantSerializer < ActiveModel::Serializer
   def option_variants
     object.variant_options_values.map do |option|
       {
-          id: option.id,
-          type: option.option_type.name[I18n.locale.to_s],
-          value: option.option_value.value[I18n.locale.to_s]
+        id: option.id,
+        type: option.option_type.name[I18n.locale.to_s],
+        value: option.option_value.value[I18n.locale.to_s]
       }
     end
   end

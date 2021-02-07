@@ -5,13 +5,13 @@ Rails.application.routes.draw do
   devise_for :users,
              path: '',
              path_names: {
-                 sign_in: 'login',
-                 sign_out: 'logout',
-                 registration: 'signup'
+               sign_in: 'login',
+               sign_out: 'logout',
+               registration: 'signup'
              },
              controllers: {
-                 sessions: 'users/sessions',
-                 registrations: 'users/registrations'
+               sessions: 'users/sessions',
+               registrations: 'users/registrations'
              }
 
   namespace :users do
@@ -43,10 +43,18 @@ Rails.application.routes.draw do
       end
     end
 
+    namespace :products do
+      resources :price_range, path: 'priceRange', only: [:index]
+      resources :list, path: '', only: [] do
+        collection do
+          get 'discount/list', to: 'list#discount'
+        end
+      end
+    end
+
     namespace :orders do
       resources :shopping_cart, path: 'shoppingCart', param: :order_item_id,
-                only: %i[update destroy index] do
-
+                                only: %i[update destroy index] do
         collection do
           get :create, path: 'addItem'
         end
@@ -67,7 +75,7 @@ Rails.application.routes.draw do
       end
 
       resources :user, path: 'userOrder', param: :order_token, only: [:show]
-      resources :user, path: 'listUser',only: [:index]
+      resources :user, path: 'listUser', only: [:index]
     end
 
     namespace :stores do
@@ -85,7 +93,7 @@ Rails.application.routes.draw do
     namespace :landing do
       resources :ads, only: [:index]
       resources :slides, only: [:index]
+      resources :products, only: [:index]
     end
-
   }
 end

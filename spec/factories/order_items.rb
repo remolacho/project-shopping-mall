@@ -21,7 +21,7 @@
 FactoryBot.define do
   factory :order_item do
     item_qty { 1 }
-    unit_value { product_variant.price }
+    unit_value { product_variant.current_price }
     order { order }
     product_variant { product_variant }
     store { store }
