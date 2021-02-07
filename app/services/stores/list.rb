@@ -1,5 +1,4 @@
 class Stores::List
-
   attr_accessor :category, :data
 
   def initialize(category:, data:)
@@ -38,7 +37,7 @@ class Stores::List
   def filter_category(stores)
     return stores unless category.present?
 
-    categories_ids = [category.id] | category.children.ids
+    categories_ids = [category.id] | category.descendant_ids
 
     stores.joins(:products)
           .where(products: { category_id: categories_ids })
