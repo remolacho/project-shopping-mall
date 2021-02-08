@@ -33,3 +33,6 @@ config/credentials.yml.enc
 /config/application.yml
 /swagger/*
 /.DS_Store
+/config/database.yml
+/config/secrets.yml
+/config/storage.yml

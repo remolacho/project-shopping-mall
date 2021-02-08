@@ -71,3 +71,5 @@ gem 'kaminari'
 gem 'random_name_generator', '~> 1.2', '>= 1.2.1'
 gem 'jwt'
 gem 'mercadopago-sdk'
+#AWS bucket
+gem "aws-sdk-s3"
