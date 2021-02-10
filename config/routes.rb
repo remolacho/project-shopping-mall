@@ -50,6 +50,7 @@ Rails.application.routes.draw do
       resources :list, path: '', only: [] do
         collection do
           get 'discount/list', to: 'list#discount'
+          get 'rating/list', to: 'list#rating'
         end
       end
     end

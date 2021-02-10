@@ -66,6 +66,10 @@ class Product
         having("SUM(product_variants.discount_value) > 0")
       end
 
+      def self.most_valued
+        where('products.rating >= 4')
+      end
+
       def self.counter_by_category(categories_ids)
         group_stock.where(category_id: categories_ids).ids.count
       end
