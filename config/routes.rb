@@ -74,7 +74,11 @@ Rails.application.routes.draw do
             get 'apply/:promo_code', to: 'promotion#apply'
           end
         end
-        resources :products, only: [:index]
+        resources :products, only: [:index] do
+          collection do
+            post :review
+          end
+        end
       end
 
       resources :user, path: 'userOrder', param: :order_token, only: [:show]
