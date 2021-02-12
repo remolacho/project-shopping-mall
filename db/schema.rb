@@ -636,5 +636,16 @@ ActiveRecord::Schema.define(version: 2021_03_16_144427) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_wishlists_on_product_id"
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "wishlists", "products"
+  add_foreign_key "wishlists", "users"
 end
