@@ -37,6 +37,7 @@ class User < ApplicationRecord
   has_many :stores, through: :companies
   has_many :orders
   has_many :store_orders, through: :orders
+  has_many :products, through: :wishlists
   has_one :address
 
   # Include default devise modules. Others available are:
