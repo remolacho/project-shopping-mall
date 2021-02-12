@@ -7,6 +7,7 @@ module ManageException
     rescue_from PolicyException, with: :forbidden
     rescue_from NoMethodError, with: :not_method_error
     rescue_from ArgumentError, with: :argument_error
+    rescue_from ActiveRecord::RecordNotUnique, with: :not_found
     rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
       render json: { success: false, message: "Required parameter missing: #{parameter_missing_exception.param}" }, status: :bad_request
     end
