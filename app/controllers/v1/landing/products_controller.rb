@@ -16,6 +16,6 @@ class V1::Landing::ProductsController < ApplicationController
   def list(products_group_ids)
     return [] unless products_group_ids.present?
 
-    Product.list_by_ids(products_group_ids).order(Arel.sql('RANDOM()')).limit(10)
+    Product.list_by_ids(products_group_ids).order(Arel.sql('RANDOM()')).limit(30)
   end
 end
