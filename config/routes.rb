@@ -42,6 +42,8 @@ Rails.application.routes.draw do
     namespace :products, path: '' do
       scope :product do
         resources :detail, param: :product_id, only: [:show]
+        resources :reviews, param: :product_id, only: [:show]
+        resources :reviewers, param: :product_id, only: [:show]
       end
     end
 

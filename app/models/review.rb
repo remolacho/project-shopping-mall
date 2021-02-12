@@ -10,6 +10,7 @@
 #  updated_at :datetime         not null
 #  order_id   :bigint           not null
 #  product_id :bigint           not null
+#  user_id    :integer
 #
 # Indexes
 #
@@ -21,6 +22,7 @@ class Review < ApplicationRecord
 
   belongs_to :product
   belongs_to :order
+  belongs_to :user, optional: true
 
   after_create :consolidate_rating
 

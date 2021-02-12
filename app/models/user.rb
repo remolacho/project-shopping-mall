@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :orders
   has_many :store_orders, through: :orders
   has_one :address
+  has_many :reviews
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

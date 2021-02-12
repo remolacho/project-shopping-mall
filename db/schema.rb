@@ -423,6 +423,7 @@ ActiveRecord::Schema.define(version: 2021_03_16_144427) do
     t.string "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
     t.index ["order_id", "product_id"], name: "index_reviews_on_order_id_and_product_id", unique: true
     t.index ["order_id"], name: "index_reviews_on_order_id"
     t.index ["product_id"], name: "index_reviews_on_product_id"
