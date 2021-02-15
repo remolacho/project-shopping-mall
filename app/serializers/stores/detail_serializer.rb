@@ -55,6 +55,7 @@ class Stores::DetailSerializer < ActiveModel::Serializer
   def filter_brand(products)
     return products unless instance_options[:brand_ids].present?
     brand_ids = data_array(instance_options[:brand_ids])
+    return products unless brand_ids.present?
     products.where(brands: {id: brand_ids})
   end
 
