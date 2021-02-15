@@ -32,7 +32,36 @@ class Stores::DetailSerializer < ActiveModel::Serializer
   def products
     page = instance_options[:page].present? ? instance_options[:page].to_i : 1
     objects = object.products.group_stock.is_featured(false)
-    product_json(pagination(objects, page), page)
+    products = Product.list_by_ids(objects&.ids)
+    products = filter_prices(products)
+    products = filter_brand(products)
+    products = filter_order(products)
+    product_json(pagination(products, page), page)
+  end
+
+  def filter_order(products)
+    return products unless instance_options[:order_by].present?
+    products.order("product_variants.price #{instance_options[:order_by]}")
+  end
+
+  def filter_prices(products)
+    return products unless instance_options[:prices].present?
+    prices = data_array(instance_options[:prices])
+    prices = prices.map{ |p| p.split('-') }.flatten
+    return products unless prices.present?
+    products.where(product_variants: {price: prices.min..prices.max})
+  end
+
+  def filter_brand(products)
+    return products unless instance_options[:brand_ids].present?
+    brand_ids = data_array(instance_options[:brand_ids])
+    return products unless brand_ids.present?
+    products.where(brands: {id: brand_ids})
+  end
+
+  def data_array(values)
+    return values if values.nil? || values.class.eql?(Array)
+    eval(values)
   end
 
   def products_featured
