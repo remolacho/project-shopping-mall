@@ -69,6 +69,10 @@ class Product
       def self.counter_by_category(categories_ids)
         group_stock.where(category_id: categories_ids).ids.count
       end
+
+      def self.counter_by_brand(brand_id)
+        group_stock.where(brand_id: brand_id).ids.count
+      end
     end
   end
 end

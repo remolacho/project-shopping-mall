@@ -47,6 +47,7 @@ Rails.application.routes.draw do
 
     namespace :products do
       resources :price_range, path: 'priceRange', only: [:index]
+      resources :brand, path: 'brands', only: [:index]
       resources :list, path: '', only: [] do
         collection do
           get 'discount/list', to: 'list#discount'
@@ -74,7 +75,11 @@ Rails.application.routes.draw do
             get 'apply/:promo_code', to: 'promotion#apply'
           end
         end
-        resources :products, only: [:index]
+        resources :products, only: [:index] do
+          collection do
+            post :review
+          end
+        end
       end
 
       resources :user, path: 'userOrder', param: :order_token, only: [:show]
