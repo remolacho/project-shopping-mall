@@ -13,7 +13,8 @@ RSpec.describe V1::Products::PriceRangeController, type: :request do
         tags 'Zofri Productos'
         description '<p>Retorna una lista de precios basada en segmentos ejemplo: ["1000"-"2000", "2200"-"4000"]</p>'
         parameter name: 'secret-api', in: :header, required: true
-        parameter name: :category_id, in: :query, required: true, type: :integer
+        parameter name: :type, in: :query, required: false, type: :string
+        parameter name: :id, in: :query, required: true, type: :integer
         produces 'application/json'
         response 200, 'success!!!' do
           schema type: :object,
