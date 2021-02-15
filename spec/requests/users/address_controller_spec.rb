@@ -20,6 +20,7 @@ RSpec.describe Users::ProfileController, type: :request do
             address: {
               type: :object,
               properties: {
+                commune_id: { type: :integer },
                 street: { type: :string },
                 street_number: { type: :string },
                 phone: { type: :string },
@@ -36,7 +37,7 @@ RSpec.describe Users::ProfileController, type: :request do
               address: {
                 apartment_number: {type: :string, nullable: true},
                 comment: {type: :string},
-                comune: {type: :string, nullable: true},
+                commune_id: {type: :integer, nullable: true},
                 condominium: {type: :string, nullable: true},
                 firstname: {type: :string, nullable: true},
                 id: {type: :integer},
@@ -85,6 +86,7 @@ RSpec.describe Users::ProfileController, type: :request do
             address: {
               type: :object,
               properties: {
+                commune_id: { type: :integer },
                 street: { type: :string },
                 street_number: { type: :string },
                 phone: { type: :string },
@@ -101,7 +103,7 @@ RSpec.describe Users::ProfileController, type: :request do
               address: {
                 apartment_number: {type: :string, nullable: true},
                 comment: {type: :string},
-                comune: {type: :string, nullable: true},
+                commune_id: {type: :integer, nullable: true},
                 condominium: {type: :string, nullable: true},
                 firstname: {type: :string, nullable: true},
                 id: {type: :integer},

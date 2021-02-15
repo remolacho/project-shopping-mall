@@ -13,6 +13,6 @@ class Users::AddressController < ApplicationController
   private
 
   def address_params
-    params.require(:address).permit(:phone, :street, :street_number, :comment)
+    params.require(:address).permit(:phone, :commune_id, :street, :street_number, :comment)
   end
 end
