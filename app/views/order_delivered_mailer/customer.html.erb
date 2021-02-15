@@ -1,0 +1,34 @@
+<% unless @has_error == true %>
+  <section class="center card">
+    <h2><b>Detalle de la compra</b></h2>
+    <p>Pedido <%= @order.number_ticket %></p>
+    <p>Fecha de recepción <%= @shipment.updated_at.strftime("%d-%m-%Y") %></p>
+    <table>
+      <thead>
+      <tr>
+        <td>Id</td>
+        <td>Producto</td>
+        <td>Cantidad</td>
+      </tr>
+      </thead>
+      <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product[:id] %></td>
+          <td><%= product[:name] %></td>
+          <td style="color: #00a2c6; text-align: center">
+            <%= product[:quantity] %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </section>
+<% end %>
+
+<% if @has_error == true %>
+  <section class="center card">
+    <h2><b>Error al enviar review</b></h2>
+    <p>Mensaje <%= @message %></p>
+  </section>
+<% end %>
