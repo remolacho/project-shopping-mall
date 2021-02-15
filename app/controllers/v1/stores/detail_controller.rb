@@ -7,6 +7,9 @@ class V1::Stores::DetailController < ApplicationController
                    store: ::Stores::DetailSerializer.new(store,
                                                          page: params[:page],
                                                          page_f: params[:page_f],
+                                                         order_by: params[:order_by],
+                                                         prices: params[:prices],
+                                                         brand_ids: params[:brand_ids],
                                                          all_fields: true,
                                                          with_product: true) }, status: 200
   end
