@@ -37,7 +37,7 @@ class Orders::ShoppingCartSerializer < ActiveModel::Serializer
   end
 
   def order_items
-    ActiveModelSerializers::SerializableResource.new(object.order_items,
+    ActiveModelSerializers::SerializableResource.new(object.order_items.order(created_at: :asc),
                                                      each_serializer: ::Orders::ItemCarSerializer)
   end
 
