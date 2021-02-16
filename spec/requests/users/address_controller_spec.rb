@@ -34,19 +34,34 @@ RSpec.describe Users::ProfileController, type: :request do
           schema type: :object,
             properties: {
               success: {type: :boolean},
-              address: {
-                apartment_number: {type: :string, nullable: true},
-                comment: {type: :string},
-                commune_id: {type: :integer, nullable: true},
-                condominium: {type: :string, nullable: true},
-                firstname: {type: :string, nullable: true},
-                id: {type: :integer},
-                lastname: {type: :string, nullable: true},
-                latitude: {type: :string, nullable: true},
-                longitude: {type: :string, nullable: true},
-                phone: {type: :string, nullable: true},
-                street: {type: :string},
-                street_number: {type: :string},
+              user: {
+                type: :object,
+                properties: {
+                  id: { type: :integer },
+                  email: { type: :string },
+                  name: { type: :string },
+                  rut: { type: :string },
+                  image: { type: :string, nullable: true },
+                  phone: { type: :string, nullable: true },
+                  gender: { type: :string, nullable: true },
+                  birthdate: { type: :string, nullable: true },
+                  address: {
+                    type: :object,
+                    properties: {
+                      street_number: { type: :string, nullable: true },
+                      street: { type: :string, nullable: true },
+                      condominium: { type: :string, nullable: true },
+                      apartment_number: { type: :string, nullable: true }
+                    }
+                  },
+                  commune: {
+                    type: :object,
+                    properties: {
+                      id: { type: :integer, nullable: true },
+                      name: { type: :string, nullable: true }
+                    }
+                  }
+                }
               }
             }
 
@@ -55,7 +70,7 @@ RSpec.describe Users::ProfileController, type: :request do
           run_test! do |response|
             expected_address = JSON.parse(response.body)
             expect(response.status).to eq(200)
-            expect(expected_address['address']['street']).to eq('Park Avenue')
+            expect(expected_address['user']['address']['street']).to eq('Park Avenue')
           end
         end
 
@@ -100,19 +115,34 @@ RSpec.describe Users::ProfileController, type: :request do
           schema type: :object,
             properties: {
               success: {type: :boolean},
-              address: {
-                apartment_number: {type: :string, nullable: true},
-                comment: {type: :string},
-                commune_id: {type: :integer, nullable: true},
-                condominium: {type: :string, nullable: true},
-                firstname: {type: :string, nullable: true},
-                id: {type: :integer},
-                lastname: {type: :string, nullable: true},
-                latitude: {type: :string, nullable: true},
-                longitude: {type: :string, nullable: true},
-                phone: {type: :string, nullable: true},
-                street: {type: :string},
-                street_number: {type: :string},
+              user: {
+                type: :object,
+                properties: {
+                  id: { type: :integer },
+                  email: { type: :string },
+                  name: { type: :string },
+                  rut: { type: :string },
+                  image: { type: :string, nullable: true },
+                  phone: { type: :string, nullable: true },
+                  gender: { type: :string, nullable: true },
+                  birthdate: { type: :string, nullable: true },
+                  address: {
+                    type: :object,
+                    properties: {
+                      street_number: { type: :string, nullable: true },
+                      street: { type: :string, nullable: true },
+                      condominium: { type: :string, nullable: true },
+                      apartment_number: { type: :string, nullable: true }
+                    }
+                  },
+                  commune: {
+                    type: :object,
+                    properties: {
+                      id: { type: :integer, nullable: true },
+                      name: { type: :string, nullable: true }
+                    }
+                  }
+                }
               }
             }
 
@@ -123,7 +153,7 @@ RSpec.describe Users::ProfileController, type: :request do
           run_test! do |response|
             expected_address = JSON.parse(response.body)
             expect(response.status).to eq(200)
-            expect(expected_address['address']['street']).to eq('Other Park Avenue')
+            expect(expected_address['user']['address']['street']).to eq('Other Park Avenue')
           end
 
         end
