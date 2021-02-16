@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Payment::Create
   attr_accessor :data, :order, :payment
 
@@ -29,6 +30,7 @@ class Payment::Create
 
     Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
     Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
+    Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
     success_response
   end
 
@@ -103,7 +105,8 @@ class Payment::Create
       payment_logs: payment.response,
       total: payment.order.payment_total,
       state: payment.status,
-      payment_method_id: payment_method)
+      payment_method_id: payment_method
+    )
   end
 
   def reverse_stock_movements
@@ -132,7 +135,7 @@ class Payment::Create
     { success: true, status: 200 }
   end
 
-  def error_response(message=nil)
+  def error_response(message = nil)
     { success: !logger_error(message), status: 404 }
   end
 
@@ -148,7 +151,7 @@ class Payment::Create
 
   def is_approved_previously?
     payment.order.payment_state.eql?(Payment::APPROVED) &&
-      payment.order.payments.any?{|pay| pay.state.eql?(Payment::APPROVED)} &&
+      payment.order.payments.any? { |pay| pay.state.eql?(Payment::APPROVED) } &&
       !payment.status.eql?(Payment::REFUNDED)
   end
 end
