@@ -49,7 +49,7 @@ shared_context 'products_stuff' do
                            category: category_child,
                            store: current_store,
                            brand: brands_list.last,
-                           rating: 4).map { |product|
+                           rating: 3).map { |product|
 
       [4000, 5000, 6000].each_with_index do |price, index|
         product_variant = FactoryBot.create(:product_variant, :is_active, product: product, price: price, is_master: index.zero?)
@@ -67,7 +67,7 @@ shared_context 'products_stuff' do
                            category: category_child_depth_3,
                            store: current_store,
                            brand: brands_list.last,
-                           rating: 4).map { |product|
+                           rating: 3).map { |product|
 
       [4000, 5000, 6000].each_with_index do |price, index|
         product_variant = FactoryBot.create(:product_variant, :is_active, product: product, price: price, is_master: index.zero?)
