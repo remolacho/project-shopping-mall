@@ -2,12 +2,12 @@ class Users::AddressController < ApplicationController
 
   def create
     current_user.create_address!(address_params)
-    render json: {success: true, address: Orders::AddressSerializer.new(current_user.address)}, status: 200
+    render json: {success: true, user: UserSerializer.new(current_user)}, status: 200
   end
 
   def update
     current_user.address.update!(address_params)
-    render json: {success: true, address: Orders::AddressSerializer.new(current_user.address)}, status: 200
+    render json: {success: true, user: UserSerializer.new(current_user)}, status: 200
   end
 
   private
