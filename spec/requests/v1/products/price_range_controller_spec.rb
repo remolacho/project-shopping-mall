@@ -13,7 +13,7 @@ RSpec.describe V1::Products::PriceRangeController, type: :request do
         tags 'Zofri Productos'
         description '<p>Retorna una lista de precios basada en segmentos ejemplo: ["1000"-"2000", "2200"-"4000"]</p>'
         parameter name: 'secret-api', in: :header, required: true
-        parameter name: :type, in: :query, required: false, type: :string
+        parameter name: 'type', in: :query, required: false, type: :string
         parameter name: :id, in: :query, required: true, type: :integer
         produces 'application/json'
         response 200, 'success!!!' do
@@ -22,7 +22,8 @@ RSpec.describe V1::Products::PriceRangeController, type: :request do
                    success: {type: :boolean},
                    ranges: {type: :array, items: {type: :string}}
                  }
-          let(:category_id) { root_category.id }
+          let(:id) { root_category.id }
+          let(:'type') { 'category' }
           run_test!do |response|
             body = JSON.parse response.body
             expect(body.dig('ranges').present?).to eq(true)
@@ -35,7 +36,8 @@ RSpec.describe V1::Products::PriceRangeController, type: :request do
                    success: {type: :boolean, default: false},
                    message: {type: :string}
                  }
-          let(:category_id) { root_category.id  }
+          let(:id) { root_category.id }
+          let(:'type') { 'category' }
           let(:'secret-api') { 'error secret' }
           run_test!
         end
@@ -47,7 +49,8 @@ RSpec.describe V1::Products::PriceRangeController, type: :request do
                    message: {type: :string}
                  }
 
-          let(:category_id) { 99999  }
+          let(:id) { 99999999 }
+          let(:'type') { 'category' }
           run_test!
         end
       end

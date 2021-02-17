@@ -14,7 +14,7 @@ class V1::Products::BrandController < ApplicationController
     when "category"
       Brand.joins(:categories).where(categories: { id: hierarchy }).group('brands.id')
     when "store"
-      Brand.joins(:products).where('brands.id = products.brand_id').where('products.store_id = ?', store ).group('brands.id')
+      Brand.joins(:products).where('brands.id = products.brand_id').where('products.store_id = ? AND products.featured = ?', store, false ).group('brands.id')
     when "group"
       Brand.joins(:categories).where(categories: { id: hierarchy_titles }).group('brands.id')
     else
