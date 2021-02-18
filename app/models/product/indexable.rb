@@ -56,6 +56,10 @@ class Product
 
         attribute :rating
 
+        attribute :price do
+          assign_price
+        end
+
         tags do
           ["active_#{is_active?}", "hide_result_#{hide_from_results}"]
         end
@@ -79,9 +83,21 @@ class Product
     private
 
     def is_active?
-      variants = product_variants
-      has_variant = variants.detect{|variant| variant.is_master && variant.active }.present?
-      has_variant && !hide_from_results && active && !variants.map(&:current_stock).sum.zero?
+      has_variant = product_variants.detect { |variant| variant.is_master && variant.active }.present?
+      has_variant && !hide_from_results && active && assign_price.present?
+    end
+
+    def assign_price
+      return @price if @price.present?
+
+      product_variant = product_variants.where(is_master: true).where.not(current_stock: 0, price: 0).first
+
+      @price = if product_variant.present?
+                 product_variant.price
+               else
+                 product_variant = product_variants.where.not(current_stock: 0, price: 0).order(price: :asc).first
+                 product_variant.try(:price)
+               end
     end
   end
 end
