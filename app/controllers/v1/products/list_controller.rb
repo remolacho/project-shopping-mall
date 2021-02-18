@@ -18,4 +18,13 @@ class V1::Products::ListController < ApplicationController
 
     render json: service.perform
   end
+
+  # GET v1/products/recents/list?page=1&category_id=
+  def recents
+    service = Products::List.new(type: 'recents'.freeze,
+                                 data: params,
+                                 category: category_or_nil)
+
+    render json: service.perform
+  end
 end
