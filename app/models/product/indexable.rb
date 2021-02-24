@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product
   module Indexable
     extend ActiveSupport::Concern
@@ -13,10 +15,7 @@ class Product
         attribute :category_id
         attribute :store_id
         attribute :brand_id
-
-        attribute :image_url do
-          rails_blob_url(image, disposition: "attachment", only_path: true) if image.attached?
-        end
+        attribute :rating
 
         attribute :brand do
           brand.name
@@ -50,25 +49,35 @@ class Product
           product_variants.map(&:sku)
         end
 
-        attribute :total_stock do
-          product_variants.map(&:current_stock).sum
+        attribute :image_url do
+          rails_blob_url(image, disposition: 'attachment', only_path: true) if image.attached?
         end
 
-        attribute :rating
+        attribute :total_stock do
+          product_variants.sum(&:current_stock)
+        end
+
+        attribute :has_master do
+          product_variants.detect { |variant| variant.is_master && variant.active }.present?
+        end
 
         attribute :price do
           assign_price
         end
 
-        tags do
-          ["active_#{is_active?}", "hide_result_#{hide_from_results}"]
+        attribute :discount_price do
+          assign_discount_price
+        end
+
+        attribute :active do
+          is_active?
         end
 
         attributesToHighlight ['name_es']
         highlightPreTag '<strong>'
         highlightPostTag '</strong>'
-        searchableAttributes ['name_es', 'short_description_es', 'brand', 'category_es', 'prices']
-        attributesForFaceting ['brand', 'category_es']
+        searchableAttributes %w[name_es short_description_es brand category_es prices]
+        attributesForFaceting %w[brand category_es]
         hitsPerPage ENV['ALGOLIA_PER_PAGE'].to_i
         paginationLimitedTo ENV['ALGOLIA_LIMIT'].to_i
       end
@@ -84,20 +93,40 @@ class Product
 
     def is_active?
       has_variant = product_variants.detect { |variant| variant.is_master && variant.active }.present?
-      has_variant && !hide_from_results && active && assign_price.present?
+      has_stock   = !product_variants.sum(&:current_stock).zero?
+
+      has_variant &&
+        has_stock &&
+        active &&
+        !hide_from_results &&
+        !assign_price.zero? &&
+        image.attached?
     end
 
     def assign_price
       return @price if @price.present?
 
-      product_variant = product_variants.where(is_master: true).where.not(current_stock: 0, price: 0).first
+      product_variant = product_variants.where(is_master: true).where.not(price: 0).first
 
       @price = if product_variant.present?
                  product_variant.price
                else
-                 product_variant = product_variants.where.not(current_stock: 0, price: 0).order(price: :asc).first
-                 product_variant.try(:price)
+                 product_variant = product_variants.where.not(price: 0).order(price: :asc).first
+                 product_variant.try(:price) || 0
                end
+    end
+
+    def assign_discount_price
+      return @discount_value if @discount_value.present?
+
+      product_variant = product_variants.where(is_master: true).where.not(discount_value: 0).first
+
+      @discount_value = if product_variant.present?
+                          product_variant.discount_value
+                        else
+                          product_variant = product_variants.where.not(price: 0).order(discount_value: :asc).first
+                          product_variant.try(:discount_value) || 0
+                        end
     end
   end
 end
