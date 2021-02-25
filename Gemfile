@@ -73,3 +73,6 @@ gem 'jwt'
 gem 'mercadopago-sdk'
 #AWS bucket
 gem "aws-sdk-s3"
+
+gem 'redis'
+gem 'hiredis'

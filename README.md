@@ -42,6 +42,9 @@ Things you may want to cover:
         * EMAIL_PORT: 587
         * EMAIL_DOMAIN: 'localhost'
         * ACCESS_TOKEN_PAYMENT: token de mercado pago
+        * REDIS_URL: redis://127.0.0.1:6379/0
+        * APP_SESSION_KEY: test123
+        * TIMEOUT_REDIS: 3.minutes
      * test:
         * DATABASE:
         * USERNAME:

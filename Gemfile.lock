@@ -150,6 +150,7 @@ GEM
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     haikunator (1.1.0)
+    hiredis (0.6.3)
     hstore_translate (2.0.0)
       activerecord (>= 4.2.0)
     httparty (0.18.1)
@@ -253,6 +254,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.2.5)
     regexp_parser (1.8.2)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -361,6 +363,7 @@ DEPENDENCIES
   ffaker
   figaro
   haikunator
+  hiredis
   hstore_translate
   httparty
   jwt
@@ -376,6 +379,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 6.0.3, >= 6.0.3.4)
   random_name_generator (~> 1.2, >= 1.2.1)
+  redis
   rolify
   roo (~> 2.8.0)
   rspec-rails (~> 3.5)
@@ -391,4 +395,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.4
+   2.2.5
