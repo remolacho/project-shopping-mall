@@ -2,7 +2,7 @@
 
 module Products
   class List
-    include ::ProductsFilters
+    include ::ProductsFiltersV2
 
     attr_accessor :type, :category, :data
 
@@ -27,7 +27,7 @@ module Products
     private
 
     def discount
-      products_group = group_list.with_discount
+      products_group = Product.group_stock.with_discount
       products_group = filter_by_category(products_group)
       products_group = pagination(products_group)
       products_group_ids = products_group.ids
@@ -46,15 +46,9 @@ module Products
       products_group = group_list.most_valued
       products_group = filter_by_category(products_group)
       products_group = pagination(products_group)
-      products_group_ids = products_group.ids
+      products_group = products_group.order('products.rating DESC, product_variants.price ASC')
 
-      return struct(products_group, []) unless products_group_ids.present?
-
-      list = Product.list_witout_master(products_group_ids)
-                    .order('products.rating DESC, product_variants.price ASC')
-                    .group_by(&:id).values.map(&:last)
-
-      struct(products_group, list)
+      struct(products_group, products_group)
     end
 
     def struct(products_group, list)

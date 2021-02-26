@@ -76,3 +76,4 @@ gem "aws-sdk-s3"
 
 gem 'redis'
 gem 'hiredis'
+gem 'whenever'
