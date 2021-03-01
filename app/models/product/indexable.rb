@@ -100,7 +100,8 @@ class Product
         active &&
         !hide_from_results &&
         !assign_price.zero? &&
-        image.attached?
+        image.attached? &&
+        store.active
     end
 
     def assign_price

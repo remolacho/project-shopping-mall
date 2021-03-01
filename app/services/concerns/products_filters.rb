@@ -1,3 +1,4 @@
+#TODO Eliminar una ves este todo probado
 module ProductsFilters
   extend ActiveSupport::Concern
 
@@ -13,6 +14,7 @@ module ProductsFilters
     products_group.where(products: { category_id: hierarchy })
   end
 
+  #TODO deprecar
   def filter_brand(products_group)
     brand_ids = data_array(data.dig(:brand_ids))
     return products_group unless brand_ids.present?
@@ -20,6 +22,7 @@ module ProductsFilters
     products_group.where(brands: { id: brand_ids })
   end
 
+  #TODO deprecar
   def filter_rating(products_group)
     return products_group unless data.dig(:rating).present?
 
@@ -27,6 +30,7 @@ module ProductsFilters
     products_group.where(products: { rating: range })
   end
 
+  #TODO deprecar
   def filter_prices(products_group)
     return products_group unless data.dig(:prices).present?
 
@@ -45,17 +49,20 @@ module ProductsFilters
     [category.id] | category.descendant_ids
   end
 
+  #TODO deprecar
   def data_array(values)
     return values if values.nil? || values.class.eql?(Array)
 
     eval(values)
   end
 
+  #TODO deprecar pasar el que esta en el servicio Products::List
   def serializer(products_group)
     ActiveModelSerializers::SerializableResource.new(list(products_group.ids),
                                                      each_serializer: ::Categories::ProductsListSerializer)
   end
 
+  #TODO deprecar
   def list(products_group_ids)
     return [] unless products_group_ids.present?
 

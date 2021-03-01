@@ -21,7 +21,7 @@ shared_context 'products_stuff' do
         FactoryBot.create(:stock_movement, :inventory_out, product_variant: product_variant, quantity: -10)
       end
 
-      product
+      product.reload
     }
   }
 
@@ -40,12 +40,13 @@ shared_context 'products_stuff' do
         FactoryBot.create(:stock_movement, :inventory_out, product_variant: product_variant, quantity: -10)
       end
 
-      product
+      product.reload
     }
   }
 
   let(:products_category_child) {
     FactoryBot.create_list(:product, 5,
+                           :with_image,
                            category: category_child,
                            store: current_store,
                            brand: brands_list.last,
@@ -58,12 +59,13 @@ shared_context 'products_stuff' do
         FactoryBot.create(:stock_movement, :inventory_out, product_variant: product_variant, quantity: -10)
       end
 
-      product
+      product.reload
     }
   }
 
   let(:products_category_child_depth_3) {
     FactoryBot.create_list(:product, 5,
+                           :with_image,
                            category: category_child_depth_3,
                            store: current_store,
                            brand: brands_list.last,
@@ -76,12 +78,13 @@ shared_context 'products_stuff' do
         FactoryBot.create(:stock_movement, :inventory_out, product_variant: product_variant, quantity: -10)
       end
 
-      product
+      product.reload
     }
   }
 
   let(:products_featured_category) {
     FactoryBot.create_list(:product, 5,
+                           :with_image,
                            :is_featured,
                            category: root_category,
                            store: current_store,
@@ -95,7 +98,7 @@ shared_context 'products_stuff' do
         FactoryBot.create(:stock_movement, :inventory_out, product_variant: product_variant, quantity: -10)
       end
 
-      product
+      product.reload
     }
   }
 
