@@ -1,6 +1,6 @@
-class Categories::GroupTitlesSerializer < ActiveModel::Serializer
+class Categories::GroupTitleSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  
+
   attributes :id, :name, :slug, :image_url, :icon_url, :home, :burger
   attribute :categories
 
@@ -14,7 +14,8 @@ class Categories::GroupTitlesSerializer < ActiveModel::Serializer
 
   def categories
     ActiveModelSerializers::SerializableResource.new(object.categories.uniq,
-                                                     each_serializer: ::Categories::WithChildrensSerializer)
+                                                     each_serializer: ::Categories::CategorySerializer)
                                                 .as_json.select { |c| c[:is_visible] }
   end
 end
+

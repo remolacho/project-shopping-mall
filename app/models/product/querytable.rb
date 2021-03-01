@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product
   module Querytable
     extend ActiveSupport::Concern
@@ -7,6 +9,7 @@ class Product
         joins(:brand, :store, :product_variants, :category)
           .select("products.id, categories.name::json->> '#{I18n.locale.to_s}' as category_name,
                    product_variants.price, brands.name as brand_name, product_variants.discount_value,
+                   product_variants.price, products.brand_id, brands.name as brand_name, product_variants.discount_value,
                    stores.name as store_name,
                    product_variants.is_master, product_variants.active as variant_active,
                    products.rating,
@@ -19,7 +22,7 @@ class Product
 
       def self.list_prices
         joins(:brand, :store, :product_variants, :category)
-          .select("DISTINCT(product_variants.price) price")
+          .select('DISTINCT(product_variants.price) price')
           .where(product_variants: { is_master: true, active: true })
           .where(products: { can_published: true })
           .order('product_variants.price ASC')
@@ -33,7 +36,6 @@ class Product
           .limit(limit)
       end
 
-      #TODO deprecar
       def self.list_by_ids(products_ids)
         joins(:brand, :store, :product_variants, :category)
           .select("products.id, categories.name::json->> '#{I18n.locale.to_s}' as category_name,
@@ -68,16 +70,16 @@ class Product
 
       def self.group_stock
         joins(:brand, :store, :product_variants)
-          .select("products.id, SUM(product_variants.current_stock) AS total_stock")
+          .select('products.id, SUM(product_variants.current_stock) AS total_stock')
           .where(product_variants: { active: true })
           .where(stores: { active: true })
           .where(products: { active: true })
-          .group("products.id")
-          .having("SUM(product_variants.current_stock) > 0")
+          .group('products.id')
+          .having('SUM(product_variants.current_stock) > 0')
       end
 
       def self.with_discount
-        having("SUM(product_variants.discount_value) > 0")
+        having('SUM(product_variants.discount_value) > 0')
       end
 
       def self.most_valued

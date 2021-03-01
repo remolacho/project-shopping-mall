@@ -14,18 +14,18 @@ module Products
       prices = list.map(&:price)
       return [] unless prices.present?
 
-      to_json(prices.each_slice(per_segment(prices.size)).to_a)
+      to_json(prices.each_slice(per_segment(prices)).to_a)
     end
 
     private
 
     def list
       case type
-      when "category"
+      when 'category'
         Product.list_prices.where(category_id: hierarchy)
-      when "store"
+      when 'store'
         store.products.is_featured(false).list_prices
-      when "group"
+      when 'group'
         Product.list_prices.where(category_id: hierarchy_titles)
       else
         Product.list_prices.where(category_id: hierarchy)
@@ -37,13 +37,12 @@ module Products
     end
 
     def category
-      category = Category.find(id)
+      Category.find(id)
     end
 
     def group_title
       GroupTitle.find(id)
     end
-    
 
     def hierarchy
       [category.id] | category.descendant_ids
@@ -57,16 +56,26 @@ module Products
     end
 
     def to_json(prices)
-      {
-        success: true,
-        ranges: prices.map { |p| "#{p.first.to_i}-#{p.last.to_i}" }
+      range = prices.map { |p|
+        next "#{p.first.to_i}-#{p.last.to_i + 1000}" if p.first.to_i == p.last.to_i
+
+        "#{p.first.to_i}-#{p.last.to_i}"
       }
+
+      { success: true, ranges: range }
     end
 
     def per_segment(prices)
-      total_segments = 4
       total_prices = prices.size
-      (total_prices / total_segments)
+      total_segments = 4
+
+      return 2 if total_prices <= total_segments
+
+      total = (total_prices / total_segments)
+
+      return 1 if total.zero?
+
+      total
     end
   end
 end

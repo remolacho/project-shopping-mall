@@ -38,6 +38,7 @@ module ProductsFilters
     prices = prices.map { |p| p.split('-') }.flatten
     return products_group unless prices.present?
 
+    prices = prices.map(&:to_f)
     products_group.where(product_variants: { price: prices.min..prices.max })
   end
 
