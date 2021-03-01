@@ -46,18 +46,20 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
-  # Use a different cache store in production.  
+  # Use a different cache store in production.
+  # config.cache_store = :mem_cache_store
 
   config.cache_store = :redis_store, {
     url: ENV['REDIS_URL'],
     host: "localhost",
     port: 6379,
     db: 0,
-    password: url: ENV['REDIS_PASSWORD'],
+    password: ENV['REDIS_PASSWORD'],
     namespace: "cache"
   }, {
-    expires_in: 1440.minutes
+    expires_in: ENV['TIMEOUT_REDIS'].minutes
   }
+
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
