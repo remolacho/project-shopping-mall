@@ -56,7 +56,7 @@ Rails.application.configure do
     password: ENV['REDIS_PASSWORD'],
     namespace: "cache"
   }, {
-    expires_in: ENV['TIMEOUT_REDIS'].minutes
+    expires_in: 24.hours
   }
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
