@@ -29,21 +29,26 @@ class Orders::CreateShipment
   end
 
   def fields_in_site
-    raise ArgumentError, 'firstname es un campo obligatorio' unless data[:firstname].present?
-    raise ArgumentError, 'lastname es un campo obligatorio' unless data[:lastname].present?
+    raise ArgumentError, 'Nombre es un campo obligatorio' unless data[:firstname].present?
+    raise ArgumentError, 'Apellido es un campo obligatorio' unless data[:lastname].present?
     raise ArgumentError, 'precio es un campo obligatorio' unless data[:delivery_price].present?
     raise ArgumentError, 'precio de envio debe ser numerico' unless data[:delivery_price].to_s.numeric?
     raise ArgumentError, 'precio es mayor a 0' unless data[:delivery_price].to_f.zero?
   end
 
   def fields_with_delivery
-    raise ArgumentError, 'street es un campo obligatorio' unless data[:street].present?
+    raise ArgumentError, 'Dirección es un campo obligatorio' unless data[:street].present?
     raise ArgumentError, 'precio es un campo obligatorio' unless data[:delivery_price].present?
     raise ArgumentError, 'precio de envio debe ser numerico' unless data[:delivery_price].to_s.numeric?
+    raise ArgumentError, 'Debes seleccionar una comuna' unless data[:commune_id].present?
 
-    fields = %i[apartment_number condominium street_number]
-    fields.each { |field| return if data[field].present? }
-    raise ArgumentError, "Debes enviar alguno de estos campos #{fields.join(',')}"
+    fields = {
+      :apartment_number=>'número de apartamento', 
+      :condominium=>'condominio', 
+      :street_number=>'número de calle'
+    }
+    fields.each { |field| return if data[field.first].present? }
+    raise ArgumentError, "Debes enviar alguno de estos campos: #{fields.values.join(', ')}"
   end
 
   def create_shipment
