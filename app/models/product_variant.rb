@@ -63,6 +63,6 @@ class ProductVariant < ApplicationRecord
 
   def product_reindex
     prod_index = Product.find(product_id)
-    prod_index.reindex
+    prod_index.save
   end
 end

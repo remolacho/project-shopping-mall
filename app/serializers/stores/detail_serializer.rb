@@ -31,8 +31,7 @@ class Stores::DetailSerializer < ActiveModel::Serializer
 
   def products
     page = instance_options[:page].present? ? instance_options[:page].to_i : 1
-    objects = object.products.group_stock.is_featured(false)
-    products = Product.list_by_ids(objects&.ids)
+    products = object.products.list.is_featured(false)
     products = filter_prices(products)
     products = filter_brand(products)
     products = filter_order(products)
@@ -41,33 +40,39 @@ class Stores::DetailSerializer < ActiveModel::Serializer
 
   def filter_order(products)
     return products unless instance_options[:order_by].present?
+
     products.order("product_variants.price #{instance_options[:order_by]}")
   end
 
   def filter_prices(products)
     return products unless instance_options[:prices].present?
+
     prices = data_array(instance_options[:prices])
-    prices = prices.map{ |p| p.split('-') }.flatten
+    prices = prices.map { |p| p.split('-') }.flatten
     return products unless prices.present?
-    products.where(product_variants: {price: prices.min..prices.max})
+
+    products.where(product_variants: { price: prices.min..prices.max })
   end
 
   def filter_brand(products)
     return products unless instance_options[:brand_ids].present?
+
     brand_ids = data_array(instance_options[:brand_ids])
     return products unless brand_ids.present?
-    products.where(brands: {id: brand_ids})
+
+    products.where(brands: { id: brand_ids })
   end
 
   def data_array(values)
     return values if values.nil? || values.class.eql?(Array)
+
     eval(values)
   end
 
   def products_featured
     page = instance_options[:page_f].present? ? instance_options[:page_f].to_i : 1
-    objects = object.products.group_stock.is_featured(true)
-    product_json(pagination(objects, page), page)
+    products = object.products.list.is_featured(true)
+    product_json(pagination(products, page), page)
   end
 
   def pagination(objects, page)
@@ -76,12 +81,12 @@ class Stores::DetailSerializer < ActiveModel::Serializer
 
   def product_json(objects, page)
     {
-        per_page: ENV['PER_PAGE'].to_i,
-        current_page: page,
-        total_pages: objects.total_pages,
-        total_objects: objects.total_count,
-        list: ActiveModelSerializers::SerializableResource.new(Product.list_by_ids(objects&.ids),
-                                                               each_serializer: ::Categories::ProductsListSerializer)
+      per_page: ENV['PER_PAGE'].to_i,
+      current_page: page,
+      total_pages: objects.total_pages,
+      total_objects: objects.total_count,
+      list: ActiveModelSerializers::SerializableResource.new(objects,
+                                                             each_serializer: ::Categories::ProductsListSerializer)
     }
   end
 end

@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  active                         :boolean          default(TRUE)
+#  can_published                  :boolean          default(FALSE)
 #  deleted_at                     :datetime
 #  featured                       :boolean          default(FALSE)
 #  hide_from_results              :boolean          default(FALSE)

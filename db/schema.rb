@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_01_134713) do
+ActiveRecord::Schema.define(version: 2021_02_25_135906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -359,6 +359,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_134713) do
     t.float "rating", default: 0.0
     t.boolean "featured", default: false
     t.boolean "active", default: true
+    t.boolean "can_published", default: false
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
