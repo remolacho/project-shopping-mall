@@ -53,12 +53,11 @@ Rails.application.configure do
     host: "localhost",
     port: 6379,
     db: 0,
-    password: url: ENV['REDIS_PASSWORD'],
+    password: ENV['REDIS_PASSWORD'],
     namespace: "cache"
   }, {
-    expires_in: 1440.minutes
+    expires_in: ENV['TIMEOUT_REDIS'].minutes
   }
-
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "zofri_api_production"
