@@ -49,16 +49,8 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  config.cache_store = :redis_store, {
-    url: ENV['REDIS_URL'],
-    host: "localhost",
-    port: 6379,
-    db: 0,
-    password: ENV['REDIS_PASSWORD'],
-    namespace: "cache"
-  }, {
-    expires_in: 24.hours
-  }
+  config.action_controller.perform_caching = true
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], password: ENV['REDIS_PASSWORD'], expires_in: 1.day }
 
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
