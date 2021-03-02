@@ -25,7 +25,7 @@ module GroupTitles
         per_page: ENV['PER_PAGE'].to_i,
         total_pages: products_group.total_pages,
         total_objects: products_group.total_count,
-        category: ::Categories::GroupTitlesSerializer.new(group_title),
+        category: ::Categories::GroupTitleSerializer.new(group_title),
         products: serializer(products_group)
       }
     end
@@ -34,7 +34,7 @@ module GroupTitles
 
     # Overrides method of concerns
     def hierarchy
-      categories = group_title.categories
+      categories = group_title.categories.uniq
       raise ActiveRecord::RecordNotFound, 'No hay categorias para este titulo' unless categories.present?
 
       categories.map(&:id) | categories.map(&:descendant_ids).flatten

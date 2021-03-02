@@ -13,6 +13,8 @@
 #  index_brands_on_name  (name)
 #
 class Brand < ApplicationRecord
+	include Querytable
+
 	has_many :products
 	has_many :brand_categories
 	has_many :categories, through: :brand_categories

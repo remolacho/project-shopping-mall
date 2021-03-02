@@ -22,7 +22,7 @@ module V1
       # GET /v1/groupTitles/categories/:title_id
       def show
         render json: { success: true,
-                       title: ::Categories::GroupTitlesSerializer.new(group_title) }, status: 200
+                       title: ::Categories::GroupTitleSerializer.new(group_title) }, status: 200
       end
     end
   end
