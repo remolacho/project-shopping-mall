@@ -15,6 +15,7 @@ class ShoppingCart::AddItem
     ActiveRecord::Base.transaction do
       find_or_create_order
       add_or_update_item
+      assign_user if user.present?
       order.consolidate_payment_total
     end
 
@@ -29,6 +30,10 @@ class ShoppingCart::AddItem
                                  payment_state: Order::UNSTARTED,
                                  payment_total: 0,
                                  tax_total: 0)
+  end
+
+  def assign_user
+    order.update(user_id: user.id) unless user.nil?
   end
 
   def add_or_update_item

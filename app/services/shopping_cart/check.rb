@@ -10,6 +10,7 @@ class ShoppingCart::Check
 
   def perform
     raise ActiveRecord::RecordNotFound, 'the order state in not ON_PURCHASE' unless order.present?
+    assign_user if user.present?
     check_order.to_h
   end
 
@@ -52,6 +53,10 @@ class ShoppingCart::Check
     end
 
     struct.new(true, [], 200)
+  end
+
+  def assign_user
+    order.update(user_id: user.id) unless user.nil?
   end
 
   def struct
