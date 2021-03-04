@@ -50,7 +50,7 @@ class Products::VariantSerializer < ActiveModel::Serializer
     object.variant_options_values.map do |option|
       {
         id: option.id,
-        type: option.option_type.name[I18n.locale.to_s],
+        type: option.option_value.option_type.name[I18n.locale.to_s],
         value: option.option_value.value[I18n.locale.to_s]
       }
     end
