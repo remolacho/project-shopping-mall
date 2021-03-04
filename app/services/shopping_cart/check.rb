@@ -22,7 +22,7 @@ class ShoppingCart::Check
     order_items.each do |item|
       quantity = item.product_variant.stock_movements.sum(&:quantity)
       if item.item_qty > quantity
-        error_item << object(item, :quantity, 'la catidad exede la existencia')
+        error_item << object(item, :quantity, 'No hay stock suficiente')
         next
       end
 
@@ -61,6 +61,7 @@ class ShoppingCart::Check
   def object(item, error_type, message)
     {
       id: item.id,
+      name: item.product_variant.name,
       product_variant_id: item.product_variant_id,
       unit_value: item.unit_value,
       item_qty: item.item_qty,
