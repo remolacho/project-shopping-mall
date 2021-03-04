@@ -66,6 +66,7 @@ Rails.application.routes.draw do
 
       resources :check_order, path: 'checkOrder', param: :order_token, only: [:show]
       resources :completed, path: 'completed', param: :order_token, only: [:show]
+      resources :shipment_cost, path: 'shipmentCost', param: :order_token, only: [:show]
 
       resources :payment, only: [:create]
 
