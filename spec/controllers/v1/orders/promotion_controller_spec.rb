@@ -19,7 +19,7 @@ RSpec.describe V1::Orders::PromotionController, type: :controller do
       current_order.save
       list_order_item
 
-      get :apply, params: {order_token: current_order.token, promo_code: promo_code_not_started.promo_code}
+      get :apply, params: { order_token: current_order.token, promo_code: promo_code_not_started.promo_code }
       expect(response.status).to eq(404)
     end
 
@@ -27,7 +27,7 @@ RSpec.describe V1::Orders::PromotionController, type: :controller do
       current_order.save
       list_order_item
 
-      get :apply, params: {order_token: current_order.token, promo_code: promo_code_expired.promo_code}
+      get :apply, params: { order_token: current_order.token, promo_code: promo_code_expired.promo_code }
       expect(response.status).to eq(404)
     end
 
@@ -37,7 +37,7 @@ RSpec.describe V1::Orders::PromotionController, type: :controller do
       list_order_item
       promotion_adjustment
 
-      get :apply, params: {order_token: current_order.token, promo_code: promo_code.promo_code}
+      get :apply, params: { order_token: current_order.token, promo_code: promo_code.promo_code }
       expect(response.status).to eq(404)
     end
 
@@ -46,7 +46,7 @@ RSpec.describe V1::Orders::PromotionController, type: :controller do
       list_order_item
       promotion_adjustment
 
-      get :apply, params: {order_token: current_order.token, promo_code: promo_code_percentage.promo_code}
+      get :apply, params: { order_token: current_order.token, promo_code: promo_code_percentage.promo_code }
       expect(response.status).to eq(404)
     end
 
@@ -80,6 +80,42 @@ RSpec.describe V1::Orders::PromotionController, type: :controller do
       expect(body.dig('order', 'payment_total')).to eq(total_pay + total_percentage)
       expect(response.status).to eq(200)
     end
-  end
 
+    it 'Not apply promotion percentage value negative' do
+      current_order.save
+      list_order_item
+
+      promo_code_percentage.promotion_value = 101
+      promo_code_percentage.save
+
+      get :apply, params: { order_token: current_order.token, promo_code: promo_code_percentage.promo_code }
+      body = JSON.parse(response.body)
+
+      total_pay = current_order.total_sum_order_items
+      total_percentage = ((total_pay * promo_code_percentage.promotion_value) / 100) * -1
+
+      expect(body.dig('order', 'promotion_total') < 0).to eq(false)
+      expect(body.dig('order', 'promotion_total')).to eq(0)
+      expect(body.dig('order', 'payment_total')).to_not eq(total_pay + total_percentage)
+      expect(response.status).to eq(200)
+    end
+
+    it 'Not apply promotion amount plain value equal to pay' do
+      current_order.save
+      list_order_item
+
+      promo_code.promotion_value = current_order.total_sum_order_items
+      promo_code.save
+
+      get :apply, params: { order_token: current_order.token, promo_code: promo_code.promo_code }
+      body = JSON.parse(response.body)
+
+      total_pay = current_order.total_sum_order_items
+
+      expect(body.dig('order', 'promotion_total') < 0).to eq(false)
+      expect(body.dig('order', 'promotion_total')).to eq(0)
+      expect(body.dig('order', 'payment_total')).to_not eq(total_pay + (promo_code.promotion_value * -1))
+      expect(response.status).to eq(200)
+    end
+  end
 end
