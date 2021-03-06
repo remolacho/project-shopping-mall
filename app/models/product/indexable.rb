@@ -76,8 +76,8 @@ class Product
         attributesToHighlight ['name_es']
         highlightPreTag '<strong>'
         highlightPostTag '</strong>'
-        searchableAttributes %w[name_es short_description_es brand category_es prices price]
-        attributesForFaceting %w[brand category_es price]
+        searchableAttributes %w[name_es short_description_es brand category_es prices price active]
+        attributesForFaceting %w[brand category_es price active]
         hitsPerPage ENV['ALGOLIA_PER_PAGE'].to_i
         paginationLimitedTo ENV['ALGOLIA_LIMIT'].to_i
       end
