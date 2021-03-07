@@ -72,7 +72,7 @@ class Order < ApplicationRecord
   end
 
   def total_weight
-    order_items.map { |order_item| order_item.product_variant.weight }.sum
+    order_items.map { |order_item| order_item.product_variant.weight * order_item.item_qty }.sum
   end
 
   private
