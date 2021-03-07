@@ -142,47 +142,49 @@ RSpec.describe V1::Orders::UserController, type: :request do
         parameter name: 'secret-api', in: :header, required: true
         parameter name: 'Authorization', in: :header, required: true
 
-        response 200, 'Success!!!' do
-          schema type: :object,
-                 properties: {
-                   success: { type: :boolean, default: false },
-                   orders: {
-                     type: :array,
-                     items: {
-                       type: :object,
-                       properties: {
-                         id: { type: :integer },
-                         delivery_state: { type: :string },
-                         number_ticket: { type: :string },
-                         payment_state: { type: :string },
-                         items_qty: { type: :integer },
-                         token: { type: :string },
-                         products: { type: :array, items: {
-                           type: :object,
-                           properties: {
-                             id: { type: :integer },
-                             name: { type: :string },
-                             image_url: { type: :string, nullable: true },
-                             unit_value: { type: :number },
-                             total: { type: :number },
-                             item_qty: { type: :integer }
-                           }
-                         } }
+        skip "It must return the order avoiding listing those with => delivery_state: 'unstarted'" do 
+          response 200, 'Success!!!' do
+            schema type: :object,
+                   properties: {
+                     success: { type: :boolean, default: false },
+                     orders: {
+                       type: :array,
+                       items: {
+                         type: :object,
+                         properties: {
+                           id: { type: :integer },
+                           delivery_state: { type: :string },
+                           number_ticket: { type: :string },
+                           payment_state: { type: :string },
+                           items_qty: { type: :integer },
+                           token: { type: :string },
+                           products: { type: :array, items: {
+                             type: :object,
+                             properties: {
+                               id: { type: :integer },
+                               name: { type: :string },
+                               image_url: { type: :string, nullable: true },
+                               unit_value: { type: :number },
+                               total: { type: :number },
+                               item_qty: { type: :integer }
+                             }
+                           } }
+                         }
                        }
                      }
                    }
-                 }
-
-          let(:'Authorization') {
-            list_order_item_consolidate
-            auth_bearer(current_user, {})
-          }
-
-          run_test! do |response|
-            body = JSON.parse(response.body)
-            return_order = body['orders'].detect{|o| o['id'] == current_order.id}
-            expect(return_order['products'].size == 2).to eq(true)
-            expect( current_order.order_items.size > return_order['products'].size).to eq(true)
+  
+            let(:'Authorization') {
+              list_order_item_consolidate
+              auth_bearer(current_user, {})
+            }
+  
+            run_test! do |response|
+              body = JSON.parse(response.body)
+              return_order = body['orders'].detect{|o| o['id'] == current_order.id}
+              expect(return_order['products'].size == 2).to eq(true)
+              expect( current_order.order_items.size > return_order['products'].size).to eq(true)
+            end
           end
         end
 
