@@ -10,6 +10,7 @@ class ShoppingCart::Check
 
   def perform
     raise ActiveRecord::RecordNotFound, 'the order state in not ON_PURCHASE' unless order.present?
+    assign_user if user.present?
     check_order.to_h
   end
 
@@ -22,7 +23,7 @@ class ShoppingCart::Check
     order_items.each do |item|
       quantity = item.product_variant.stock_movements.sum(&:quantity)
       if item.item_qty > quantity
-        error_item << object(item, :quantity, 'la catidad exede la existencia')
+        error_item << object(item, :quantity, 'No hay stock suficiente')
         next
       end
 
@@ -54,6 +55,10 @@ class ShoppingCart::Check
     struct.new(true, [], 200)
   end
 
+  def assign_user
+    order.update(user_id: user.id) unless user.nil?
+  end
+
   def struct
     @struct ||= Struct.new(:success, :items_errors, :state)
   end
@@ -61,6 +66,7 @@ class ShoppingCart::Check
   def object(item, error_type, message)
     {
       id: item.id,
+      name: item.product_variant.name,
       product_variant_id: item.product_variant_id,
       unit_value: item.unit_value,
       item_qty: item.item_qty,
