@@ -86,11 +86,15 @@ class Orders::CreateShipment
   def shipment_cost
     return @shipment_cost = 0 if in_site?
     total_weight ||= order.total_weight.ceil.clamp(0, 50)
-    if total_weight <= 20 && commune.name == "Iquique"
+    if total_weight <= 20 && commune.name == "Iquique" && total_sum_order_items <= 100000.0
       @shipment_cost = 2990
     else
       @shipment_cost ||= ShipmentCost.find_by(commune_id: commune.id, weight: total_weight).try(:cost) || data[:delivery_price].to_f
     end
+  end
+
+  def total_sum_order_items
+    order.order_items.map { |order_item| (order_item.unit_value * order_item.item_qty).to_f }.sum
   end
 
   def address
