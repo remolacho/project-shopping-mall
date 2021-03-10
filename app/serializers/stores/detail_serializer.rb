@@ -32,10 +32,21 @@ class Stores::DetailSerializer < ActiveModel::Serializer
   def products
     page = instance_options[:page].present? ? instance_options[:page].to_i : 1
     products = object.products.list.is_featured(false)
+    products = filter_category(products)
     products = filter_prices(products)
     products = filter_brand(products)
     products = filter_order(products)
     product_json(pagination(products, page), page)
+  end
+
+  def filter_category(products)
+    return products unless instance_options[:category_id].present?
+
+    category = Category.find_by(id: instance_options[:category_id])
+    return products unless category.present?
+
+    hierarchy = [category.id] | category.descendant_ids
+    products.where(products: { category_id: hierarchy })
   end
 
   def filter_order(products)
