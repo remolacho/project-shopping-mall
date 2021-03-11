@@ -25,6 +25,7 @@ module GroupTitles
         per_page: ENV['PER_PAGE'].to_i,
         total_pages: products_group.total_pages,
         total_objects: products_group.total_count,
+        current_page: (data[:page] || 1).to_i,
         category: ::Categories::GroupTitleSerializer.new(group_title),
         products: serializer(products_group)
       }
