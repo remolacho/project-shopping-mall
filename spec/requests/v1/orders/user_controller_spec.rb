@@ -158,6 +158,7 @@ RSpec.describe V1::Orders::UserController, type: :request do
                            payment_state: { type: :string },
                            items_qty: { type: :integer },
                            token: { type: :string },
+                           updated_at: { type: :date },
                            products: { type: :array, items: {
                              type: :object,
                              properties: {
