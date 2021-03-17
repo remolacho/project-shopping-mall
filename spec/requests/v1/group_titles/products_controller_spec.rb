@@ -29,6 +29,7 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :request do
                      per_page: { type: :integer, default: 12 },
                      total_pages: { type: :integer, default: 4 },
                      total_objects: { type: :integer, default: 40 },
+                     current_page: { type: :integer, default: 1 },
                      products: { type: :array,
                                  items: {
                                      type: :object,

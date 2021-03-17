@@ -27,15 +27,19 @@ class Orders::ApplyPromotion
   end
 
   def create_adjust
+    total_pay = order.total_sum_order_items
+
+    value = case promotion.promotion_type
+            when Promotion::AMOUNT_PLANE
+              promotion.promotion_value * -1
+            when Promotion::PERCENTAGE
+              ((total_pay * promotion.promotion_value) / 100) * -1
+            end
+
+    return if (total_pay - (value * -1)) <= 0
+
     self.adjust = promotion.order_adjustments.find_or_create_by(order_id: order.id)
-
-    adjust.value = case promotion.promotion_type
-                   when Promotion::AMOUNT_PLANE
-                     promotion.promotion_value * -1
-                   when Promotion::PERCENTAGE
-                     ((order.total_sum_order_items * promotion.promotion_value) / 100) * -1
-                   end
-
+    adjust.value = value
     adjust.description = 'apply_promotion'
     adjust.save!
   end
