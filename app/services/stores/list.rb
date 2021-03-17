@@ -18,6 +18,7 @@ class Stores::List
       per_page: ENV['PER_PAGE'].to_i,
       total_pages: stores.total_pages,
       total_objects: stores.total_count,
+      current_page: (data[:page] || 1).to_i,
       stores: serializer(stores)
     }
   end
