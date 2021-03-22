@@ -20,5 +20,8 @@
 #  index_deprecate_order_items_on_store_id            (store_id)
 #  index_deprecate_order_items_on_store_order_id      (store_order_id)
 #
-class DeprecateOrderItem < ApplicationRecord
+require 'rails_helper'
+
+RSpec.describe DeprecateOrderItem, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end
