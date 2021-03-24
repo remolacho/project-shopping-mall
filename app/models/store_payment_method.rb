@@ -16,4 +16,5 @@
 class StorePaymentMethod < ApplicationRecord
   belongs_to :store
   belongs_to :payment_method
+  has_many :store_payment_methods_configurations_values
 end
