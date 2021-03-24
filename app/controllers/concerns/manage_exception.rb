@@ -20,7 +20,7 @@ module ManageException
   end
 
   def not_found(invalid)
-    render json: { success: false, message: invalid.to_s }, status: :not_found
+    render json: { success: false, code: 404, message: invalid.to_s }, status: :not_found
   end
 
   def record_invalid(invalid)

@@ -24,60 +24,57 @@ RSpec.describe V1::Orders::PromotionController, type: :request do
                  properties: { success: { type: :boolean },
                                order: { type: :object,
                                         properties: {
-                                            id: { type: :integer },
-                                            token: { type: :string },
-                                            number_ticket: { type: :string },
-                                            payment_total: { type: :number },
-                                            promotion_total: { type: :number },
-                                            state: { type: :string },
-                                            has_shipment: { type: :boolean },
-                                            user_data: { type: :object,
-                                                         properties: {
-                                                             name: { type: :string },
-                                                             last_name: { type: :string },
-                                                             email: { type: :string },
-                                                             phone: { type: :string }
-                                                         }
-                                            },
-                                            address: {
-                                                type: :object,
-                                                properties: {
-                                                    street_number: {type: :string, nullable: true },
-                                                    street: {type: :string, nullable: true },
-                                                    condominium: {type: :string, nullable: true },
-                                                    apartment_number: {type: :string, nullable: true },
-                                                    comment: {type: :string, nullable: true },
-                                                }
-                                            },
-                                            commune: {
-                                                type: :object,
-                                                properties: {
-                                                    id: {type: :integer, nullable: true },
-                                                    name: {type: :string, nullable: true }
-                                                }
-                                            },
-                                            order_items: {
-                                                type: :array,
-                                                items: {
-                                                    type: :object,
-                                                    properties: {
-                                                        id: { type: :integer },
-                                                        product_variant_id: { type: :integer },
-                                                        name: { type: :string },
-                                                        weight: { type: :number },
-                                                        height: { type: :number },
-                                                        width: { type: :number },
-                                                        length: { type: :number },
-                                                        image_url: { type: :string, nullable: true },
-                                                        unit_value: { type: :number},
-                                                        item_qty: { type: :integer },
-                                                        total: { type: :number },
-                                                    }
-                                                }
+                                          id: { type: :integer },
+                                          token: { type: :string },
+                                          number_ticket: { type: :string },
+                                          payment_total: { type: :number },
+                                          promotion_total: { type: :number },
+                                          state: { type: :string },
+                                          has_shipment: { type: :boolean },
+                                          user_data: { type: :object,
+                                                       properties: {
+                                                         name: { type: :string },
+                                                         last_name: { type: :string },
+                                                         email: { type: :string },
+                                                         phone: { type: :string }
+                                                       } },
+                                          address: {
+                                            type: :object,
+                                            properties: {
+                                              street_number: { type: :string, nullable: true },
+                                              street: { type: :string, nullable: true },
+                                              condominium: { type: :string, nullable: true },
+                                              apartment_number: { type: :string, nullable: true },
+                                              comment: { type: :string, nullable: true },
                                             }
-                                        }
-                               }
-                 }
+                                          },
+                                          commune: {
+                                            type: :object,
+                                            properties: {
+                                              id: { type: :integer, nullable: true },
+                                              name: { type: :string, nullable: true }
+                                            }
+                                          },
+                                          order_items: {
+                                            type: :array,
+                                            items: {
+                                              type: :object,
+                                              properties: {
+                                                id: { type: :integer },
+                                                product_variant_id: { type: :integer },
+                                                name: { type: :string },
+                                                weight: { type: :number },
+                                                height: { type: :number },
+                                                width: { type: :number },
+                                                length: { type: :number },
+                                                image_url: { type: :string, nullable: true },
+                                                unit_value: { type: :number },
+                                                item_qty: { type: :integer },
+                                                total: { type: :number },
+                                              }
+                                            }
+                                          }
+                                        } } }
 
           let(:order_token) {
             current_order.save
@@ -89,13 +86,33 @@ RSpec.describe V1::Orders::PromotionController, type: :request do
           run_test!
         end
 
+        response 202, 'not apply!!!' do
+          schema type: :object,
+                 properties: {
+                   success: { type: :boolean, default: false },
+                   code: { type: :integer },
+                   message: { type: :string }
+                 }
+
+          let(:order_token) {
+            current_order.save
+            list_order_item
+            current_order.token
+          }
+
+          let(:promo_code) {
+            FactoryBot.create(:promotion, :amount_plain, :not_started).promo_code
+          }
+
+          run_test!
+        end
+
         response 404, 'not found!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
-
 
           let(:order_token) {
             current_order.save
@@ -107,7 +124,6 @@ RSpec.describe V1::Orders::PromotionController, type: :request do
 
           run_test!
         end
-
       end
     end
   end
