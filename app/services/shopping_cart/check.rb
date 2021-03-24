@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class ShoppingCart::Check
 
+class ShoppingCart::Check
   attr_accessor :user, :order
 
   def initialize(user:, order:)
@@ -10,6 +10,7 @@ class ShoppingCart::Check
 
   def perform
     raise ActiveRecord::RecordNotFound, 'the order state in not ON_PURCHASE' unless order.present?
+
     assign_user if user.present?
     check_order.to_h
   end
@@ -22,7 +23,9 @@ class ShoppingCart::Check
 
     order_items.each do |item|
       quantity = item.product_variant.stock_movements.sum(&:quantity)
-      if item.item_qty > quantity
+      stock = order.stock_movements.find_by(product_variant_id: item.product_variant_id)
+
+      if stock.nil? && item.item_qty > quantity
         error_item << object(item, :quantity, 'No hay stock suficiente')
         next
       end
@@ -50,6 +53,8 @@ class ShoppingCart::Check
           product_variant_id: item.product_variant_id
         )
       end
+
+      order.update!(payment_state: Payment::UNSTARTED)
     end
 
     struct.new(true, [], 200)
@@ -75,4 +80,3 @@ class ShoppingCart::Check
     }
   end
 end
-
