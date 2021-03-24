@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ProductsFiltersV2
   extend ActiveSupport::Concern
 
@@ -5,6 +7,10 @@ module ProductsFiltersV2
 
   def group_list
     Product.list
+  end
+
+  def group_by_store(store)
+    store.products.list
   end
 
   def filter_by_category(products, is_present = true)
@@ -65,4 +71,3 @@ module ProductsFiltersV2
     products.order("product_variants.price #{data.dig(:order_by)}")
   end
 end
-
