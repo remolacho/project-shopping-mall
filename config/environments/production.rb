@@ -50,11 +50,6 @@ Rails.application.configure do
 
   config.action_controller.perform_caching = true
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], password: ENV['REDIS_PASSWORD'], expires_in: 1.day }
-  # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "zofri_api_production"
-
-  config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

@@ -92,6 +92,11 @@ Rails.application.routes.draw do
     namespace :stores do
       resources :list, only: [:index]
       resources :detail, param: :store_id, only: [:show]
+      resources :categories, param: :store_id, only: [:show] do
+        collection do
+          get '/:store_id/children/:category_id', to: 'categories#children'
+        end
+      end
     end
 
     namespace :group_titles, path: 'groupTitles' do

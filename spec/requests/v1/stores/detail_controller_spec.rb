@@ -23,6 +23,7 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
         parameter name: :prices, in: :query, required: false, type: :string
         parameter name: :order_by, in: :query, required: false, type: :string
         parameter name: :rating, in: :query, required: false, type: :integer
+        parameter name: :category_id, in: :query, required: false, type: :integer
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,
