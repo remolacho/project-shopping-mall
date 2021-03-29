@@ -11,7 +11,7 @@ class V1::Orders::ShipmentCostController < ApplicationController
     if total_weight <= 20 && commune.name == "Iquique" && total_sum_order_items <= 100000.0
       @shipment_cost = 2990
     else
-      @shipment_cost = ShipmentCost.find_by(commune_id: commune.id, weight: total_weight).try(:cost)
+      @shipment_cost = ShipmentCost.find_by(commune_id: commune.id, weight: total_weight).try(:cost) || ShipmentCost.where(commune_id: commune.id).maximum(:cost)
     end
     order.update(shipment_total: @shipment_cost)
     order.consolidate_payment_total

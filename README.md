@@ -45,6 +45,7 @@ Things you may want to cover:
         * REDIS_URL: redis://127.0.0.1:6379/0
         * APP_SESSION_KEY: test123
         * TIMEOUT_REDIS: 3.minutes
+        * TIMEOUT_FREE_STOCK: 3.hours
      * test:
         * DATABASE:
         * USERNAME:
@@ -69,7 +70,9 @@ Things you may want to cover:
   - bundle install
   
   - crear bd de test y correr migrate en env test 
- 
+    
+  - liberar stock rake return_stock:run va depender del tiempo asignado a TIMEOUT_FREE_STOCK
+    
 * How to run the test suite
   - rails rswag:specs:swaggerize (correra los test y asu ves creara la documentacion)
   - rails g rspec:swagger namespace::controller_name

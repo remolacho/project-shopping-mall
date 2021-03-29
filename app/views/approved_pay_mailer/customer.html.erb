@@ -5,13 +5,13 @@
 <section class="center card">
   <h2><b>Próximos pasos</b></h2>
   <p>
-    ¡Ya estamos preparando tu pedido! Tu número de es
+    ¡Ya estamos preparando tu pedido! Tu número de orden es
     <b><%= @meta_data[:number_ticket] %>.</b> <br />
-    Puedes ir revisando el estado de tu pedido <a href="#">aquí</a>, o puedes
+    Puedes ir revisando el estado de tu pedido <a href="https://enviame.io/tracking/">aquí</a> (puede tardar hasta 24 hrs en aparecer), o puedes
     iniciar sesión y guardarla en tu perfil para que la puedas dar seguimiento
     más fácilmente (recomendado).
   </p>
-  <a href="#" style="color: white; text-decoration: none;">
+  <a href="https://beta.zofrishop.cl/confirmation?external_reference=<%= @meta_data[:token] %>" style="color: white; text-decoration: none;">
     <button>
       Ver mi orden
     </button>
@@ -34,11 +34,11 @@
       <% @meta_data[:products].each do |product| %>
       <tr>
         <td><%= product[:name] %></td>
-        <td>$ <%= product[:price] %></td>
+        <td><%= number_to_currency(product[:price], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
         <td style="color: #00a2c6; text-align: center">
           <%= product[:quantity] %>
         </td>
-        <td>$ <%= product[:price]*product[:quantity] %></td>
+        <td><%= number_to_currency((product[:price]*product[:quantity]), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
       </tr>
       <% end %>
     </tbody>
@@ -48,7 +48,7 @@
     <tbody>
       <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
         <td>Total</td>
-        <td style="text-align: right"><%= @meta_data[:total] %></td>
+        <td style="text-align: right"><%= number_to_currency(@meta_data[:total], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
       </tr>
     </tbody>
   </table>

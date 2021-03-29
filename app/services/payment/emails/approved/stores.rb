@@ -28,7 +28,9 @@ class Payment::Emails::Approved::Stores
   def meta_data(store, store_order, store_items)
     {
       store_name: store.name,
+      store_id: store.id,
       store_order_number: store_order.order_number,
+      store_order_id: store_order.id,
       number_ticket: payment.order.number_ticket,
       total: store_order.payment_total,
       products: store_items.map { |item|

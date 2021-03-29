@@ -87,7 +87,7 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
           run_test! do |res|
             body = JSON.parse(res.body)
             expect(body.dig('store', 'products', 'current_page')).to eq(2)
-            expect(body.dig('store', 'products', 'list').all? { |item| !item['featured'] }).to eq(true)
+            expect(body.dig('store', 'products', 'list').any? { |item| item['featured'] }).to eq(true)
             expect(body.dig('store', 'products_featured', 'current_page')).to eq(1)
             expect(body.dig('store', 'products_featured', 'list').all? { |item| item['featured'] }).to eq(true)
           end

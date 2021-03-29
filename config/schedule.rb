@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -27,9 +28,13 @@ env :PATH, ENV['PATH']
 # crontab -l listar
 # crontab -r borrar
 #
-#
-set :output, 'log/cron.log'  #Step 1
+
+set :output, 'log/cron.log'  # Step 1
 
 every 1.day, at: '01:00 am' do
   rake 'load_group_titles_hierarchy:run'
+end
+
+every 20.minutes do
+  rake 'return_stock:run'
 end

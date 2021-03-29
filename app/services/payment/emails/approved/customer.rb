@@ -20,6 +20,7 @@ class Payment::Emails::Approved::Customer
   def meta_data
     {
       number_ticket: payment.order.number_ticket,
+      token: payment.order.token,
       total: payment.order.payment_total,
       products: order_items.map { |item|
                   product_variant = item.product_variant

@@ -39,6 +39,9 @@ class Store < ApplicationRecord
 
   has_one :user, through: :company
 
+  has_many :store_payment_methods
+  has_many :store_payment_methods_configurations_values, through: :store_payment_methods
+
   has_one_attached :icon
   has_one_attached :banner
 
