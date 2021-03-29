@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class CreateDeprecateOrderItems < ActiveRecord::Migration[6.0]
   def change
+    return if table_exists?(:deprecate_order_items)
+
     create_table :deprecate_order_items do |t|
       t.references :product_variant, index: true
       t.references :store_order, index: true
