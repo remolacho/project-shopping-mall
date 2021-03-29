@@ -34,21 +34,21 @@ la orden a un user o no</b></p>'
         response 203, 'check no es valido' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     items_errors: {
-                         type: :array,
-                         items: {
-                             type: :object,
-                             properties: {
-                                 id: { type: :integer },
-                                 product_variant_id: { type: :integer },
-                                 unit_value: { type: :number},
-                                 item_qty: { type: :integer },
-                                 error_type: { type: :string },
-                                 message: { type: :string }
-                             }
-                         }
+                   success: { type: :boolean, default: false },
+                   items_errors: {
+                     type: :array,
+                     items: {
+                       type: :object,
+                       properties: {
+                         id: { type: :integer },
+                         product_variant_id: { type: :integer },
+                         unit_value: { type: :number },
+                         item_qty: { type: :integer },
+                         error_type: { type: :string },
+                         message: { type: :string }
+                       }
                      }
+                   }
                  }
 
           let(:order_token) {
@@ -59,7 +59,7 @@ la orden a un user o no</b></p>'
             FactoryBot.create(:stock_movement,
                               :inventory_out,
                               :with_order,
-                              order: current_order,
+                              order: current_order_with_user,
                               product_variant: product_variant,
                               quantity: (quantity * -1))
 
@@ -72,8 +72,8 @@ la orden a un user o no</b></p>'
         response 403, 'Secret api error!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
 
           let(:order_token) { current_order.token }
@@ -84,8 +84,8 @@ la orden a un user o no</b></p>'
         response 404, 'Order token error!!!' do
           schema type: :object,
                  properties: {
-                     success: {type: :boolean, default: false},
-                     message: {type: :string}
+                   success: { type: :boolean, default: false },
+                   message: { type: :string }
                  }
 
           let(:order_token) { 'test error' }

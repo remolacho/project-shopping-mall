@@ -7,7 +7,11 @@ class Orders::ApplyPromotion
   end
 
   def perform
-    valid_promotion
+    return response_error(100, 'La promoción no esta activa')  if not_started?
+    return response_error(101, 'La promoción esta vencida')    if is_expired?
+    return response_error(102, 'La promoción ya no es válida') if not_valid?
+    return response_error(103, 'Solo 1 promoción por orden')   if order.has_promotion?
+    return response_error(104, 'El costo no aplica para procesar el pago') if not_allowed_value?
 
     ActiveRecord::Base.transaction do
       create_adjust
@@ -19,32 +23,47 @@ class Orders::ApplyPromotion
 
   private
 
-  def valid_promotion
-    raise ActiveRecord::RecordNotFound, 'promotion is not started' unless promotion.starts_at < Time.now
-    raise ActiveRecord::RecordNotFound, 'promotion is expired' unless promotion.expires_at > Time.now
-    raise ActiveRecord::RecordNotFound, 'the promotion is no longer valid' unless promotion.usage_limit > promotion.total_usage
-    raise ActiveRecord::RecordNotFound, 'only promotion by order' if order.has_promotion?
+  def not_started?
+    promotion.starts_at > Time.now
+  end
+
+  def is_expired?
+    promotion.expires_at < Time.now
+  end
+
+  def not_valid?
+    promotion.total_usage >= promotion.usage_limit
+  end
+
+  def not_allowed_value?
+    (total_pay - (value_promotion * -1)) <= 1000
   end
 
   def create_adjust
-    total_pay = order.total_sum_order_items
-
-    value = case promotion.promotion_type
-            when Promotion::AMOUNT_PLANE
-              promotion.promotion_value * -1
-            when Promotion::PERCENTAGE
-              ((total_pay * promotion.promotion_value) / 100) * -1
-            end
-
-    return if (total_pay - (value * -1)) <= 0
-
     self.adjust = promotion.order_adjustments.find_or_create_by(order_id: order.id)
-    adjust.value = value
+    adjust.value = value_promotion
     adjust.description = 'apply_promotion'
     adjust.save!
   end
 
   def update_order
     order.consolidate_payment_total
+  end
+
+  def total_pay
+    @total_pay ||= order.total_sum_order_items
+  end
+
+  def value_promotion
+    @value_promotion ||= case promotion.promotion_type
+                         when Promotion::AMOUNT_PLANE
+                           promotion.promotion_value * -1
+                         when Promotion::PERCENTAGE
+                           ((total_pay * promotion.promotion_value) / 100) * -1
+                         end
+  end
+
+  def response_error(code, message)
+    { success: false, code: code, message: message }
   end
 end

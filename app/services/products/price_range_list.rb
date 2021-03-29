@@ -24,7 +24,7 @@ module Products
       when 'category'
         Product.list_prices.where(category_id: hierarchy)
       when 'store'
-        store.products.is_featured(false).list_prices
+        store.products.list_prices
       when 'group'
         Product.list_prices.where(category_id: hierarchy_titles)
       else
@@ -57,6 +57,8 @@ module Products
 
     def to_json(prices)
       range = prices.map { |p|
+        p = p.compact
+
         next "#{p.first.to_i}-#{p.last.to_i + 1000}" if p.first.to_i == p.last.to_i
 
         "#{p.first.to_i}-#{p.last.to_i}"

@@ -12,6 +12,7 @@
 #  payment_state    :string
 #  payment_total    :float            default(0.0)
 #  phone            :string
+#  seller_paid_at   :datetime
 #  shipment_total   :float            default(0.0)
 #  special_comments :string
 #  state            :string
@@ -26,8 +27,9 @@
 #
 # Indexes
 #
-#  index_store_orders_on_order_id  (order_id)
-#  index_store_orders_on_store_id  (store_id)
+#  index_store_orders_on_order_id        (order_id)
+#  index_store_orders_on_seller_paid_at  (seller_paid_at)
+#  index_store_orders_on_store_id        (store_id)
 #
 
 class StoreOrder < ApplicationRecord

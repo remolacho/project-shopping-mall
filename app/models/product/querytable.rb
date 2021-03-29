@@ -18,6 +18,7 @@ class Product
                    products.featured")
           .where(products: { can_published: true })
           .where(product_variants: { is_master: true, active: true })
+          .where(stores: { active: true })
       end
 
       def self.list_prices

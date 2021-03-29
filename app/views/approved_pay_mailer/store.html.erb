@@ -1,14 +1,14 @@
 <h1 class="center">
-  Has recibido una compra!
+  ¡Has recibido una compra por ZofriShop! 🎉
 </h1>
 
 <section class="center card">
   <h2><b>Próximos pasos</b></h2>
   <p>
-    ¡Prepara el paquete y entrégalo al centro de acopio!<br />
+    ¡Prepara el paquete y entrégalo al centro de distribución! (módulo 5006)<br />
     Tienes <b>24 hrs</b> para entregar el pedido <%= @meta_data[:number_ticket] %>.
   </p>
-  <a href="#" style="color: white; text-decoration: none;">
+  <a href="https://store-owner.zofrishop.cl/store_owners/stores/<%= @meta_data[:store_id] %>/orders/<%= @meta_data[:store_order_id] %>" style="color: white; text-decoration: none;">
     <button>
       Ver orden
     </button>
@@ -31,11 +31,11 @@
       <% @meta_data[:products].each do |product| %>
       <tr>
         <td><%= product[:name] %></td>
-        <td>$ <%= product[:price] %></td>
+        <td><%= number_to_currency(product[:price], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
         <td style="color: #00a2c6; text-align: center">
           <%= product[:quantity] %>
         </td>
-        <td>$ <%= product[:price]*product[:quantity] %></td>
+        <td><%= number_to_currency((product[:price]*product[:quantity]), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
       </tr>
       <% end %>
     </tbody>
@@ -45,7 +45,7 @@
     <tbody>
       <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
         <td>Total</td>
-        <td style="text-align: right"><%= @meta_data[:total] %></td>
+        <td style="text-align: right"><%= number_to_currency(@meta_data[:total], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
       </tr>
     </tbody>
   </table>
