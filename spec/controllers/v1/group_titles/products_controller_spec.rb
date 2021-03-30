@@ -146,5 +146,23 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :controller do
       expect(body.dig('success')).to eq(true)
       expect(body.dig('total_objects') == 0).to eq(true)
     end
+
+    it 'success all hierarchy categories by slug !!!' do
+      request.headers['secret-api'] = ENV['SECRET_API']
+      total_product = (products_category.size +
+        products_category_child.size +
+        products_category_child_depth_3.size)
+
+      get :index, params: { title_id: group_titles.first.slug, page: 1 }, as: :json
+      body = JSON.parse(response.body)
+      expect(body.dig('success')).to eq(true)
+      expect(body.dig('total_objects') == total_product).to eq(true)
+    end
+
+    it 'error slug and id api!!!' do
+      request.headers['secret-api'] = ENV['SECRET_API']
+      get :index, params: { title_id: 'error' }, as: :json
+      expect(response.status).to eq(404)
+    end
   end
 end

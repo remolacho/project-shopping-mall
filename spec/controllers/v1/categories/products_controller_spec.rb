@@ -171,6 +171,24 @@ RSpec.describe V1::Categories::ProductsController, type: :controller do
         expect(body.dig('success')).to eq(true)
         expect(body.dig('total_objects') == 0).to eq(true)
       end
+
+      it 'error slug not found!!!' do
+        request.headers['secret-api'] = ENV['SECRET_API']
+        get :index, params: { category_id: 'test-error', page: 2 }, as: :json
+        expect(response.status).to eq(404)
+      end
+
+      it 'success all hierarchy categories by slug!!!' do
+        request.headers['secret-api'] = ENV['SECRET_API']
+        total_product = (products_category.size +
+          products_category_child.size +
+          products_category_child_depth_3.size)
+
+        get :index, params: { category_id: root_category.slug, page: 1 }, as: :json
+        body = JSON.parse(response.body)
+        expect(body.dig('success')).to eq(true)
+        expect(body.dig('total_objects') == total_product).to eq(true)
+      end
     end
   end
 end

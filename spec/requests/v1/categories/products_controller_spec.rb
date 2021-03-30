@@ -11,7 +11,7 @@ RSpec.describe V1::Categories::ProductsController, type: :request do
     path "/v1/category/{category_id}/products" do
       get 'Lista de productos' do
         tags 'Zofri categories'
-        description "retorna la lista de productos por categoria, en su filtro puede estar por rango de precio,
+        description "busca por id o slug de la categoria y retorna la lista de productos por categoria, en su filtro puede estar por rango de precio,
 <p>ordenado por precio asc o desc, marca, calificacion Qyery ?prices=['1000-2000', '2000-5000']&brand_ids=[1, 2, 3]&order_by=DESC&rating=3</p>"
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
