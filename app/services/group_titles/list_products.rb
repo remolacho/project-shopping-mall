@@ -2,7 +2,7 @@
 
 module GroupTitles
   class ListProducts
-    include ::ProductsFiltersV2
+    include ::ProductsFilters
 
     attr_accessor :group_title, :data, :category
 

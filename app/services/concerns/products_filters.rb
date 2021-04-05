@@ -1,75 +1,75 @@
-#TODO Eliminar una ves este todo probado
+# frozen_string_literal: true
+
 module ProductsFilters
   extend ActiveSupport::Concern
 
   private
 
   def group_list
-    Product.group_stock
+    Product.list
   end
 
-  def filter_by_category(products_group, is_present = true)
-    return products_group if category.nil? && is_present
-
-    products_group.where(products: { category_id: hierarchy })
+  def group_by_store(store)
+    store.products.list
   end
 
-  #TODO deprecar
-  def filter_brand(products_group)
+  def filter_by_category(products, is_present = true)
+    return products if category.nil? && is_present
+
+    products.where(products: { category_id: hierarchy })
+  end
+
+  def filter_brand(products)
     brand_ids = data_array(data.dig(:brand_ids))
-    return products_group unless brand_ids.present?
+    return products unless brand_ids.present?
 
-    products_group.where(brands: { id: brand_ids })
+    products.where(brands: { id: brand_ids })
   end
 
-  #TODO deprecar
-  def filter_rating(products_group)
-    return products_group unless data.dig(:rating).present?
+  def filter_rating(products)
+    return products unless data.dig(:rating).present?
 
     range = data.dig(:rating).to_f..(data.dig(:rating).to_f + 0.9)
-    products_group.where(products: { rating: range })
+    products.where(products: { rating: range })
   end
 
-  #TODO deprecar
-  def filter_prices(products_group)
-    return products_group unless data.dig(:prices).present?
+  def filter_prices(products)
+    return products unless data.dig(:prices).present?
 
     prices = data_array(data.dig(:prices))
     prices = prices.map { |p| p.split('-') }.flatten
-    return products_group unless prices.present?
+    return products unless prices.present?
 
     prices = prices.map(&:to_f)
-    products_group.where(product_variants: { price: prices.min..prices.max })
+
+    products.where("product_variants.price BETWEEN #{prices.min} AND #{prices.max} OR
+                    product_variants.discount_value BETWEEN #{prices.min} AND #{prices.max}")
   end
 
-  def pagination(products_group)
-    products_group.page(data.dig(:page) || 1).per(ENV['PER_PAGE'])
+  def pagination(products)
+    products.page(data.dig(:page) || 1).per(ENV['PER_PAGE'])
   end
 
   def hierarchy
     [category.id] | category.descendant_ids
   end
 
-  #TODO deprecar
   def data_array(values)
     return values if values.nil? || values.class.eql?(Array)
 
     eval(values)
   end
 
-  #TODO deprecar pasar el que esta en el servicio Products::List
-  def serializer(products_group)
-    ActiveModelSerializers::SerializableResource.new(list(products_group.ids),
+  def serializer(products)
+    ActiveModelSerializers::SerializableResource.new(list(products),
                                                      each_serializer: ::Categories::ProductsListSerializer)
   end
 
-  #TODO deprecar
-  def list(products_group_ids)
-    return [] unless products_group_ids.present?
+  def list(products)
+    return [] unless products.present?
 
-    products = Product.list_by_ids(products_group_ids)
-    return products.order('product_variants.price ASC') unless data.dig(:order_by).present?
+    return products.order('reference_price ASC') unless data.dig(:order_by).present?
 
-    products.order("product_variants.price #{data.dig(:order_by)}")
+    products.order("reference_price #{data.dig(:order_by)}")
   end
 end
