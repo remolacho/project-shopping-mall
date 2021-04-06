@@ -1,28 +1,24 @@
 <% unless @has_error == true %>
   <section class="center card">
-    <h2><b>Detalle de la compra</b></h2>
-    <p>Pedido <%= @order.number_ticket %></p>
-    <p>Fecha de recepción <%= @shipment.updated_at.strftime("%d-%m-%Y") %></p>
-    <table>
-      <thead>
-      <tr>
-        <td>Id</td>
-        <td>Producto</td>
-        <td>Cantidad</td>
-      </tr>
-      </thead>
-      <tbody>
-      <% @products.each do |product| %>
-        <tr>
-          <td><%= product[:id] %></td>
-          <td><%= product[:name] %></td>
-          <td style="color: #00a2c6; text-align: center">
-            <%= product[:quantity] %>
-          </td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <% if @products.size > 1 %>
+      <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías los productos?</b></h3>
+        <% @products.each do |product| %>
+          <tr>
+            <td><img style="width: 20%;" src="<%= product[:image] %>"></td>
+            <td><%= product[:name] %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <img src="<%= @products.first[:image] %>" alt="<%= @products.first[:name]%>">
+      <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
+      <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
+    <% end %>
+    <a href="https://beta.zofrishop.cl/orders/<%= @order.number_ticket %>/reviews" style="color: white; text-decoration: none;">
+      <button>
+        Dar mi opinión
+      </button>
+    </a>
   </section>
 <% end %>
 
