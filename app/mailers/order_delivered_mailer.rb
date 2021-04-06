@@ -21,8 +21,17 @@ class OrderDeliveredMailer < ApplicationMailer
       {
         id: item.product_variant.id,
         name: item.product_variant.name,
-        quantity: item.item_qty
+        quantity: item.item_qty,
+        image_url: image_url(item)
       }
     end
   end
+
+  def image_url(order_item)
+    image = order_item.product_variant.product.image
+    return unless image.present?
+
+    polymorphic_url(image, host: ENV['HOST_IMAGES'])
+  end
+  
 end
