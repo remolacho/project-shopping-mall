@@ -28,6 +28,7 @@ y el num_page</p>'
                                   per_page: { type: :number },
                                   total_pages: { type: :number },
                                   total_objects: { type: :number },
+                                  current_page: { type: :number},
                                   comments: {
                                     type: :array,
                                     items: {
