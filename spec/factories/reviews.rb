@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  order_id   :bigint           not null
 #  product_id :bigint           not null
+#  user_id    :integer
 #
 # Indexes
 #
