@@ -2,7 +2,7 @@ module ManageObjects
   extend ActiveSupport::Concern
 
   def category
-    Category.find(params[:category_id])
+    @category ||= Category.find_by(slug: params[:category_id]) || Category.find(params[:category_id])
   end
 
   def category_or_nil
@@ -10,7 +10,7 @@ module ManageObjects
   end
 
   def product
-    Product.find(params[:product_id])
+    @product ||= Product.find_by(slug: params[:product_id]) || Product.find(params[:product_id])
   end
 
   def with_user
@@ -63,7 +63,7 @@ module ManageObjects
   end
 
   def group_title
-    @group_title ||= GroupTitle.find(params[:title_id])
+    @group_title ||= GroupTitle.find_by(slug: params[:title_id]) || GroupTitle.find(params[:title_id])
   end
 
   def promotion
