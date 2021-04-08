@@ -16,6 +16,7 @@ module Products
         per_page: ENV['PER_PAGE'].to_i,
         total_pages: reviews.total_pages,
         total_objects: reviews.total_count,
+        current_page: (data[:num_page] || 1).to_i,
         comments: reviewers
       }
     end
