@@ -87,6 +87,11 @@ class Product
         where('products.rating >= 4')
       end
 
+      # creados en los últimos días
+      def self.last_days(days:)
+        where('products.created_at BETWEEN ? AND ?', Time.now - days.days, Time.now)
+      end
+
       def self.counter_by_category(categories_ids)
         where(can_published: true, category_id: categories_ids).count
       end

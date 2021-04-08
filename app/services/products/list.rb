@@ -51,6 +51,21 @@ module Products
       struct(products_group, products_group)
     end
 
+    def recents
+      products_group = group_list.last_days(days: 30)
+      products_group = filter_by_category(products_group)
+      products_group = pagination(products_group)
+      products_group_ids = products_group.ids
+
+      return struct(products_group, []) unless products_group_ids.present?
+
+      list = Product.list_witout_master(products_group_ids)
+                    .order('product_variants.price ASC')
+                    .group_by(&:id).values.map(&:last)
+
+      struct(products_group, list)
+    end
+
     def struct(products_group, list)
       Struct.new(:list_group, :list).new(products_group, list)
     end

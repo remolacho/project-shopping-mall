@@ -52,6 +52,7 @@ Rails.application.routes.draw do
         collection do
           get 'discount/list', to: 'list#discount'
           get 'rating/list', to: 'list#rating'
+          get 'recents/list', to: 'list#recents'
         end
       end
     end
