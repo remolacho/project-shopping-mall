@@ -2,7 +2,7 @@
 
 module Categories
   class ListProducts
-    include ::ProductsFiltersV2
+    include ::ProductsFilters
 
     attr_accessor :category, :data
 
