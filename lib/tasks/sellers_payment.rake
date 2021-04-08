@@ -26,7 +26,7 @@ namespace :sellers_payment do
       require 'uri'
       require 'net/http'
 
-      url = URI("https://api.mercadopago.com/v1/payments?access_token=APP_USR-7744138392274043-010813-0ea777e000b24c025138434f1fd9b907-667352463")
+      url = URI("https://api.mercadopago.com/v1/payments?access_token=#{ENV['SELLER_PAYMENTS_TOKEN']}")
 
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
@@ -36,19 +36,21 @@ namespace :sellers_payment do
       request["content-type"] = 'application/json'
       request["cache-control"] = 'no-cache'
       request["postman-token"] = 'b3cf51bf-8570-0a26-2239-92f430d7d938'
-      request.body = "{\n  
-                        \"transaction_amount\": #{payment},\n  
-                        \"payment_method_id\": \"account_money\",\n  
-                        \"collector\": {\n    
-                          \"email\": \"#{email}\"\n  
-                        },\n  
-                        \"external_reference\": \"Pago_#{so.id}\",\n  
-                        \"description\": \"Pago a tienda, Orden #{so.id}\"\n
+      request.body = "{\n
+                        \"transaction_amount\": #{payment},\n
+                        \"payment_method_id\": \"account_money\",\n
+                        \"operation_type\": \"money_transfer\",\n
+                        \"marketplace\": \"NONE\",\n
+                        \"collector\": {\n
+                          \"email\": \"#{email}\"\n
+                        },\n
+                        \"external_reference\": \"Pago_#{so.order_number}\",\n
+                        \"description\": \"Pago a tienda, Orden #{so.order_number}\"\n
                       }"
 
-      response = http.request(request)
-      so.update!(seller_paid_at: DateTime.now) if response.kind_of? Net::HTTPSuccess
-
+      response = JSON.parse(http.request(request).read_body)
+      so.update!(seller_paid_at: DateTime.now) if response['status'] === 'approved'
+      
       p '========================='
     end
     
