@@ -46,6 +46,9 @@ Things you may want to cover:
         * APP_SESSION_KEY: test123
         * TIMEOUT_REDIS: 3.minutes
         * TIMEOUT_FREE_STOCK: 3.hours
+        * WHATSAPP_URI: URL QUE PROVEE https://app.chat-api.com
+        * NUMBER_WHATSAPP: XXXXXXXX
+        * CODE_PHONE: 57
      * test:
         * DATABASE:
         * USERNAME:
@@ -66,7 +69,10 @@ Things you may want to cover:
         * EMAIL_PORT: 587
         * EMAIL_DOMAIN: 'localhost'
         * SEND_EMAIL: true/false si desea enviar mails en los test en TRUE puede hacer los test mas lentos
-        
+        * WHATSAPP_URI: URL QUE PROVEE https://app.chat-api.com
+        * NUMBER_WHATSAPP: XXXXXXXX
+        * CODE_PHONE: 57
+      
   - bundle install
   
   - crear bd de test y correr migrate en env test 
