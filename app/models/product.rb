@@ -40,6 +40,9 @@ class Product < ApplicationRecord
   belongs_to :category
   belongs_to :group_products_store, optional: true
 
+  has_many :wishlists
+  has_many :users, through: :wishlists
+
   has_many :product_variants, dependent: :destroy
   accepts_nested_attributes_for :product_variants, allow_destroy: true
 

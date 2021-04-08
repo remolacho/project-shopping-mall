@@ -23,6 +23,11 @@ Rails.application.routes.draw do
     end
     resources :address, param: :address_id, only: [:create, :update]
     resources :provider_sessions, path: 'loginProvider', only: [:create]
+    resources :wishlist, only: [:index, :destroy] do
+      collection do
+        post :create, path: 'addItem'
+      end
+    end
   end
 
   namespace(:v1, defaults: { format: :json }) {

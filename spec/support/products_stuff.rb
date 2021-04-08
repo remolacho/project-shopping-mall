@@ -102,5 +102,10 @@ shared_context 'products_stuff' do
     }
   }
 
+  let!(:wishlist_product) {
+    current_user.wishlists.create!(product_id: products_category_2.last.id )
+    current_user.wishlist.last
+  }
+
 end
 
