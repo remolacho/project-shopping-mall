@@ -18,6 +18,7 @@ module Products
       {
         success: true,
         per_page: ENV['PER_PAGE'].to_i,
+        current_page: (data[:page] || 1).to_i,
         total_pages: product.list_group.total_pages,
         total_objects: product.list_group.total_count,
         products: serializer(product.list)

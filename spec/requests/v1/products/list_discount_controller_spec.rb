@@ -22,6 +22,7 @@ Qyery ?page=1&category_id=xxx</p>"
                  properties: {
                    success: { type: :boolean },
                    per_page: { type: :integer, default: 12 },
+                   current_page: { type: :integer, default: 1 },
                    total_pages: { type: :integer, default: 4 },
                    total_objects: { type: :integer, default: 40 },
                    products: { type: :array,

@@ -80,7 +80,7 @@ Things you may want to cover:
   - liberar stock rake return_stock:run va depender del tiempo asignado a TIMEOUT_FREE_STOCK
     
 * How to run the test suite
-  - rails rswag:specs:swaggerize (correra los test y asu ves creara la documentacion)
+  - rails rswag:specs:swaggerize (correra los test y a su ves creara la documentacion)
   - rails g rspec:swagger namespace::controller_name
   - rspec
   
