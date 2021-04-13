@@ -115,7 +115,7 @@ class Orders::CreateShipment
     if total_weight <= 20 && commune.name == "Iquique" && total_sum_order_items <= 100000.0
       @shipment_carrier = Carrier.find_by(name: "Pedidos Ya")
     else
-      shipment_cost = ShipmentCost.find_by(commune_id: commune.id, weight: total_weight).try(:cost) || ShipmentCost.where(commune_id: commune.id).maximum(:cost)
+      shipment_cost = ShipmentCost.find_by(commune_id: commune.id, weight: total_weight) || ShipmentCost.where(commune_id: commune.id).first
       @shipment_carrier = Carrier.find(shipment_cost.id)
     end
   end
