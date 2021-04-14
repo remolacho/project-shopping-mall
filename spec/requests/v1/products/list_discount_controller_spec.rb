@@ -11,11 +11,11 @@ RSpec.describe V1::Products::ListController, type: :request do
     path "/v1/products/discount/list" do
       get 'Lista de productos con descuento' do
         tags 'Zofri Productos'
-        description "retorna la lista de productos con descuento paginado y por filtro de categoria <p>ordenado por precio de descuento
-Qyery ?page=1&category_id=xxx</p>"
+        description "retorna la lista de productos con descuento paginado y por filtro de titulo <p>ordenado por precio de descuento
+Qyery ?page=1&title_id=xxx</p>"
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
-        parameter name: :category_id, in: :query, required: false, type: :integer
+        parameter name: :title_id, in: :query, required: false, type: :integer
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,

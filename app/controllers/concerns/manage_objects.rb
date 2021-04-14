@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ManageObjects
   extend ActiveSupport::Concern
 
@@ -66,7 +68,17 @@ module ManageObjects
     @group_title ||= GroupTitle.find_by(slug: params[:title_id]) || GroupTitle.find(params[:title_id])
   end
 
+  def group_title_or_nil
+    @group_title_or_nil ||= GroupTitle.find_by(id: params[:title_id])
+  end
+
   def promotion
     @promotion ||= Promotion.find_by!(promo_code: params[:promo_code])
+  end
+
+  def section_allowed
+    return params[:section] if %w[discount rating recents].include?(params[:section])
+
+    raise ArgumentError, 'The section not found'
   end
 end

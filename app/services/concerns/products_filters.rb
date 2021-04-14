@@ -19,6 +19,13 @@ module ProductsFilters
     products.where(products: { category_id: hierarchy })
   end
 
+  def filter_by_title(products)
+    result_hierarchy = hierarchy_title
+    return products unless result_hierarchy.present?
+
+    products.where(products: { category_id: result_hierarchy })
+  end
+
   def filter_brand(products)
     brand_ids = data_array(data.dig(:brand_ids))
     return products unless brand_ids.present?
@@ -52,6 +59,16 @@ module ProductsFilters
 
   def hierarchy
     [category.id] | category.descendant_ids
+  end
+
+  # Overrides method of concerns
+  def hierarchy_title
+    return [] unless group_title.present?
+
+    categories = group_title.categories.uniq
+    raise ActiveRecord::RecordNotFound, 'No hay categorias para este titulo' unless categories.present?
+
+    categories.map(&:id) | categories.map(&:descendant_ids).flatten
   end
 
   def data_array(values)
