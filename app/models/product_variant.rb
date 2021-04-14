@@ -29,6 +29,8 @@
 #  index_product_variants_on_sku           (sku)
 #
 class ProductVariant < ApplicationRecord
+  acts_as_paranoid
+
   translates :name, :short_description
 
   belongs_to :product
