@@ -9,6 +9,7 @@
 #  value                 :float            default(0.0)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
+#  carrier_id            :integer
 #  order_id              :integer
 #  shipment_method_id    :bigint
 #
@@ -20,6 +21,7 @@
 class Shipment < ApplicationRecord
   belongs_to :order
   belongs_to :shipment_method, optional: true
+  belongs_to :carrier, optional: true
 
   ACTIVE = 'active'
   INACTIVE = 'inactive'
