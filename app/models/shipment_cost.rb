@@ -7,6 +7,7 @@
 #  weight     :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  carrier_id :integer
 #  commune_id :bigint           not null
 #
 # Indexes
@@ -16,4 +17,5 @@
 #
 class ShipmentCost < ApplicationRecord
   belongs_to :commune
+  belongs_to :carrier
 end
