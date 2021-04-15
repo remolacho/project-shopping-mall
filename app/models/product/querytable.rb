@@ -17,14 +17,14 @@ class Product
                    products.short_description_translations,
                    products.featured")
           .where(products: { can_published: true })
-          .where(product_variants: { is_master: true, active: true })
+          .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(stores: { active: true })
       end
 
       def self.list_prices
         joins(:brand, :store, :product_variants, :category)
           .select('DISTINCT(product_variants.price) price')
-          .where(product_variants: { is_master: true, active: true })
+          .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(products: { can_published: true })
           .order('product_variants.price ASC')
       end
@@ -47,7 +47,7 @@ class Product
                    products.name_translations,
                    products.short_description_translations,
                    products.featured")
-          .where(product_variants: { is_master: true, active: true })
+          .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(products: { id: products_ids })
       end
 
@@ -61,18 +61,19 @@ class Product
                    products.name_translations,
                    products.short_description_translations,
                    products.featured")
-          .where(product_variants: { active: true })
+          .where(product_variants: { active: true, deleted_at: nil })
           .where(products: { id: products_ids })
       end
 
       def self.discount_not_nil
         where.not(product_variants: { discount_value: nil })
+          .where(product_variants: { active: true, deleted_at: nil })
       end
 
       def self.group_stock
         joins(:brand, :store, :product_variants)
           .select('products.id, SUM(product_variants.current_stock) AS total_stock')
-          .where(product_variants: { active: true })
+          .where(product_variants: { active: true, deleted_at: nil })
           .where(stores: { active: true })
           .where(products: { active: true })
           .group('products.id')
