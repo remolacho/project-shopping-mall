@@ -55,6 +55,7 @@ class Orders::CreateShipment
     shipment = Shipment.find_or_create_by!(order_id: order.id)
     shipment.shipment_method_id = shipment_method.id
     shipment.value = shipment_cost
+    shipment.carrier_id = shipment_carrier.id
     shipment.shipment_method_state = Shipment::ACTIVE
     shipment.state = Shipment::PENDING
     shipment.save!
@@ -107,6 +108,16 @@ class Orders::CreateShipment
 
   def shipment_method
     @shipment_method ||= ShipmentMethod.find(data[:shipment_id])
+  end
+
+  def shipment_carrier
+    total_weight ||= order.total_weight.ceil.clamp(0, 50)
+    if total_weight <= 20 && commune.name == "Iquique" && total_sum_order_items <= 100000.0
+      @shipment_carrier = Carrier.find_by(slug: "pedidos-ya")
+    else
+      shipment_cost = ShipmentCost.find_by(commune_id: commune.id, weight: total_weight) || ShipmentCost.where(commune_id: commune.id).first
+      @shipment_carrier = Carrier.find(shipment_cost.id)
+    end
   end
 
   def in_site?
