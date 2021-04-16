@@ -19,7 +19,7 @@ class Product
                    products.rating,
                    products.name_translations,
                    products.short_description_translations,
-                   products.featured")
+                   products.featured, products.slug")
           .where(products: { can_published: true })
           .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(stores: { active: true })
@@ -50,7 +50,7 @@ class Product
                    products.rating,
                    products.name_translations,
                    products.short_description_translations,
-                   products.featured")
+                   products.featured, products.slug")
           .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(products: { id: products_ids })
       end
@@ -64,7 +64,7 @@ class Product
                    products.rating,
                    products.name_translations,
                    products.short_description_translations,
-                   products.featured")
+                   products.featured, products.slug")
           .where(product_variants: { active: true, deleted_at: nil })
           .where(products: { id: products_ids })
       end
