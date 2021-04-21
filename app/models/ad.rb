@@ -18,7 +18,10 @@
 class Ad < ApplicationRecord
 
   has_one_attached :image
+  has_one_attached :mobile_image
+
   validates :image, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'] } 	
+  validates :mobile_image, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'] } 	
 
   enum ad_type: [ :small, :large ]
 
