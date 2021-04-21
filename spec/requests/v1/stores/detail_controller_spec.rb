@@ -52,6 +52,7 @@ defecto es 1 para las dos si alguna no se envia siempre devolvera la primera</p>
                                  properties: {
                                    id: { type: :integer },
                                    name: { type: :string },
+                                   slug: { type: :string },
                                    category_name: { type: :string },
                                    short_description: { type: :string },
                                    price: { type: :number },

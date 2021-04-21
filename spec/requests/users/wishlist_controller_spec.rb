@@ -39,7 +39,8 @@ RSpec.describe Users::WishlistController, type: :request do
                     store_name: { type: :string },
                     is_master: { type: :boolean },
                     variant_active: { type: :boolean },
-                    featured: { type: :boolean }
+                    featured: { type: :boolean },
+                    slug: { type: :string }
                   }
                 }
               }

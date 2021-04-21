@@ -36,6 +36,7 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :request do
                                      properties: {
                                          id: { type: :integer },
                                          name: { type: :string },
+                                         slug: { type: :string },
                                          category_name: { type: :string },
                                          short_description: { type: :string },
                                          price: { type: :number },
