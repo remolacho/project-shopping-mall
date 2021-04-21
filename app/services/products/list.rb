@@ -4,12 +4,12 @@ module Products
   class List
     include ::ProductsFilters
 
-    attr_accessor :type, :category, :data
+    attr_accessor :type, :group_title, :data
 
-    def initialize(type:, data:, category:)
+    def initialize(type:, data:, group_title:)
       @type = type
-      @category = category
       @data = data
+      @group_title = group_title
     end
 
     def perform
@@ -29,7 +29,7 @@ module Products
 
     def discount
       products_group = Product.group_stock.with_discount
-      products_group = filter_by_category(products_group)
+      products_group = filter_by_title(products_group)
       products_group = pagination(products_group)
       products_group_ids = products_group.ids
 
@@ -45,7 +45,7 @@ module Products
 
     def rating
       products_group = group_list.most_valued
-      products_group = filter_by_category(products_group)
+      products_group = filter_by_title(products_group)
       products_group = pagination(products_group)
       products_group = products_group.order('products.rating DESC, product_variants.price ASC')
 
@@ -54,7 +54,7 @@ module Products
 
     def recents
       products_group = group_list.last_days(days: 30)
-      products_group = filter_by_category(products_group)
+      products_group = filter_by_title(products_group)
       products_group = pagination(products_group)
       products_group_ids = products_group.ids
 

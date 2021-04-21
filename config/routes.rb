@@ -112,6 +112,12 @@ Rails.application.routes.draw do
       resources :title, path: '', only: [] do
         resources :products, only: [:index]
       end
+
+      resources :list, path: '', only: [] do
+        collection do
+          get '/:section', to: 'list#index'
+        end
+      end
     end
 
     namespace :landing do

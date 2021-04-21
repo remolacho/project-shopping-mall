@@ -7,14 +7,14 @@ RSpec.describe V1::Products::ListController, type: :request do
   include_context 'store_stuff'
   include_context 'products_stuff'
 
-  describe 'Retorna una lista de productos en los ultimos 30 dias y filtra por categoria' do
+  describe 'Retorna una lista de productos en los ultimos 30 dias y filtra por titulo' do
     path "/v1/products/recents/list" do
       get 'Lista de productos por rating' do
         tags 'Zofri Productos'
         description "Retorna una lista de productos en los ultimos 30 dias y filtra por categoria"
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
-        parameter name: :category_id, in: :query, required: false, type: :integer
+        parameter name: :title_id, in: :query, required: false, type: :integer
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,

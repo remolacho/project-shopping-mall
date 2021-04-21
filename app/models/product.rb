@@ -60,4 +60,8 @@ class Product < ApplicationRecord
   has_many :reviews
 
   scope :is_featured, ->(arg) { where(featured: arg) }
+
+  scope :published, -> { where(products: { can_published: true }) }
+
+  scope :by_hierarchy, ->(arg) { where(products: { category_id: arg }) }
 end
