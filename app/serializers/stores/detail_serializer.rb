@@ -38,6 +38,7 @@ module Stores
       products = filter_by_category(products)
       products = filter_prices(products)
       products = filter_brand(products)
+      products = filter_rating(products)
       products = pagination(products, data[:page])
       product_json(products, data[:page])
     end
