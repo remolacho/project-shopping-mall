@@ -11,6 +11,7 @@ class V1::Stores::DetailController < ApplicationController
                                                          prices: params[:prices],
                                                          brand_ids: params[:brand_ids],
                                                          category_id: params[:category_id],
+                                                         rating: params[:rating],
                                                          all_fields: true,
                                                          with_product: true) }, status: 200
   end
