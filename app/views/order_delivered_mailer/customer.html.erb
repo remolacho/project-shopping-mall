@@ -1,5 +1,8 @@
 <% unless @has_error == true %>
   <section class="center card">
+    <div style="margin: 0 auto; text-align: center;">
+      <%= image_tag attachments['zofrishop.png'].url, style: "width: 60%;", align: "center" %> 
+    </div>
     <% if @products.size > 1 %>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías los productos?</b></h3>
         <% @products.each do |product| %>

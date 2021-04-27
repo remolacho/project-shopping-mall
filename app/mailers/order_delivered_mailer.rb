@@ -2,6 +2,8 @@ class OrderDeliveredMailer < ApplicationMailer
   def customer(order:)
     return unless can_send_email?
 
+    attachments.inline['zofrishop.png'] = File.read("#{Rails.root}/app/assets/images/zofrishop.png")
+
     @has_error = false
     @order = order
     @shipment = @order.shipment
