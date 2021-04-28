@@ -2,12 +2,14 @@ class OrderDeliveredMailer < ApplicationMailer
   def customer(order:)
     return unless can_send_email?
 
+    attachments.inline['zofrishop.png'] = File.read("#{Rails.root}/app/assets/images/zofrishop.png")
+
     @has_error = false
     @order = order
     @shipment = @order.shipment
     @products = list(@order.order_items)
     @email_to = Rails.env.production? ? @order.user_data['email'] : ENV['EMAIL_TO']
-    mail(to: @email_to, subject: 'Entrega exitosa!!!'.freeze)
+    mail(to: @email_to, subject: '¡Opina sobre tu compra en Zofrishop.cl! ⭐️'.freeze)
   rescue StandardError => e
     @has_error = true
     @message = e.to_s
