@@ -3,20 +3,26 @@
     <div style="margin: 0 auto; text-align: center;">
       <%= image_tag attachments['zofrishop.png'].url, style: "width: 60%;", align: "center" %> 
     </div>
+
     <% if @products.size > 1 %>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías los productos?</b></h3>
         <% @products.each do |product| %>
           <tr>
-            <td><img src="<%= product[:image_url] %>"></td>
+            <td>
+              <img style="width: 60%;"  src="<%= @products.first[:image_url] %>">
+            </td>
             <td><%= product[:name] %></td>
           </tr>
         <% end %>
       </table>
     <% else %>
-      <img src="<%= @products.first[:image_url] %>">
+      <div style="margin: 0 auto; text-align: center;">
+        <img style="width: 60%;"  src="<%= @products.first[:image_url] %>">
+      </div>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
       <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
     <% end %>
+
     <a href="<%= ENV['BASE_PATH'] %>/orders/<%= @order.token %>/reviews" style="color: white; text-decoration: none;">
       <button>
         Dar mi opinión
