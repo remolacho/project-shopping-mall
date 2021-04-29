@@ -85,7 +85,6 @@ class Product
 
     def reindex
       return true unless Rails.env.production?
-
       index!
     end
 

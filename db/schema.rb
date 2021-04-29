@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_16_144427) do
+ActiveRecord::Schema.define(version: 2021_04_13_125702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -94,6 +94,17 @@ ActiveRecord::Schema.define(version: 2021_03_16_144427) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.index ["name"], name: "index_brands_on_name"
+  end
+
+  create_table "carriers", force: :cascade do |t|
+    t.string "name"
+    t.string "reference"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_carriers_on_name"
+    t.index ["reference"], name: "index_carriers_on_reference"
+    t.index ["slug"], name: "index_carriers_on_slug"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -444,6 +455,7 @@ ActiveRecord::Schema.define(version: 2021_03_16_144427) do
     t.float "cost"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "carrier_id"
     t.index ["commune_id"], name: "index_shipment_costs_on_commune_id"
     t.index ["weight"], name: "index_shipment_costs_on_weight"
   end
@@ -467,6 +479,7 @@ ActiveRecord::Schema.define(version: 2021_03_16_144427) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "order_id"
     t.float "value", default: 0.0
+    t.integer "carrier_id"
     t.index ["order_id"], name: "index_shipments_on_order_id"
     t.index ["shipment_method_id"], name: "index_shipments_on_shipment_method_id"
   end
