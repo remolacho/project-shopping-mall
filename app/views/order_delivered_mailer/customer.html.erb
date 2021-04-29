@@ -4,6 +4,16 @@
       <%= image_tag attachments['zofrishop.png'].url, style: "width: 60%;", align: "center" %> 
     </div>
 
+    <br/>
+
+    <p>¡Gracias por comprar en Zofrishop! Hemos entregado tu pedido en 
+    <%= @order.address.street + ' ' + @order.address.street_number + ', ' + @order.address.commune.name + ', Chile' %> 
+    📦 
+    <br/><br/>
+    Esperamos que estés 
+    conforme con el producto. Si no es así, te pedimos nos escribas a contacto@zofrishop.cl 
+    y te ayudaremos a la brevedad 🕙</p>
+
     <% if @products.size > 1 %>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías los productos?</b></h3>
         <% @products.each do |product| %>
