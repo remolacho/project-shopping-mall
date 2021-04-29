@@ -23,6 +23,7 @@ class OrderDeliveredMailer < ApplicationMailer
       {
         id: item.product_variant.id,
         name: item.product_variant.name,
+        price: item.product_variant.price,
         quantity: item.item_qty,
         image_url: image_url(item)
       }

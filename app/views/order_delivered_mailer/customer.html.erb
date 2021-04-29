@@ -17,19 +17,20 @@
     <% if @products.size > 1 %>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías los productos?</b></h3>
         <% @products.each do |product| %>
-          <tr>
-            <td>
-              <img style="width: 60%;"  src="<%= @products.first[:image_url] %>">
-            </td>
-            <td><%= product[:name] %></td>
-          </tr>
+          <div>
+            <%# <img style="width: 60%;"  src="<%= @products.first[:image_url]"> %>
+            <span style="display: inline-block; width: 15%;">&nbsp;</span>
+            <img style="width: 10%;"  src="http://store-owner.zofrishop.cl/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbzRUIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--df9938ab1a286b43daaee9dab5085f8f7890d400/L1212_001_31.jpg" />
+            <div style="display: inline-block; width: 60%;">
+              <p style="padding-bottom: 0px;"><b><%= product[:name] %></b></p>
+              <p><%= product[:quantity] %> <span>X</span> <%= number_to_currency((product[:price]), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></p>
+            </div>
+          </div>
         <% end %>
-      </table>
     <% else %>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
       <div style="margin: 0 auto; text-align: center;">
-        <img style="width: 60%;"  src="<%= @products.first[:image_url] %>">
-      </div>
+      <img style="width: 60%;"  src="<%= @products.first[:image_url]%>" />
       <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
     <% end %>
 
