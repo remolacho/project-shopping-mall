@@ -9,7 +9,7 @@ class OrderDeliveredMailer < ApplicationMailer
     @shipment = @order.shipment
     @products = list(@order.order_items)
     @email_to = Rails.env.production? ? @order.user_data['email'] : ENV['EMAIL_TO']
-    mail(to: @email_to, subject: '¡Opina sobre tu compra en Zofrishop.cl! ⭐️'.freeze)
+    mail(to: @email_to, subject: '¡Tu pedido ha sido entregado! Opina sobre tu compra en Zofrishop.cl ⭐️'.freeze)
   rescue StandardError => e
     @has_error = true
     @message = e.to_s
