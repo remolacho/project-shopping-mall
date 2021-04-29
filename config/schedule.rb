@@ -38,3 +38,8 @@ end
 every 20.minutes do
   rake 'return_stock:run'
 end
+
+job_type :sidekiq, "cd :path && :environment_variable=:environment bundle exec sidekiq-client push :task :output"
+every 1.day, at: '02:00 am' do
+  sidekiq "SellersPaymentWorker"
+end
