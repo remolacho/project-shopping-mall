@@ -75,6 +75,7 @@ gem 'mercadopago-sdk'
 #AWS bucket
 gem "aws-sdk-s3"
 
+gem 'sidekiq'
 gem 'redis'
 gem 'hiredis'
 gem 'whenever'
