@@ -16,10 +16,10 @@
         <% end %>
       </table>
     <% else %>
+      <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
       <div style="margin: 0 auto; text-align: center;">
         <img style="width: 60%;"  src="<%= @products.first[:image_url] %>">
       </div>
-      <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
       <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
     <% end %>
 
