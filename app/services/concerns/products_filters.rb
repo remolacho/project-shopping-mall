@@ -49,8 +49,7 @@ module ProductsFilters
 
     prices = prices.map(&:to_f)
 
-    products.where("product_variants.price BETWEEN #{prices.min} AND #{prices.max} OR
-                    product_variants.discount_value BETWEEN #{prices.min} AND #{prices.max}")
+    products.where("product_variants.filter_price BETWEEN #{prices.min} AND #{prices.max}")
   end
 
   def pagination(products)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_125702) do
+ActiveRecord::Schema.define(version: 2021_04_30_232158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -365,6 +365,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.hstore "short_description_translations"
     t.boolean "is_master", default: false
     t.integer "current_stock", default: 0
+    t.float "filter_price", default: 0.0
     t.index ["deleted_at"], name: "index_product_variants_on_deleted_at"
     t.index ["internal_sku"], name: "index_product_variants_on_internal_sku"
     t.index ["product_id"], name: "index_product_variants_on_product_id"
