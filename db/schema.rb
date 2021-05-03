@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_125702) do
+ActiveRecord::Schema.define(version: 2021_04_30_220639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -449,6 +449,18 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.text "value"
+    t.integer "base_obj_id"
+    t.string "base_obj_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["base_obj_id"], name: "index_settings_on_base_obj_id", unique: true
+    t.index ["base_obj_type"], name: "index_settings_on_base_obj_type", unique: true
+    t.index ["key"], name: "index_settings_on_key", unique: true
   end
 
   create_table "shipment_costs", force: :cascade do |t|
