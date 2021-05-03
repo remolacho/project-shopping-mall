@@ -33,11 +33,11 @@ module Products
       products_group = pagination(products_group)
       products_group_ids = products_group.ids
 
-      return struct(products_group, []) unless products_group_ids.present?
+      return struct(products_group, []) unless products_group_ids.present? && Setting.discount_section == "true"
 
       list = Product.list_witout_master(products_group_ids)
                     .discount_not_nil
-                    .order('product_variants.discount_value ASC')
+                    .order(Arel.sql('RANDOM()'))
                     .group_by(&:id).values.map(&:last)
 
       struct(products_group, list)
@@ -47,7 +47,9 @@ module Products
       products_group = group_list.most_valued
       products_group = filter_by_title(products_group)
       products_group = pagination(products_group)
-      products_group = products_group.order('products.rating DESC, product_variants.price ASC')
+      products_group = products_group.order(Arel.sql('RANDOM()'))
+
+      return struct(products_group, []) unless Setting.rating_section == "true"
 
       struct(products_group, products_group)
     end
@@ -58,10 +60,10 @@ module Products
       products_group = pagination(products_group)
       products_group_ids = products_group.ids
 
-      return struct(products_group, []) unless products_group_ids.present?
+      return struct(products_group, []) unless products_group_ids.present? && Setting.recents_section == "true"
 
       list = Product.list_witout_master(products_group_ids)
-                    .order('product_variants.price ASC')
+                    .order(Arel.sql('RANDOM()'))
                     .group_by(&:id).values.map(&:last)
 
       struct(products_group, list)

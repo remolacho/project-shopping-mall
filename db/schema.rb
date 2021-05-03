@@ -452,6 +452,18 @@ ActiveRecord::Schema.define(version: 2021_04_30_232158) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.text "value"
+    t.integer "base_obj_id"
+    t.string "base_obj_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["base_obj_id"], name: "index_settings_on_base_obj_id", unique: true
+    t.index ["base_obj_type"], name: "index_settings_on_base_obj_type", unique: true
+    t.index ["key"], name: "index_settings_on_key", unique: true
+  end
+
   create_table "shipment_costs", force: :cascade do |t|
     t.bigint "commune_id", null: false
     t.integer "weight", null: false
