@@ -1,7 +1,7 @@
 defaults: &defaults
-  rating_section: true
-  discount_section: true
-  recents_section: true
+  rating_section: "true"
+  discount_section: "true"
+  recents_section: "true"
 
 development:
   <<: *defaults
