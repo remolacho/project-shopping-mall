@@ -7,6 +7,7 @@
 #  current_stock                  :integer          default(0)
 #  deleted_at                     :datetime
 #  discount_value                 :float
+#  filter_price                   :float            default(0.0)
 #  height                         :float
 #  internal_sku                   :string
 #  is_master                      :boolean          default(FALSE)
@@ -43,5 +44,11 @@ FactoryBot.define do
     weight { rand(2) }
     width { rand(2) }
     is_master { is_master }
+
+    before(:create) do |product|
+      fp = !product.discount_value.present? || product.discount_value.zero? ? product.price : product.discount_value
+      product.filter_price = fp
+      product.save
+    end
   end
 end

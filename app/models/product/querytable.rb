@@ -27,10 +27,10 @@ class Product
 
       def self.list_prices
         joins(:brand, :store, :product_variants, :category)
-          .select('DISTINCT(product_variants.price) price')
+          .select('DISTINCT(product_variants.filter_price) filter_price')
           .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(products: { can_published: true })
-          .order('product_variants.price ASC')
+          .order('product_variants.filter_price ASC')
       end
 
       def self.counter_categories(limit: 5)
