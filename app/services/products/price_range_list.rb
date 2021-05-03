@@ -13,7 +13,7 @@ module Products
     end
 
     def perform
-      prices = list.map(&:price)
+      prices = list.map(&:filter_price)
       return [] unless prices.present?
 
       to_json(prices.each_slice(per_segment(prices)).to_a)

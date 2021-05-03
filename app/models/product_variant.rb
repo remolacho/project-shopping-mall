@@ -7,6 +7,7 @@
 #  current_stock                  :integer          default(0)
 #  deleted_at                     :datetime
 #  discount_value                 :float
+#  filter_price                   :float            default(0.0)
 #  height                         :float
 #  internal_sku                   :string
 #  is_master                      :boolean          default(FALSE)
