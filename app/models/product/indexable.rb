@@ -25,6 +25,10 @@ class Product
           category.name['es']
         end
 
+        attribute :category_parent_id do
+          category.parent_id
+        end
+
         attribute :name_es do
           name_translations['es']
         end
@@ -76,7 +80,7 @@ class Product
         attributesToHighlight ['name_es']
         highlightPreTag '<strong>'
         highlightPostTag '</strong>'
-        searchableAttributes %w[name_es short_description_es brand category_es prices price active]
+        searchableAttributes %w[name_es short_description_es brand category_es category_parent_id prices price active]
         attributesForFaceting %w[brand category_es price active]
         hitsPerPage ENV['ALGOLIA_PER_PAGE'].to_i
         paginationLimitedTo ENV['ALGOLIA_LIMIT'].to_i
