@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Payment::Emails::Approved::Stores
   attr_accessor :payment, :stores_items
 
@@ -33,16 +35,16 @@ class Payment::Emails::Approved::Stores
       store_order_id: store_order.id,
       number_ticket: payment.order.number_ticket,
       total: store_order.payment_total,
-      products: store_items.map { |item|
-                  product_variant = item.product_variant
-                  next unless product_variant.present?
+      products: store_items.map do |item|
+        product_variant = item.product_variant
+        next unless product_variant.present?
 
-                  {
-                    name: product_variant.name,
-                    price: product_variant.price,
-                    quantity: item.item_qty
-                  }
-                }
+        {
+          name: product_variant.name,
+          price: product_variant.price,
+          quantity: item.item_qty
+        }
+      end
     }.merge!(user_data: payment.order.user_data.deep_symbolize_keys)
   end
 

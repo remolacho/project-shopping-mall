@@ -3,7 +3,7 @@
 module Stores
   class DetailSerializer < ActiveModel::Serializer
     include Rails.application.routes.url_helpers
-    include ::ProductsFiltersV2
+    include ::ProductsFilters
 
     attributes :id, :name
 
@@ -38,6 +38,7 @@ module Stores
       products = filter_by_category(products)
       products = filter_prices(products)
       products = filter_brand(products)
+      products = filter_rating(products)
       products = pagination(products, data[:page])
       product_json(products, data[:page])
     end
@@ -48,7 +49,7 @@ module Stores
       product_json(products, data[:page_f])
     end
 
-    # overwrite method of ProductsFiltersV2
+    # overwrite method of ProductsFilters
     def pagination(products, page)
       products.page(page || 1).per(ENV['PER_PAGE'])
     end

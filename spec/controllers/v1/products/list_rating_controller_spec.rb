@@ -32,7 +32,7 @@ RSpec.describe V1::Products::ListController, type: :controller do
         expect(response.status).to eq(200)
       end
 
-      it 'success all hierarchy categories skip other category!!!' do
+      it 'success all hierarchy categories skip other category of other title!!!' do
         request.headers['secret-api'] = ENV['SECRET_API']
         total_product = (products_category.size + products_category_child.size + products_category_child_depth_3.size)
 
@@ -48,11 +48,11 @@ RSpec.describe V1::Products::ListController, type: :controller do
         product.rating = 4.4
         product.save
 
-        get :rating, params: { category_id: root_category.id, page: 1 }, as: :json
+        get :rating, params: { title_id: group_titles.first.id, page: 1 }, as: :json
         body = JSON.parse(response.body)
         expect(body.dig('success')).to eq(true)
         expect(body.dig('total_objects') < total_product).to eq(true)
-        expect(body.dig('total_objects')).to eq(2) # 2 productos en toda la jerarquia se les da descuento
+        expect(body.dig('total_objects')).to eq(2) # 2 productos en toda la jerarquia
       end
     end
   end

@@ -1,0 +1,13 @@
+defaults: &defaults
+  rating_section: "true"
+  discount_section: "true"
+  recents_section: "true"
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

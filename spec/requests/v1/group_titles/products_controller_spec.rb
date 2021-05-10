@@ -12,7 +12,7 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :request do
     path "/v1/groupTitles/{title_id}/products" do
       get 'Lista de productos' do
         tags 'Zofri titulos'
-        description "retorna la lista de productos por las categorias del titulo seleccionado, en su filtro puede estar por rango de precio,
+        description "su URL permite enviar el id del titulo o su slug retorna la lista de productos por las categorias del titulo seleccionado, en su filtro puede estar por rango de precio,
 <p>ordenado por precio asc o desc, marca, calificacion Qyery ?prices=['1000-2000', '2000-5000']&brand_ids=[1, 2, 3]&order_by=DESC&rating=3</p>"
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
@@ -36,6 +36,7 @@ RSpec.describe V1::GroupTitles::ProductsController, type: :request do
                                      properties: {
                                          id: { type: :integer },
                                          name: { type: :string },
+                                         slug: { type: :string },
                                          category_name: { type: :string },
                                          short_description: { type: :string },
                                          price: { type: :number },

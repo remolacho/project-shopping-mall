@@ -58,7 +58,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(response.status).to eq(404)
     end
 
-    it 'returns success approved' do
+    it 'returns success  approved' do
       payment_method
 
       current_order.user_data = {

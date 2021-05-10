@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_125702) do
+
+ActiveRecord::Schema.define(version: 2021_04_30_232158) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -173,6 +175,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.datetime "updated_at", precision: 6, null: false
     t.date "start_on"
     t.integer "order_id"
+    t.integer "created_by"
     t.index ["product_variant_id"], name: "index_deprecate_order_items_on_product_variant_id"
     t.index ["store_id"], name: "index_deprecate_order_items_on_store_id"
     t.index ["store_order_id"], name: "index_deprecate_order_items_on_store_order_id"
@@ -364,6 +367,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.hstore "short_description_translations"
     t.boolean "is_master", default: false
     t.integer "current_stock", default: 0
+    t.float "filter_price", default: 0.0
     t.index ["deleted_at"], name: "index_product_variants_on_deleted_at"
     t.index ["internal_sku"], name: "index_product_variants_on_internal_sku"
     t.index ["product_id"], name: "index_product_variants_on_product_id"
@@ -434,6 +438,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.string "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
     t.index ["order_id", "product_id"], name: "index_reviews_on_order_id_and_product_id", unique: true
     t.index ["order_id"], name: "index_reviews_on_order_id"
     t.index ["product_id"], name: "index_reviews_on_product_id"
@@ -447,6 +452,18 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.text "value"
+    t.integer "base_obj_id"
+    t.string "base_obj_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["base_obj_id"], name: "index_settings_on_base_obj_id", unique: true
+    t.index ["base_obj_type"], name: "index_settings_on_base_obj_type", unique: true
+    t.index ["key"], name: "index_settings_on_key", unique: true
   end
 
   create_table "shipment_costs", force: :cascade do |t|
@@ -649,5 +666,16 @@ ActiveRecord::Schema.define(version: 2021_04_13_125702) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_wishlists_on_product_id"
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "wishlists", "products"
+  add_foreign_key "wishlists", "users"
 end

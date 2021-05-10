@@ -37,7 +37,10 @@ class User < ApplicationRecord
   has_many :stores, through: :companies
   has_many :orders
   has_many :store_orders, through: :orders
+  has_many :wishlists
+  has_many :products, through: :wishlists
   has_one :address
+  has_many :reviews
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -53,6 +56,10 @@ class User < ApplicationRecord
 
   validates_presence_of :password, on: :create
   validates_presence_of :name, :email
+
+  def wishlist
+    products
+  end
 
   def full_name
     "#{name.try(:titleize)} #{lastname.try(:titleize)}"

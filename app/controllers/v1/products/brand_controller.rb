@@ -12,10 +12,8 @@ class V1::Products::BrandController < ApplicationController
     return GroupTitles::ListProductsBrand.new(group_title: group_title).perform if params[:type].eql?("group")
 
     if params[:type].eql?("store")
-      results = Brand.joins(:products).where('brands.id = products.brand_id').where('products.store_id = ? AND products.featured = ?', store, false).group('brands.id')
-      return  ActiveModelSerializers::SerializableResource.new(results,
-                                                               each_serializer: ::Products::BrandSerializer).as_json.select { |c| c[:is_visible] }
-
+      return ActiveModelSerializers::SerializableResource.new(Brand.group_products_store(store),
+                                                              each_serializer: ::Products::BrandSerializer)
     end
 
     Categories::ListProductsBrand.new(category: category).perform

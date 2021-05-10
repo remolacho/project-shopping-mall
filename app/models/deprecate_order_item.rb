@@ -3,6 +3,7 @@
 # Table name: deprecate_order_items
 #
 #  id                 :bigint           not null, primary key
+#  created_by         :integer
 #  item_qty           :integer
 #  start_on           :date
 #  unit_value         :float

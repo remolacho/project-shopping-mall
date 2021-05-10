@@ -11,16 +11,17 @@ RSpec.describe V1::Products::ListController, type: :request do
     path "/v1/products/rating/list" do
       get 'Lista de productos por rating' do
         tags 'Zofri Productos'
-        description "retorna la lista de productos con rating paginado y por filtro de categoria <p>ordenado por rating y precio Qyery ?page=1&category_id=xxx</p>"
+        description "retorna la lista de productos con rating paginado y por filtro de titulo <p>ordenado por rating y precio Qyery ?page=1&title_id=xxx</p>"
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
-        parameter name: :category_id, in: :query, required: false, type: :integer
+        parameter name: :title_id, in: :query, required: false, type: :integer
         parameter name: :page, in: :query, required: false, type: :integer
         response 200, 'success!!!' do
           schema type: :object,
                  properties: {
                    success: { type: :boolean },
                    per_page: { type: :integer, default: 12 },
+                   current_page: { type: :integer, default: 1 },
                    total_pages: { type: :integer, default: 4 },
                    total_objects: { type: :integer, default: 40 },
                    products: { type: :array,

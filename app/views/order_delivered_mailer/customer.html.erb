@@ -1,0 +1,49 @@
+<% unless @has_error == true %>
+  <section class="center card">
+    <div style="margin: 0 auto; text-align: center;">
+      <%= image_tag attachments['zofrishop.png'].url, style: "width: 60%;", align: "center" %> 
+    </div>
+
+    <br/>
+
+    <p>¡Gracias por comprar en Zofrishop! Hemos entregado tu pedido en 
+    <%= @order.address.street + ' ' + @order.address.street_number + ', ' + @order.address.commune.name + ', Chile' %> 
+    📦 
+    <br/><br/>
+    Esperamos que estés 
+    conforme con el producto. Si no es así, te pedimos nos escribas a contacto@zofrishop.cl 
+    y te ayudaremos a la brevedad 🕙</p>
+
+    <% if @products.size > 1 %>
+      <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías los productos?</b></h3>
+        <% @products.each do |product| %>
+          <div>
+            <span style="display: inline-block; width: 15%;">&nbsp;</span>
+            <img style="width: 10%;"  src="<%= product[:image_url]%>" />
+            <div style="display: inline-block; width: 60%;">
+              <p style="padding-bottom: 0px;"><b><%= product[:name] %></b></p>
+              <p><%= product[:quantity] %> <span>X</span> <%= number_to_currency((product[:price]), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></p>
+            </div>
+          </div>
+        <% end %>
+    <% else %>
+      <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
+      <div style="margin: 0 auto; text-align: center;">
+      <img style="width: 60%;"  src="<%= @products.first[:image_url]%>" />
+      <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
+    <% end %>
+
+    <a href="<%= ENV['BASE_PATH'] %>/orders/<%= @order.token %>/reviews" style="color: white; text-decoration: none;">
+      <button>
+        Dar mi opinión
+      </button>
+    </a>
+  </section>
+<% end %>
+
+<% if @has_error == true %>
+  <section class="center card">
+    <h2><b>Error al enviar review</b></h2>
+    <p>Mensaje <%= @message %></p>
+  </section>
+<% end %>

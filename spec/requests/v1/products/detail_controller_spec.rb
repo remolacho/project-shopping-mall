@@ -11,7 +11,7 @@ RSpec.describe V1::Products::DetailController, type: :request do
     path "/v1/product/detail/{product_id}" do
       get 'Devuelve el detalle del producto con cada variante' do
         tags 'Zofri Productos'
-        description '<p>Retorna el producto con cada variante precio de variante y opciones de variantes
+        description '<p>busca por id o slug del producto y retorna el producto con cada variante precio de variante y opciones de variantes
 mas sus imagenes por variante</p>'
         produces 'application/json'
         parameter name: 'secret-api', in: :header, required: true
@@ -73,6 +73,66 @@ mas sus imagenes por variante</p>'
                  }
 
           let(:product_id) { Product.last.id }
+          run_test!
+        end
+
+        response 200, 'success with slug!!!' do
+          schema type: :object,
+                 properties: {
+                   success: { type: :boolean },
+                   product: { type: :object,
+                              properties: { id: { type: :integer },
+                                            name: { type: :string },
+                                            description: { type: :string, nullable: true },
+                                            short_description: { type: :string },
+                                            image_url: { type: :string, nullable: true },
+                                            gallery_images_urls: {
+                                              type: :array,
+                                              items: {}
+                                            },
+                                            store: {
+                                              type: :object,
+                                              properties: {
+                                                id: { type: :integer },
+                                                name: { type: :string },
+                                              }
+                                            },
+                                            variants: {
+                                              type: :array,
+                                              items: {
+                                                type: :object,
+                                                properties: {
+                                                  name: { type: :string },
+                                                  short_description: { type: :string },
+                                                  weight: { type: :number },
+                                                  width: { type: :number },
+                                                  height: { type: :number },
+                                                  length: { type: :number },
+                                                  is_master: { type: :boolean },
+                                                  price: { type: :number },
+                                                  discount_price: { type: :number },
+                                                  current_stock: { type: :integer },
+                                                  images_urls: {
+                                                    type: :array,
+                                                    items: {}
+                                                  },
+                                                  option_variants: {
+                                                    type: :array,
+                                                    items: {
+                                                      type: :object,
+                                                      properties: {
+                                                        id: { type: :integer },
+                                                        type: { type: :string },
+                                                        value: { type: :string },
+                                                      }
+                                                    }
+                                                  },
+                                                }
+                                              }
+                                            } } }
+                 }
+
+          let(:product_id) { Product.last.slug }
           run_test!
         end
 

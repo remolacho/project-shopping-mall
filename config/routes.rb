@@ -30,6 +30,11 @@ Rails.application.routes.draw do
     end
     resources :address, param: :address_id, only: [:create, :update]
     resources :provider_sessions, path: 'loginProvider', only: [:create]
+    resources :wishlist, only: [:index, :destroy] do
+      collection do
+        post :create, path: 'addItem'
+      end
+    end
   end
 
   namespace(:v1, defaults: { format: :json }) {
@@ -49,6 +54,8 @@ Rails.application.routes.draw do
     namespace :products, path: '' do
       scope :product do
         resources :detail, param: :product_id, only: [:show]
+        resources :reviews, param: :product_id, only: [:show]
+        resources :reviewers, param: :product_id, only: [:show]
       end
     end
 
@@ -59,6 +66,7 @@ Rails.application.routes.draw do
         collection do
           get 'discount/list', to: 'list#discount'
           get 'rating/list', to: 'list#rating'
+          get 'recents/list', to: 'list#recents'
         end
       end
     end
@@ -110,6 +118,12 @@ Rails.application.routes.draw do
       resources :categories, param: :title_id, only: %i[index show]
       resources :title, path: '', only: [] do
         resources :products, only: [:index]
+      end
+
+      resources :list, path: '', only: [] do
+        collection do
+          get '/:section', to: 'list#index'
+        end
       end
     end
 

@@ -79,3 +79,5 @@ gem 'sidekiq'
 gem 'redis'
 gem 'hiredis'
 gem 'whenever'
+
+gem "rails-settings-manager"

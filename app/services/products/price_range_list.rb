@@ -2,6 +2,8 @@
 
 module Products
   class PriceRangeList
+    include ProductsFilters
+
     attr_accessor :data, :type, :id
 
     def initialize(type:, id:, data: {})
@@ -11,7 +13,7 @@ module Products
     end
 
     def perform
-      prices = list.map(&:price)
+      prices = list.map(&:filter_price)
       return [] unless prices.present?
 
       to_json(prices.each_slice(per_segment(prices)).to_a)
@@ -21,38 +23,25 @@ module Products
 
     def list
       case type
-      when 'category'
-        Product.list_prices.where(category_id: hierarchy)
       when 'store'
         store.products.list_prices
       when 'group'
-        Product.list_prices.where(category_id: hierarchy_titles)
+        filter_by_title(Product.list_prices)
       else
-        Product.list_prices.where(category_id: hierarchy)
+        filter_by_category(Product.list_prices)
       end
     end
 
     def store
-      Store.find(id)
+      @store ||= Store.find(id)
     end
 
     def category
-      Category.find(id)
+      @category ||= Category.find(id)
     end
 
     def group_title
-      GroupTitle.find(id)
-    end
-
-    def hierarchy
-      [category.id] | category.descendant_ids
-    end
-
-    def hierarchy_titles
-      categories = group_title.categories
-      raise ActiveRecord::RecordNotFound, 'No hay categorias para este titulo' unless categories.present?
-
-      categories.map(&:id) | categories.map(&:descendant_ids).flatten
+      @group_title ||= GroupTitle.find(id)
     end
 
     def to_json(prices)
