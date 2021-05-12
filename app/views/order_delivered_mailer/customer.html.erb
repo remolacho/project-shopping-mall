@@ -29,11 +29,12 @@
     <% else %>
       <h3 style="font-size: 20px; text-align: center"><b>¿Cómo calificarías el producto?</b></h3>
       <div style="margin: 0 auto; text-align: center;">
-      <img style="width: 60%;"  src="<%= @products.first[:image_url]%>" />
-      <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
+        <img style="width: 60%;"  src="<%= @products.first[:image_url]%>" />
+        <p style="font-size: 16px; text-align: center"><%= @products.first[:name] %></p>
+      </div>
     <% end %>
 
-    <a href="<%= ENV['BASE_PATH'] %>/orders/<%= @order.token %>/reviews" style="color: white; text-decoration: none;">
+    <a href="<%= ENV['BASE_PATH'] %>/orders/<%= @order.token %>/reviews" style="color: white; margin-top:20px; text-decoration: none;">
       <button>
         Dar mi opinión
       </button>
