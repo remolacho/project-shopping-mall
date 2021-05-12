@@ -116,7 +116,7 @@ class Orders::CreateShipment
       @shipment_carrier = Carrier.find_by(slug: "pedidos-ya")
     else
       shipment_cost = ShipmentCost.find_by(commune_id: commune.id, weight: total_weight) || ShipmentCost.where(commune_id: commune.id).first
-      @shipment_carrier = Carrier.find(shipment_cost.id)
+      @shipment_carrier = Carrier.find(shipment_cost.carrier_id)
     end
   end
 
