@@ -41,7 +41,7 @@ class Payment::Whatsapp::Approved::Stores
       return "#{ENV['CODE_PHONE']}#{phone}"
     end
 
-    phone = store_order.store.company.legal_representative_phone.gsub('-', '').gsub(' ', '')
+    phone = store_order.store.contact_phone.gsub('-', '').gsub(' ', '')
 
     "#{ENV['CODE_PHONE']}#{phone}"
   rescue StandardError => e
