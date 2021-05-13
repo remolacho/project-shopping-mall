@@ -20,6 +20,9 @@
 #
 class OrderItem < ApplicationRecord
   belongs_to :product_variant
+  belongs_to :variant_including_deleted, class_name: "ProductVariant",
+    foreign_key: 'product_variant_id', with_deleted: true
+
   belongs_to :store_order, optional: true
   belongs_to :store
   belongs_to :order
