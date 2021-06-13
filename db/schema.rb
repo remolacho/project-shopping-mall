@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2021_04_30_232158) do
-
+ActiveRecord::Schema.define(version: 2021_05_19_134836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -539,6 +538,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_232158) do
     t.integer "company_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "contact_phone"
   end
 
   create_table "store_orders", force: :cascade do |t|
@@ -602,6 +602,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_232158) do
     t.integer "category_id"
     t.integer "company_id"
     t.boolean "terms_accepted", default: false
+    t.string "contact_phone"
     t.index ["commune_id"], name: "index_stores_on_commune_id"
     t.index ["mall_location"], name: "index_stores_on_mall_location"
     t.index ["name"], name: "index_stores_on_name"
