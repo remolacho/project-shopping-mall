@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_232158) do
+ActiveRecord::Schema.define(version: 2021_06_15_124852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -127,6 +127,21 @@ ActiveRecord::Schema.define(version: 2021_04_30_232158) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_category_option_types_on_category_id"
     t.index ["option_type_id"], name: "index_category_option_types_on_option_type_id"
+  end
+
+  create_table "channels_rooms", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "store_id", null: false
+    t.bigint "store_order_id", null: false
+    t.string "token", null: false
+    t.boolean "archived", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_channels_rooms_on_store_id"
+    t.index ["store_order_id"], name: "index_channels_rooms_on_store_order_id"
+    t.index ["token"], name: "index_channels_rooms_on_token", unique: true
+    t.index ["user_id"], name: "index_channels_rooms_on_user_id"
   end
 
   create_table "communes", force: :cascade do |t|
