@@ -84,6 +84,7 @@ Rails.application.routes.draw do
       resources :shipment_cost, path: 'shipmentCost', param: :order_token, only: [:show]
 
       resources :payment, only: [:create]
+      post 'shipment_update', to: 'shipment_update#update'
 
       resources :order, path: '', param: :token, only: [] do
         resources :user, only: [:create]
