@@ -19,6 +19,7 @@ class Orders::ListSerializer < ActiveModel::Serializer
   attributes :id, :delivery_state, :number_ticket, :payment_state, :token, :updated_at
   attribute :items_qty
   attribute :products
+  attribute :shipment_total
 
   def items_qty
     object.order_items.map(&:item_qty).sum
