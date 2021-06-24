@@ -35,6 +35,7 @@ class Payment::Emails::Approved::Stores
       store_order_id: store_order.id,
       number_ticket: payment.order.number_ticket,
       total: store_order.payment_total,
+      shipment: store_order.shipment_total,
       products: store_items.map do |item|
         product_variant = item.product_variant
         next unless product_variant.present?

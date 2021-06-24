@@ -47,6 +47,10 @@
   <table>
     <tbody>
       <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
+        <td>Envio</td>
+        <td style="text-align: right"><%= number_to_currency(@meta_data[:shipment], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
+      </tr>
+      <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
         <td>Total</td>
         <td style="text-align: right"><%= number_to_currency(@meta_data[:total], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
       </tr>

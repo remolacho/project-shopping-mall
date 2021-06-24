@@ -156,6 +156,7 @@ RSpec.describe V1::Orders::UserController, type: :request do
                            delivery_state: { type: :string },
                            number_ticket: { type: :string },
                            payment_state: { type: :string },
+                           shipment_total: { type: :float },
                            items_qty: { type: :integer },
                            token: { type: :string },
                            updated_at: { type: :date },
