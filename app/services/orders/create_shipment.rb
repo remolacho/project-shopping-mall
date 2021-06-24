@@ -63,7 +63,7 @@ class Orders::CreateShipment
 
   def update_order
     order.address_id = address.id
-    order.delivery_state = Order::PENDING_DELIVERY
+    order.delivery_state = Order::UNSTARTED_DELIVERY
     order.shipment_total = shipment_cost
     order.save!
     order.consolidate_payment_total
