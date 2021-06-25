@@ -204,8 +204,8 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payments.any?{|p| p.state.eql?(Payment::APPROVED)}).to eq(true)
       expect(order.payments.any?{|p| p.state.eql?(Payment::REFUNDED)}).to eq(true)
       expect(order.payment_state.eql?(Payment::REFUNDED)).to eq(true)
-      expect(order.state.eql?(Order::IS_COMPLETED)).to eq(true)
-      expect(order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
+      expect(order.state.eql?(Order::IS_CANCELED)).to eq(true)
+      expect(order.delivery_state).to eq(Order::CANCELED_DELIVERY)
     end
 
   end

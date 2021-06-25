@@ -42,6 +42,7 @@ class StoreOrder < ApplicationRecord
 
   IS_COMPLETED = 'completed'.freeze
   ON_PURCHASE = 'on_purchase'.freeze
+  IS_CANCELED = 'canceled'.freeze
 
   PENDING_DELIVERY = 'Pendiente de entrega'.freeze
 

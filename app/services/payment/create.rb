@@ -57,7 +57,7 @@ class Payment::Create
   def refunded
     ActiveRecord::Base.transaction do
       create_payment
-      update_order(state: StoreOrder::IS_COMPLETED, completed_at: Time.now)
+      update_order(state: Order::IS_CANCELED, delivery_state: Order::CANCELED_DELIVERY, completed_at: Time.now)
     end
 
     success_response

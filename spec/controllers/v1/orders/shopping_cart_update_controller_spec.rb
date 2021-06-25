@@ -7,6 +7,7 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
   include_context 'store_stuff'
   include_context 'products_stuff'
   include_context 'order_stuff'
+  include_context 'shipment_stuff'
 
   describe 'Put#update' do
 
@@ -163,13 +164,15 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
     end
 
     it 'success remove -1 consolidate shipment' do
+      shipment_cost
+
       _item = list_order_item_consolidate.last
 
       Orders::CreateShipment.new(order: current_order, data: shipment_data_delivey[:shipment]).perform
 
       current_order.reload
       expect(current_order.shipment_total > 0).to eq(true)
-      expect(current_order.delivery_state).to eq(Order::PENDING_DELIVERY)
+      expect(current_order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
       expect(current_order.shipment.present?).to eq(true)
 
       put :update, params: {order_token: current_order.token,
@@ -183,12 +186,14 @@ RSpec.describe V1::Orders::ShoppingCartController, type: :controller do
     end
 
     it 'success add +1 consolidate shipment' do
+      shipment_cost
+
       _item = list_order_item_consolidate.last
       Orders::CreateShipment.new(order: current_order, data: shipment_data_delivey[:shipment]).perform
 
       current_order.reload
       expect(current_order.shipment_total > 0).to eq(true)
-      expect(current_order.delivery_state).to eq(Order::PENDING_DELIVERY)
+      expect(current_order.delivery_state).to eq(Order::UNSTARTED_DELIVERY)
       expect(current_order.shipment.present?).to eq(true)
 
       put :update, params: {order_token: current_order.token,

@@ -44,9 +44,12 @@ class Order < ApplicationRecord
   ON_PURCHASE = 'on_purchase'.freeze
   IS_COMPLETED = 'completed'.freeze
   UNSTARTED = 'unstarted'.freeze
+  IS_CANCELED = 'canceled'.freeze
 
   PENDING_DELIVERY = 'Recepción pendiente'.freeze
   UNSTARTED_DELIVERY = 'unstarted'.freeze
+  CANCELED_DELIVERY = 'canceled'.freeze
+
 
   def consolidate_payment_total
     self.payment_total = total_sum_order_items

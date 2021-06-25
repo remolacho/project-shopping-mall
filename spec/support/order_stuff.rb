@@ -92,7 +92,8 @@ shared_context 'order_stuff' do
         latitude: 0,
         longitude: 0,
         firstname: 'test firstname',
-        lastname: 'test lastname'
+        lastname: 'test lastname',
+        commune_id: Commune.last.id
     }}
   }
 end
