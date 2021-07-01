@@ -2,12 +2,19 @@ class SellersPaymentWorker
   include Sidekiq::Worker
 
   def perform()
-    store_orders = StoreOrder.where(seller_paid_at: nil, payment_state: 'approved')
+    store_orders = StoreOrder.where(seller_paid_at: nil, payment_state: 'approved', state: 'completed')
     
     store_orders.each do |so|
-      if so.created_at < 5.day.ago
+      if so.completed_at <= 5.day.ago
         payment = 0
         total = 0
+        payment_type = so.order.payments.last.payment_logs['payment_type_id']
+
+        if payment_type == 'bank_transfer'
+          mp_commission = 1.8921
+        elsif payment_type == 'credit_card'
+          mp_commission = 3.6771
+        end
 
         p '========================='
 
@@ -16,7 +23,7 @@ class SellersPaymentWorker
         so.order_items.each do |oi|
           oi_total = oi.unit_value * oi.item_qty
           commission = oi.product_variant.product.category.path.where.not(commission: 0.0).reverse_order.first.try(:commission)
-          oi_payment = oi_total * (100 - (1.9 + commission)) / 100
+          oi_payment = oi_total * (100 - (mp_commission + commission)) / 100
           payment += oi_payment.to_i
           p "order item: #{oi.id}, total orden: #{total}, cat_id #{oi.product_variant.product.category.id}, tarifa: #{commission}, total: #{oi_payment}"
         end
