@@ -57,7 +57,9 @@ class Payment::Create
   def refunded
     ActiveRecord::Base.transaction do
       create_payment
+      # reverse_stock_movements
       update_order(state: Order::IS_CANCELED, delivery_state: Order::CANCELED_DELIVERY, completed_at: Time.now)
+      cancel_store_orders
     end
 
     success_response
@@ -117,6 +119,14 @@ class Payment::Create
   def reverse_store_order
     store_orders = payment.order.store_orders.where(state: StoreOrder::IS_COMPLETED)
     store_orders&.delete_all!
+  end
+
+  def cancel_store_orders
+    payment.order.store_orders.each do |store_order|
+      store_order.update!(payment_state: payment.status,
+                          state: StoreOrder::IS_CANCELED,
+                          delivery_state: StoreOrder::CANCELED_DELIVERY)
+    end
   end
 
   def stores_items

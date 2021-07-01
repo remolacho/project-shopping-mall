@@ -181,23 +181,33 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       current_order.save
       list_order_item_consolidate
 
+      # cu_order = Order.includes(:store_orders, :payments).find(current_order.id)
+      # product_variant = cu_order.product_variants.last
+      # product_variant.current_stock = product_variant.stock_movements.sum(&:quantity)
+      # product_variant.save!
+
       ::ShoppingCart::Check.new(user: nil, order: current_order).perform
       ::Payment::Create.new(data: body).perform
 
       order = Order.includes(:store_orders, :payments).find(current_order.id)
+      # product_variant_old = order.product_variants.last
       store_orders = order.store_orders
 
       expect(order.state.eql?(Order::IS_COMPLETED)).to eq(true)
       expect(order.payment_state.eql?(Payment::APPROVED)).to eq(true)
       expect(order.stock_movements.size.zero?).to eq(false)
       expect(store_orders.size.zero?).to eq(false)
+      expect(store_orders.all?{|so| so.state.eql?(StoreOrder::IS_COMPLETED)}).to eq(true)
+      expect(store_orders.all?{|so| so.payment_state.eql?(Payment::APPROVED)}).to eq(true)
+      # expect(product_variant_old.current_stock < product_variant.current_stock).to eq(true)
       expect(LoggersErrorPayment.all.size.zero?).to eq(false)
 
       body[:data].merge!(id: 'refunded')
       post :create, params: body
 
       order = Order.includes(:store_orders, :payments).find(current_order.id)
-      # store_orders = order.store_orders
+      store_orders = order.store_orders
+      # product_variant_new = order.product_variants.last
 
       expect(response).to have_http_status(:success)
       expect(order.payments.present?).to eq(true)
@@ -206,6 +216,11 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(order.payment_state.eql?(Payment::REFUNDED)).to eq(true)
       expect(order.state.eql?(Order::IS_CANCELED)).to eq(true)
       expect(order.delivery_state).to eq(Order::CANCELED_DELIVERY)
+      expect(store_orders.all?{|so| so.state.eql?(StoreOrder::IS_CANCELED)}).to eq(true)
+      expect(store_orders.all?{|so| so.payment_state.eql?(Payment::REFUNDED)}).to eq(true)
+      # expect(order.stock_movements.size.zero?).to eq(true)
+      # expect(product_variant_old.current_stock < product_variant_new.current_stock).to eq(true)
+      # expect(product_variant_new.current_stock == product_variant.current_stock).to eq(true)
     end
 
   end
