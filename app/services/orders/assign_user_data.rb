@@ -8,10 +8,12 @@ class Orders::AssignUserData
   end
 
   def perform
-    raise ActiveRecord::RecordNotFound, 'the order state in not ON_PURCHASE' unless order.present?
+    raise ActiveRecord::RecordNotFound, 'la orden no esta en estado ON_PURCHASE' unless order.present?
+    raise ArgumentError, 'no hay usuario asociado' if data.class.eql?(String)
+    raise ArgumentError, 'no hay usuario asociado' unless data.present?
 
     required_fields
-    order.user_data = data.to_h
+    order.user_data = data
     order.save!
 
     { user: order.user_data }
