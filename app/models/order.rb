@@ -36,6 +36,7 @@ class Order < ApplicationRecord
   has_many :product_variants, through: :order_items
   has_many :products, through: :product_variants
   has_many :reviews
+  has_many :order_logs, dependent: :destroy
 
   before_create :generate_token
   before_create :on_purchase
