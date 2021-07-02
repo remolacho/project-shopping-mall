@@ -27,7 +27,7 @@ env :PATH, ENV['PATH']
 # whenever --update-crontab --set environment=development
 # crontab -l listar
 # crontab -r borrar
-#
+# sudo service cron restart reinicia el cron para aplicar los cambios
 
 set :output, 'log/cron.log'  # Step 1
 
@@ -39,7 +39,6 @@ every 20.minutes do
   rake 'return_stock:run'
 end
 
-job_type :sidekiq, "cd :path && :environment_variable=:environment bundle exec sidekiq-client push :task :output"
 every 1.day, at: '02:00 am' do
-  sidekiq "SellersPaymentWorker"
+  rake 'sellers_payment:run'
 end
