@@ -9,10 +9,10 @@ class Payment::Create
   end
 
   def perform
-    return error_response('El pago ya fue aprobado') if is_approved_previously?
     return error_response if payment.errors_types.include?(payment.status)
     return success_response if payment.skip_status_types.include?(payment.status)
     return other_processes if payment.change_status_types.include?(payment.status)
+    return error_response('El pago ya fue aprobado') if is_approved_previously?
 
     send(payment.status)
   rescue StandardError => e
