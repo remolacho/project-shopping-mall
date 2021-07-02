@@ -31,6 +31,7 @@ class Payment::Create
     Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
     Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
     Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
+
     success_response
   end
 
@@ -142,7 +143,7 @@ class Payment::Create
   def logger_error(message)
     LoggersErrorPayment.create(
       payment_id: payment.payment_id,
-      message: message || payment.message,
+      message: "#{message || payment.message} - EP confirmation",
       error: payment.status,
       order_token: payment.order_token,
       log: payment.response

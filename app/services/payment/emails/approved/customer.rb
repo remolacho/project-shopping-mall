@@ -41,7 +41,7 @@ class Payment::Emails::Approved::Customer
   def logger_error(message)
     LoggersErrorPayment.create(
       payment_id: payment.payment_id,
-      message: message || payment.message,
+      message: "#{message || payment.message} - EP customer",
       error: payment.status,
       number_ticket: payment.number_ticket,
       log: payment.response

@@ -59,7 +59,7 @@ class Payment::Whatsapp::Approved::Stores
   def logger_error(message)
     LoggersErrorPayment.create(
       payment_id: payment.payment_id,
-      message: message || payment.message,
+      message: "#{message || payment.message} - send whatsapp",
       error: payment.status,
       order_token: payment.order_token,
       log: payment.response
