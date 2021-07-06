@@ -46,6 +46,7 @@ class StoreOrder < ApplicationRecord
   IS_CANCELED = 'canceled'.freeze
 
   PENDING_DELIVERY = 'Pendiente de entrega'.freeze
+  CANCELED_DELIVERY = 'canceled'.freeze
 
   def consolidate_payment_total
     self.payment_total = total_sum_order_items
