@@ -55,4 +55,14 @@ class Payment::Whatsapp::Approved::Stores
     logger_error("error al enviar whatsapp: #{e.to_s} attributes: #{store_order.attributes}")
     nil
   end
+
+  def logger_error(message)
+    LoggersErrorPayment.create(
+      payment_id: payment.payment_id,
+      message: "#{message || payment.message} - send whatsapp",
+      error: payment.status,
+      order_token: payment.order_token,
+      log: payment.response
+    )
+  end
 end
