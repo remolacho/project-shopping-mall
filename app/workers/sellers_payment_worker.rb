@@ -63,7 +63,14 @@ class SellersPaymentWorker
                               \"description\": \"Pago a tienda, Orden #{so.order_number}\"\n
                             }"
 
+            payment_logger.info("==================")
+            payment_logger.info("[SO: #{so.order_number}, id: #{so.id}] Intentando transferencia")
+            payment_logger.info("[SO: #{so.order_number}, id: #{so.id}] Cuenta: #{email} ,  Monto: #{payment}")
+            payment_logger.info(request.body)
+            payment_logger.info("==================")
+
             response = JSON.parse(http.request(request).read_body)
+
             if response['status'] === 'approved'
               p 'Pagado'
               so.update!(seller_paid_at: DateTime.now)
