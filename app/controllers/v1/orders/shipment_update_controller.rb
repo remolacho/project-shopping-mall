@@ -7,10 +7,31 @@ class V1::Orders::ShipmentUpdateController < ApplicationController
   # POST /v1/orders/shipment_update
   def update
     if params[:order_number].present?
+
       order = Order.find_by(number_ticket: params[:order_number])
-      order.update(delivery_state: params[:status_name])
-      OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
-      OrderDeliveredMailer.customer(order: order).deliver_now! if params[:status_name] == "Entregado"
+
+      case params[:status_name]
+      when "Listo para despacho - Impreso"
+        order.update(delivery_state: "Listo para retiro")
+        order.store_orders.map do |so|
+          so.update(delivery_state: "En gestión de envío")
+        end
+        OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
+        
+      when "Planta de origen", "En reparto"
+        order.update(delivery_state: "En tránsito")
+        order.store_orders.map do |so|
+          so.update(delivery_state: "En tránsito")
+        end
+        OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
+      
+      when "Entregado"
+        order.update(delivery_state: "Entregado")
+        OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
+        OrderDeliveredMailer.customer(order: order).deliver_now!
+
+      end
+      
     end
   
     render :nothing => true
