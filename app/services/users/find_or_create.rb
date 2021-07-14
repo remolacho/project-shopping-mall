@@ -12,13 +12,17 @@ module Users
 
       password = Devise.friendly_token[0, 20]
 
-      User.create!(provider: scope[:provider],
-                   uid: scope[:uid],
-                   email: scope[:email],
-                   password: password,
-                   password_confirmation: password,
-                   name: scope[:name],
-                   lastname: scope[:lastname])
+      user = User.create!(provider: scope[:provider],
+                          uid: scope[:uid],
+                          email: scope[:email],
+                          password: password,
+                          password_confirmation: password,
+                          name: scope[:name],
+                          lastname: scope[:lastname])
+
+      user.add_role :buyer
+
+      user
     end
   end
 end

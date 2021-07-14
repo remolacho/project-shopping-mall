@@ -35,6 +35,12 @@ Rails.application.routes.draw do
         post :create, path: 'addItem'
       end
     end
+    resources :password, only: [] do
+      collection do
+        post :recover
+        post :change
+      end
+    end
   end
 
   namespace(:v1, defaults: { format: :json }) {
