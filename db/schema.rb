@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_134836) do
+ActiveRecord::Schema.define(version: 2021_07_08_133447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -517,6 +517,16 @@ ActiveRecord::Schema.define(version: 2021_05_19_134836) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "order_id"
     t.index ["product_variant_id"], name: "index_stock_movements_on_product_variant_id"
+  end
+
+  create_table "store_download_files", force: :cascade do |t|
+    t.bigint "store_id"
+    t.bigint "user_id"
+    t.string "type_file"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_store_download_files_on_store_id"
+    t.index ["user_id"], name: "index_store_download_files_on_user_id"
   end
 
   create_table "store_information_reviews", force: :cascade do |t|
