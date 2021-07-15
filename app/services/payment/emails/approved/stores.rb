@@ -42,7 +42,7 @@ class Payment::Emails::Approved::Stores
 
         {
           name: product_variant.name,
-          price: product_variant.price,
+          price: item.unit_value,
           quantity: item.item_qty
         }
       end
