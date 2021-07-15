@@ -31,7 +31,7 @@ class Payment::Create
     Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
     Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
     Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
-
+    Payment::Whatsapp::Approved::Customer.new(payment: payment, order_items: order_items).call
     success_response
   end
 
