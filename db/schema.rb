@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_08_133447) do
+ActiveRecord::Schema.define(version: 2021_07_26_141341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -78,6 +78,27 @@ ActiveRecord::Schema.define(version: 2021_07_08_133447) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["active"], name: "index_ads_on_active"
     t.index ["ad_type"], name: "index_ads_on_ad_type"
+  end
+
+  create_table "bill_store_order_items", force: :cascade do |t|
+    t.bigint "bill_store_id", null: false
+    t.bigint "order_item_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bill_store_id"], name: "index_bill_store_order_items_on_bill_store_id"
+    t.index ["order_item_id"], name: "index_bill_store_order_items_on_order_item_id"
+  end
+
+  create_table "bill_stores", force: :cascade do |t|
+    t.bigint "store_id", null: false
+    t.bigint "store_module_id", null: false
+    t.string "ticket_number", null: false
+    t.date "ticket_date", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_bill_stores_on_store_id"
+    t.index ["store_module_id"], name: "index_bill_stores_on_store_module_id"
   end
 
   create_table "brand_categories", force: :cascade do |t|
@@ -549,6 +570,15 @@ ActiveRecord::Schema.define(version: 2021_07_08_133447) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "contact_phone"
+  end
+
+  create_table "store_modules", force: :cascade do |t|
+    t.bigint "store_id", null: false
+    t.string "num_module", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_store_modules_on_store_id"
   end
 
   create_table "store_orders", force: :cascade do |t|
