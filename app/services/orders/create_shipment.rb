@@ -31,15 +31,15 @@ class Orders::CreateShipment
   def fields_in_site
     raise ArgumentError, 'Nombre es un campo obligatorio' unless data[:firstname].present?
     raise ArgumentError, 'Apellido es un campo obligatorio' unless data[:lastname].present?
-    raise ArgumentError, 'precio es un campo obligatorio' unless data[:delivery_price].present?
-    raise ArgumentError, 'precio de envio debe ser numerico' unless data[:delivery_price].to_s.numeric?
-    raise ArgumentError, 'precio es mayor a 0' unless data[:delivery_price].to_f.zero?
+    #raise ArgumentError, 'precio es un campo obligatorio' unless data[:delivery_price].present?
+    #raise ArgumentError, 'precio de envio debe ser numerico' unless data[:delivery_price].to_s.numeric?
+    #raise ArgumentError, 'precio es mayor a 0' unless data[:delivery_price].to_f.zero?
   end
 
   def fields_with_delivery
     raise ArgumentError, 'Dirección es un campo obligatorio' unless data[:street].present?
-    raise ArgumentError, 'precio es un campo obligatorio' unless data[:delivery_price].present?
-    raise ArgumentError, 'precio de envio debe ser numerico' unless data[:delivery_price].to_s.numeric?
+    #raise ArgumentError, 'precio es un campo obligatorio' unless data[:delivery_price].present?
+    #raise ArgumentError, 'precio de envio debe ser numerico' unless data[:delivery_price].to_s.numeric?
     raise ArgumentError, 'Debes seleccionar una comuna' unless data[:commune_id].present?
 
     fields = {
@@ -55,7 +55,7 @@ class Orders::CreateShipment
     shipment = Shipment.find_or_create_by!(order_id: order.id)
     shipment.shipment_method_id = shipment_method.id
     shipment.value = shipment_cost
-    shipment.carrier_id = shipment_carrier.id
+    shipment.carrier_id = shipment_carrier.id unless in_site?
     shipment.shipment_method_state = Shipment::ACTIVE
     shipment.state = Shipment::PENDING
     shipment.save!
