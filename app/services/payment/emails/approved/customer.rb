@@ -25,7 +25,7 @@ class Payment::Emails::Approved::Customer
       token: payment.order.token,
       total: payment.order.payment_total,
       shipment: payment.order.shipment_total,
-      in_site: payment.order.shipment.shipment_method.shipment_type.eql?(ShipmentMethod::IN_SITE_TYPE)
+      in_site: payment.order.shipment.shipment_method.shipment_type.eql?(ShipmentMethod::IN_SITE_TYPE),
       products: order_items.map do |item|
         product_variant = item.product_variant
         next unless product_variant.present?
