@@ -5,6 +5,7 @@
 #  id             :bigint           not null, primary key
 #  active         :boolean
 #  certifications :string
+#  contact_phone  :string
 #  facebook       :string
 #  instagram      :string
 #  mall_location  :string
@@ -37,6 +38,7 @@ FactoryBot.define do
     website { "https://website/#{FFaker::Book.title.str_slug}" }
     what_we_do { RandomNameGenerator.new.compose(150) }
     mall_location { "#{FFaker::Book.title}@#{company.name.str_slug}.com" }
+    contact_phone { "#{rand(5)}#{rand(5)}#{rand(5)}-#{rand(5)}#{rand(5)}#{rand(5)}#{rand(5)}" }
     category { category }
     commune { commune }
     company { company }

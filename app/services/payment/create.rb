@@ -9,10 +9,10 @@ class Payment::Create
   end
 
   def perform
-    return error_response('El pago ya fue aprobado') if is_approved_previously?
     return error_response if payment.errors_types.include?(payment.status)
     return success_response if payment.skip_status_types.include?(payment.status)
     return other_processes if payment.change_status_types.include?(payment.status)
+    return error_response('El pago ya fue aprobado') if is_approved_previously?
 
     send(payment.status)
   rescue StandardError => e
@@ -31,6 +31,7 @@ class Payment::Create
     Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
     Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
     Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
+
     success_response
   end
 
@@ -57,7 +58,9 @@ class Payment::Create
   def refunded
     ActiveRecord::Base.transaction do
       create_payment
-      update_order(state: StoreOrder::IS_COMPLETED, completed_at: Time.now)
+      # reverse_stock_movements
+      update_order(state: Order::IS_CANCELED, delivery_state: Order::CANCELED_DELIVERY, completed_at: Time.now)
+      cancel_store_orders
     end
 
     success_response
@@ -119,6 +122,14 @@ class Payment::Create
     store_orders&.delete_all!
   end
 
+  def cancel_store_orders
+    payment.order.store_orders.each do |store_order|
+      store_order.update!(payment_state: payment.status,
+                          state: StoreOrder::IS_CANCELED,
+                          delivery_state: StoreOrder::CANCELED_DELIVERY)
+    end
+  end
+
   def stores_items
     @stores_items ||= order_items.group_by(&:store_id)
   end
@@ -142,7 +153,7 @@ class Payment::Create
   def logger_error(message)
     LoggersErrorPayment.create(
       payment_id: payment.payment_id,
-      message: message || payment.message,
+      message: "#{message || payment.message} - EP confirmation",
       error: payment.status,
       order_token: payment.order_token,
       log: payment.response

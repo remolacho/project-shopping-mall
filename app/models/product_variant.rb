@@ -35,6 +35,9 @@ class ProductVariant < ApplicationRecord
   translates :name, :short_description
 
   belongs_to :product
+  belongs_to :product_including_deleted, class_name: "Product",
+    foreign_key: 'product_id', with_deleted: true
+
   belongs_to :brand, optional: true
   has_many :variant_history_prices
   has_many :order_items

@@ -29,7 +29,7 @@ class Orders::ItemCarSerializer < ActiveModel::Serializer
   end
 
   def image_url
-    image = product_variant.product.image
+    image = product_variant.product_including_deleted.image
     return unless image.present?
 
     polymorphic_url(image, host: ENV['HOST_IMAGES'])
@@ -58,6 +58,6 @@ class Orders::ItemCarSerializer < ActiveModel::Serializer
   private
 
   def product_variant
-    @product_variant ||= object.product_variant
+    @product_variant ||= object.variant_including_deleted
   end
 end

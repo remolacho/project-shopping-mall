@@ -41,7 +41,7 @@ class Payment::Whatsapp::Approved::Stores
       return "#{ENV['CODE_PHONE']}#{phone}"
     end
 
-    phone = store_order.store.company.legal_representative_phone.gsub('-', '').gsub(' ', '')
+    phone = store_order.store.contact_phone.gsub('-', '').gsub(' ', '')
 
     "#{ENV['CODE_PHONE']}#{phone}"
   rescue StandardError => e
@@ -50,9 +50,19 @@ class Payment::Whatsapp::Approved::Stores
   end
 
   def get_message(store_order)
-    "Hola #{store_order.store.name}!\nHas recibido una nueva orden en zofrishop.cl!\n El número de orden es el #{store_order.order_number}"
+    "¡Hola #{store_order.store.name}!\nHas recibido una nueva compra en Zofrishop 📦 El número de orden es #{store_order.order_number} y puedes revisar el detalle acá: \n https://store-owner.zofrishop.cl/store_owners/stores/#{store_order.store.id}/orders/#{store_order.id} "
   rescue StandardError => e
     logger_error("error al enviar whatsapp: #{e.to_s} attributes: #{store_order.attributes}")
     nil
+  end
+
+  def logger_error(message)
+    LoggersErrorPayment.create(
+      payment_id: payment.payment_id,
+      message: "#{message || payment.message} - send whatsapp",
+      error: payment.status,
+      order_token: payment.order_token,
+      log: payment.response
+    )
   end
 end

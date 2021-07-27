@@ -35,13 +35,14 @@ class Payment::Emails::Approved::Stores
       store_order_id: store_order.id,
       number_ticket: payment.order.number_ticket,
       total: store_order.payment_total,
+      shipment: store_order.shipment_total,
       products: store_items.map do |item|
         product_variant = item.product_variant
         next unless product_variant.present?
 
         {
           name: product_variant.name,
-          price: product_variant.price,
+          price: item.unit_value,
           quantity: item.item_qty
         }
       end
@@ -51,7 +52,7 @@ class Payment::Emails::Approved::Stores
   def logger_error(message)
     LoggersErrorPayment.create(
       payment_id: payment.payment_id,
-      message: message || payment.message,
+      message: "#{message || payment.message} - Email store",
       error: payment.status,
       number_ticket: payment.number_ticket,
       log: payment.response

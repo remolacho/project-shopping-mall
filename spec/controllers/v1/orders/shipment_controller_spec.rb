@@ -7,6 +7,8 @@ RSpec.describe V1::Orders::ShipmentController, type: :controller do
   include_context 'store_stuff'
   include_context 'products_stuff'
   include_context 'order_stuff'
+  include_context 'shipment_stuff'
+
 
   describe "POST #create" do
 
@@ -17,6 +19,7 @@ RSpec.describe V1::Orders::ShipmentController, type: :controller do
     it 'success in site' do
       current_order.save
       list_order_item
+      shipment_cost
 
       post :create, params: shipment_data_in_site.merge!(order_token: current_order.token)
       expect(response.status).to eq(200)
@@ -25,6 +28,7 @@ RSpec.describe V1::Orders::ShipmentController, type: :controller do
     it 'success in delivery but before in site' do
       current_order.save
       list_order_item
+      shipment_cost
 
       post :create, params: shipment_data_in_site.merge!(order_token: current_order.token)
 

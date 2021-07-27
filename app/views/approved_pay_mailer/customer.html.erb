@@ -11,7 +11,7 @@
     iniciar sesión y guardarla en tu perfil para que la puedas dar seguimiento
     más fácilmente (recomendado).
   </p>
-  <a href="<%= ENV['BASE_PATH'] %>/confirmation?external_reference=<%= @meta_data[:token] %>" style="color: white; text-decoration: none;">
+  <a href="<%= ENV['BASE_PATH'] %>/view-order?external_reference=<%= @meta_data[:token] %>" style="color: white; text-decoration: none;">
     <button>
       Ver mi orden
     </button>
@@ -46,6 +46,10 @@
   <hr />
   <table>
     <tbody>
+      <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
+        <td>Envio</td>
+        <td style="text-align: right"><%= number_to_currency(@meta_data[:shipment], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
+      </tr>
       <tr style="border-bottom: 1px solid black; font-size: 1.25rem">
         <td>Total</td>
         <td style="text-align: right"><%= number_to_currency(@meta_data[:total], unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>

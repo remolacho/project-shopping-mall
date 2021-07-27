@@ -19,13 +19,14 @@ class Orders::ListSerializer < ActiveModel::Serializer
   attributes :id, :delivery_state, :number_ticket, :payment_state, :token, :updated_at
   attribute :items_qty
   attribute :products
+  attribute :shipment_total
 
   def items_qty
     object.order_items.map(&:item_qty).sum
   end
 
   def products
-    ActiveModelSerializers::SerializableResource.new(object.order_items.limit(2),
+    ActiveModelSerializers::SerializableResource.new(object.order_items,
                                                      each_serializer: ::Orders::ItemCarSerializer)
   end
 end

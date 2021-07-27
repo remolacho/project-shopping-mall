@@ -38,13 +38,16 @@ class StoreOrder < ApplicationRecord
   has_one :user, through: :order
   has_many :order_items
   has_one :channels_room
+  has_many :order_logs, dependent: :destroy
 
   after_create :generate_ticket
 
   IS_COMPLETED = 'completed'.freeze
   ON_PURCHASE = 'on_purchase'.freeze
+  IS_CANCELED = 'canceled'.freeze
 
   PENDING_DELIVERY = 'Pendiente de entrega'.freeze
+  CANCELED_DELIVERY = 'canceled'.freeze
 
   def consolidate_payment_total
     self.payment_total = total_sum_order_items

@@ -7,6 +7,7 @@ RSpec.describe V1::Orders::ShipmentController, type: :request do
   include_context 'store_stuff'
   include_context 'products_stuff'
   include_context 'order_stuff'
+  include_context 'shipment_stuff'
 
   describe "Crea la direccion y el envio en la orden" do
     path "/v1/orders/{order_token}/shipment" do
@@ -101,6 +102,7 @@ RSpec.describe V1::Orders::ShipmentController, type: :request do
                  }
 
           let(:order_token) {
+            shipment_cost
             current_order.save
             list_order_item
             current_order.token

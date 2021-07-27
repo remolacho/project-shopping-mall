@@ -5,6 +5,7 @@
 #  id             :bigint           not null, primary key
 #  active         :boolean
 #  certifications :string
+#  contact_phone  :string
 #  facebook       :string
 #  instagram      :string
 #  mall_location  :string

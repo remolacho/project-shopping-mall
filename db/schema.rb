@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_124852) do
+ActiveRecord::Schema.define(version: 2021_07_08_133447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -533,6 +534,16 @@ ActiveRecord::Schema.define(version: 2021_06_15_124852) do
     t.index ["product_variant_id"], name: "index_stock_movements_on_product_variant_id"
   end
 
+  create_table "store_download_files", force: :cascade do |t|
+    t.bigint "store_id"
+    t.bigint "user_id"
+    t.string "type_file"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_store_download_files_on_store_id"
+    t.index ["user_id"], name: "index_store_download_files_on_user_id"
+  end
+
   create_table "store_information_reviews", force: :cascade do |t|
     t.integer "store_id"
     t.integer "approved_by_id"
@@ -552,6 +563,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_124852) do
     t.integer "company_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "contact_phone"
   end
 
   create_table "store_orders", force: :cascade do |t|
@@ -615,6 +627,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_124852) do
     t.integer "category_id"
     t.integer "company_id"
     t.boolean "terms_accepted", default: false
+    t.string "contact_phone"
     t.index ["commune_id"], name: "index_stores_on_commune_id"
     t.index ["mall_location"], name: "index_stores_on_mall_location"
     t.index ["name"], name: "index_stores_on_name"

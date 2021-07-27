@@ -35,7 +35,7 @@ module ZofriApi
     config.api_only = true
     config.app_name = "Zofri-api"
     config.i18n.default_locale = :es
-
+    config.time_zone = "America/Santiago"
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
