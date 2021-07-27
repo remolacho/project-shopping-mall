@@ -26,7 +26,7 @@ class Orders::ListSerializer < ActiveModel::Serializer
   end
 
   def products
-    ActiveModelSerializers::SerializableResource.new(object.order_items.limit(2),
+    ActiveModelSerializers::SerializableResource.new(object.order_items,
                                                      each_serializer: ::Orders::ItemCarSerializer)
   end
 end

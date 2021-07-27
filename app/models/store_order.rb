@@ -37,6 +37,7 @@ class StoreOrder < ApplicationRecord
   belongs_to :store
   has_one :user, through: :order
   has_many :order_items
+  has_one :channels_room
   has_many :order_logs, dependent: :destroy
 
   after_create :generate_ticket

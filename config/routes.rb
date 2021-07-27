@@ -139,5 +139,15 @@ Rails.application.routes.draw do
       resources :slides, only: [:index]
       resources :products, only: [:index]
     end
+
+    namespace :channels_rooms, path: 'channelRooms' do
+      resources :store_order, path: '', only: [] do
+        resources :room, path: '',  only: [] do
+          collection do
+            get ':created_by/create', to: 'room#create'
+          end
+        end
+      end
+    end
   }
 end
