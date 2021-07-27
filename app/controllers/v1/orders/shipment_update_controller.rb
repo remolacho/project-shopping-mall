@@ -11,8 +11,6 @@ class V1::Orders::ShipmentUpdateController < ApplicationController
       order = Order.find_by(number_ticket: params[:order_number])
 
       case params[:status_name]
-<<<<<<< HEAD
-=======
       when "Listo para despacho - Impreso"
         order.update(delivery_state: "Listo para retiro")
         order.store_orders.map do |so|
@@ -21,7 +19,6 @@ class V1::Orders::ShipmentUpdateController < ApplicationController
 
         OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
         Payment::Whatsapp::Shipment::Customer.new(order: order, call_method: 'in_shipping_management').call
->>>>>>> development
       when "Planta de origen", "En reparto"
         order.update(delivery_state: "En tránsito")
         order.store_orders.where.not(state: "canceled").map do |so|
@@ -37,13 +34,9 @@ class V1::Orders::ShipmentUpdateController < ApplicationController
         end
         OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
         OrderDeliveredMailer.customer(order: order).deliver_now!
-<<<<<<< HEAD
-
+        Payment::Whatsapp::Shipment::Customer.new(order: order, call_method: 'delivered').call
       else
         OrderLog.new(order_id: order.id, log: "enviame (#{params[:tracking_number]}): #{params[:status_information]}" ).save
-=======
-        Payment::Whatsapp::Shipment::Customer.new(order: order, call_method: 'delivered').call
->>>>>>> development
       end
       
     end
