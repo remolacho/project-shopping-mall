@@ -27,6 +27,7 @@ class OrderItem < ApplicationRecord
   belongs_to :store
   belongs_to :order
   has_one :product, through: :product_variant
+  has_many :bill_store_order_items, dependent: :destroy
 
   validates :item_qty, numericality: { only_integer: true }, allow_blank: true
   validates_presence_of :item_qty, on: :update

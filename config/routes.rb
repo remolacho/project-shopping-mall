@@ -35,6 +35,12 @@ Rails.application.routes.draw do
         post :create, path: 'addItem'
       end
     end
+    resources :password, only: [] do
+      collection do
+        post :recover
+        post :change
+      end
+    end
   end
 
   namespace(:v1, defaults: { format: :json }) {
@@ -133,6 +139,16 @@ Rails.application.routes.draw do
       resources :ads, only: [:index]
       resources :slides, only: [:index]
       resources :products, only: [:index]
+    end
+
+    namespace :channels_rooms, path: 'channelRooms' do
+      resources :store_order, path: '', only: [] do
+        resources :room, path: '',  only: [] do
+          collection do
+            get ':created_by/create', to: 'room#create'
+          end
+        end
+      end
     end
   }
 end
