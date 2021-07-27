@@ -85,4 +85,19 @@ module ManageObjects
 
     raise ArgumentError, 'The section not found'
   end
+
+  def user_reset_token
+    token = params[:token].presence || params[:user][:token]
+
+    resource = User.where(reset_password_token: token)
+                   .where('reset_password_token_expires_at > ?', Time.current).first
+
+    return resource if resource.present?
+
+    raise PolicyException, 'error al resetear contraseña'
+  end
+
+  def user_by_email
+    @user_by_email ||= User.find_by!(email: params[:email] || params[:user][:email])
+  end
 end

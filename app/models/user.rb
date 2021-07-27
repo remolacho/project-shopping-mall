@@ -2,24 +2,25 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
-#  birthdate              :date
-#  complementary_info     :json
-#  create_by              :integer
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  gender                 :string
-#  jti                    :string
-#  lastname               :string
-#  name                   :string
-#  provider               :string           default("zofri")
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  rut                    :string
-#  uid                    :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  id                              :bigint           not null, primary key
+#  birthdate                       :date
+#  complementary_info              :json
+#  create_by                       :integer
+#  email                           :string           default(""), not null
+#  encrypted_password              :string           default(""), not null
+#  gender                          :string
+#  jti                             :string
+#  lastname                        :string
+#  name                            :string
+#  provider                        :string           default("zofri")
+#  remember_created_at             :datetime
+#  reset_password_sent_at          :datetime
+#  reset_password_token            :string
+#  reset_password_token_expires_at :datetime
+#  rut                             :string
+#  uid                             :string
+#  created_at                      :datetime         not null
+#  updated_at                      :datetime         not null
 #
 # Indexes
 #
@@ -29,6 +30,9 @@
 #  index_users_on_uid                   (uid) UNIQUE
 #
 class User < ApplicationRecord
+  include Configurable
+  include Recoverable
+
   rolify
 
   has_one_attached :image
@@ -45,8 +49,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+  devise :database_authenticatable, :registerable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtBlacklist
 
   MALE = 'male'.freeze

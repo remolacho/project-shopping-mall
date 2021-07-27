@@ -651,6 +651,7 @@ ActiveRecord::Schema.define(version: 2021_07_08_133447) do
     t.string "gender"
     t.string "provider", default: "zofri"
     t.string "uid"
+    t.datetime "reset_password_token_expires_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gender"], name: "index_users_on_gender"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
