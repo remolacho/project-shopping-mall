@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  quantity      :integer          not null
+#  seller_income :float            default(0.0)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  bill_store_id :bigint           not null
