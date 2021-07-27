@@ -42,6 +42,7 @@ class Store < ApplicationRecord
 
   has_many :store_payment_methods
   has_many :store_payment_methods_configurations_values, through: :store_payment_methods
+  has_many :channels_rooms
 
   has_one_attached :icon
   has_one_attached :banner

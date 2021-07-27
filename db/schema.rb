@@ -130,6 +130,21 @@ ActiveRecord::Schema.define(version: 2021_07_08_133447) do
     t.index ["option_type_id"], name: "index_category_option_types_on_option_type_id"
   end
 
+  create_table "channels_rooms", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "store_id", null: false
+    t.bigint "store_order_id", null: false
+    t.string "token", null: false
+    t.boolean "archived", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_channels_rooms_on_store_id"
+    t.index ["store_order_id"], name: "index_channels_rooms_on_store_order_id"
+    t.index ["token"], name: "index_channels_rooms_on_token", unique: true
+    t.index ["user_id"], name: "index_channels_rooms_on_user_id"
+  end
+
   create_table "communes", force: :cascade do |t|
     t.integer "region_id"
     t.string "name"

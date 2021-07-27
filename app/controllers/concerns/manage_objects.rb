@@ -76,6 +76,10 @@ module ManageObjects
     @promotion ||= Promotion.find_by!(promo_code: params[:promo_code])
   end
 
+  def store_order
+    @store_order ||= StoreOrder.find_by!(id: params[:store_order_id], state: StoreOrder::IS_COMPLETED)
+  end
+
   def section_allowed
     return params[:section] if %w[discount rating recents].include?(params[:section])
 
