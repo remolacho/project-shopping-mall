@@ -1,0 +1,33 @@
+<% unless @has_error == true %>
+  <h1 class="center">
+    ¡Tu pedido está listo para retiro!
+  </h1>
+
+  <section class="center card">
+    <h2><b>Instrucciones</b></h2>
+    <p>
+      ¡Tu pedido está listo!🎉 Para poder retirarlo, debes:
+      1. Acercarte al módulo de Zofrishop en el local 5006 del Mall ZOFRI <a href="https://www.google.com/maps/place/Mall+Zofri/@-20.2055128,-70.1385279,15z/data=!4m2!3m1!1s0x0:0x9fd6d76340bc46c9?sa=X&ved=2ahUKEwiIrs3Gtd7xAhUorZUCHU9NBwoQ_BJ6BAhgEAU">(ver ubicación)</a> 
+      2. Presentarte en el mesón con tu carnet de identidad
+      3. Informar tu número de orden: <%= @order.number_ticket %>.
+      4. Recibir tu pedido
+      5. Disfrutar 🛍
+
+      ⚠️ Importante: Recuerda llevar tu carnet de identidad para poder realizar el retiro. Si retirará otra persona que no sea quien compró, debe llevar un poder simple firmado por el comprador con una fotocopia de su carnet por ambos lados.
+
+      Si tienes alguna duda, escribenos a contacto@zofrishop.cl
+    </p>
+    <a href="<%= ENV['BASE_PATH'] %>/view-order?external_reference=<%= @order.token %>" style="color: white; text-decoration: none;">
+      <button>
+        Ver mi orden
+      </button>
+    </a>
+  </section>
+<% end %>
+
+<% if @has_error == true %>
+  <section class="center card">
+    <h2><b>Error al enviar review</b></h2>
+    <p>Mensaje <%= @message %></p>
+  </section>
+<% end %>

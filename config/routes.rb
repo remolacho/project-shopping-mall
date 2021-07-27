@@ -91,6 +91,7 @@ Rails.application.routes.draw do
 
       resources :payment, only: [:create]
       post 'shipment_update', to: 'shipment_update#update'
+      post 'pickup_update', to: 'shipment_update#pickup_update'
 
       resources :order, path: '', param: :token, only: [] do
         resources :user, only: [:create]
