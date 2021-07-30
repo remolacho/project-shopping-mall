@@ -36,21 +36,18 @@ class Payment::Whatsapp::Approved::Stores
   private
 
   def get_phone(store_order)
-    unless Rails.env.production?
-      phone = ENV['NUMBER_WHATSAPP'].gsub('-', '').gsub(' ', '')
-      return "#{ENV['CODE_PHONE']}#{phone}"
-    end
+    return "#{ENV['CODE_PHONE']}#{ENV['NUMBER_WHATSAPP'].gsub('-', '').gsub(' ', '')}" unless Rails.env.production?
 
-    phone = store_order.store.contact_phone.gsub('-', '').gsub(' ', '')
-
-    "#{ENV['CODE_PHONE']}#{phone}"
+    "#{ENV['CODE_PHONE']}#{store_order.store.contact_phone.gsub('-', '').gsub(' ', '')}"
   rescue StandardError => e
     logger_error("error al enviar whatsapp: #{e.to_s} attributes: #{store_order.attributes}")
     nil
   end
 
   def get_message(store_order)
-    "¡Hola #{store_order.store.name}!\nHas recibido una nueva compra en Zofrishop 📦 El número de orden es #{store_order.order_number} y puedes revisar el detalle acá: \n https://store-owner.zofrishop.cl/store_owners/stores/#{store_order.store.id}/orders/#{store_order.id} "
+    msg = "¡Hola #{store_order.store.name}!\nHas recibido una nueva compra en Zofrishop 📦 El número de orden es #{store_order.order_number}"
+    msg += " y puedes revisar el detalle acá: \n https://store-owner.zofrishop.cl/store_owners/stores/#{store_order.store.id}/orders/#{store_order.id}"
+    msg
   rescue StandardError => e
     logger_error("error al enviar whatsapp: #{e.to_s} attributes: #{store_order.attributes}")
     nil

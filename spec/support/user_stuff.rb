@@ -8,7 +8,7 @@ shared_context 'user_stuff' do
   end
 
   let!(:create_user) {
-    User.create!({ name: 'usertest',
+    user = User.create!({ name: 'usertest',
                    lastname: 'userTest',
                    email: 'usertest@email.com',
                    gender: 'male',
@@ -17,10 +17,13 @@ shared_context 'user_stuff' do
                    password_confirmation: 'passwordtest123',
                    rut: '1231321313',
                    image: fixture_file_upload('/files/avatar.png', 'image/png') })
+
+    user.add_role :buyer
+    user
   }
 
   let(:create_user_2) {
-    User.create!({ name: 'usertest2',
+    user = User.create!({ name: 'usertest2',
                    lastname: 'userTest2',
                    email: 'usertest2@email.com',
                    gender: 'male',
@@ -29,6 +32,9 @@ shared_context 'user_stuff' do
                    password_confirmation: 'passwordtest123',
                    rut: '12313213132',
                    image: fixture_file_upload('/files/avatar.png', 'image/png') })
+
+    user.add_role :buyer
+    user
   }
 
   let(:current_user) { User.find_by(email: 'usertest@email.com') }

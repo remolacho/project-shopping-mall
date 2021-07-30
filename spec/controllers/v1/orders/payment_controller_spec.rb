@@ -18,7 +18,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
         "type": 'payment',
         "date_created": '2015-03-25T10:04:58.396-04:00',
         "action": 'payment.created',
-        "data.id": 'approved',
+        "data_id": 'approved',
         "data": {
           "id": 'approved',
           "external_reference": current_order.token
