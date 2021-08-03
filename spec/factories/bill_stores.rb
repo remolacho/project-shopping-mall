@@ -5,6 +5,7 @@
 #  id              :bigint           not null, primary key
 #  ticket_date     :date             not null
 #  ticket_number   :string           not null
+#  total_bill      :float            default(0.0), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  store_id        :bigint           not null
