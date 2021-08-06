@@ -3,6 +3,7 @@
 # Table name: bill_stores
 #
 #  id              :bigint           not null, primary key
+#  payment_method  :string
 #  ticket_date     :date             not null
 #  ticket_number   :string           not null
 #  total_bill      :float            default(0.0), not null

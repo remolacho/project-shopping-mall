@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_124359) do
+ActiveRecord::Schema.define(version: 2021_08_06_194908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_124359) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "total_bill", default: 0.0, null: false
+    t.string "payment_method"
     t.index ["store_id"], name: "index_bill_stores_on_store_id"
     t.index ["store_module_id"], name: "index_bill_stores_on_store_module_id"
   end
