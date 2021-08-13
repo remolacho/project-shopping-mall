@@ -11,6 +11,7 @@ development:
   PER_PAGE: "12"
   JWT_SECRET:
   SECRET_API:
+  SEND_SELLER_NOTIFICATIONS: true
   EMAIL_FROM: no-reply@etiner.com
   EMAIL_PASSWORD: 
   EMAIL_TO: <your-email>

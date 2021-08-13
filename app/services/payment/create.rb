@@ -28,9 +28,11 @@ class Payment::Create
       update_order(state: Order::IS_COMPLETED, delivery_state: Order::PENDING_DELIVERY, completed_at: Time.now)
     end
 
-    Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
+    if ENV['SEND_SELLER_NOTIFICATIONS']
+      Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
+      Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
+    end
     Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
-    Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
     Payment::Whatsapp::Approved::Customer.new(payment: payment, order_items: order_items).call
     success_response
   end
