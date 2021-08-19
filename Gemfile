@@ -81,3 +81,7 @@ gem 'hiredis'
 gem 'whenever'
 
 gem "rails-settings-manager"
+
+gem 'wicked_pdf'
+# we need the new binary here, so that we can be OS independent
+gem 'wkhtmltopdf-binary'

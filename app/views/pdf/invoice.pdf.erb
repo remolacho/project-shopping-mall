@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <style>
+      *, body{ font-family: 'Arial';}
+      #header{ padding-top: 20px;}
+
+      table.full{ width: 100%;}
+      .left{ text-align: left }
+      .right{ text-align: right }
+      .center{ text-align: center }
+      .md{ font-size: 1.2rem }
+
+      .store-order{ margin: 50px 0; }
+      .store{ color: #fff; background-color: #444; padding: 5px; }
+      .details-header{ color: #aaa; padding: 15px 0 10px; border-bottom: 1px solid;}
+      .details td{ padding: 5px 0; }
+      .store-total td{ padding-top: 30px; }
+
+      div.alwaysbreak { page-break-before: always; }
+      div.nobreak:before { clear:both; }
+      div.nobreak{ page-break-inside: avoid; }
+    </style>
+  </head>
+  <body>
+    <div id="header">
+      <table class="full" >
+        <thead>
+            <tr>
+              <th class="center" ><h2>Detalle de la Orden</h2></th>
+            </tr>
+        </thead>
+      </table>
+      <table class="full" >
+        <thead>
+          <div class='nobreak'>
+            <tr>
+              <th class="left" ><%= wicked_pdf_image_tag "#{ENV['HOST_IMAGES']}/images/zofrishop.png ", height: "50", width: "auto"%></th>
+              <th class="right"><h2>Orden <%= @order.number_ticket %></h2></th>
+            </tr>
+          </div>
+        </thead>
+        <tbody>
+          <div class = 'nobreak'>
+            <tr>
+              <td class="left md" ><b>Datos del comprador</b></td>
+              <td class="right md" ><b>Dirección de envío</b></td>
+            </tr>
+            <tr>
+              <td class="left md" ><%= @order.user_data['name'].capitalize %> <%= @order.user_data['last_name'].capitalize %></td>
+              <td class="right md" ><%= @order.address.street.capitalize + ' ' + @order.address.street_number %></td>
+            </tr>
+            <tr>
+              <td class="left md" >+569 <%= @order.user_data['phone'] %></td>
+              <td class="right md" ><%= @order.address.commune.name %></td>
+            </tr>
+            <tr>
+              <td class="left md" ><%= @order.user_data['email'] %></td>
+              <td class="right md" ><%= @order.address.comment.capitalize %></td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+    </div>
+    <div id="content">
+      <% @order.store_orders.each do |so| %>
+      <div class='nobreak'>
+        <div class="store-order">
+          <table class="full" >
+            <thead>
+                <tr>
+                  <th class="left store md" >Tienda: <%= so.store.name %> </th>
+                </tr>
+            </thead>
+          </table>
+          <table class="full details" >
+            <thead>
+              <tr>
+                <th class="details-header left md" width="50%" ><b>PRODUCTO</b></th>
+                <th class="details-header center md" ><b>P. UNIT</b></th>
+                <th class="details-header center md" ><b>CANTIDAD</b></th>
+                <th class="details-header center md" ><b>TOTAL</b></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% so.order_items.each do |oi| %>
+              <tr>
+                <td class="left md" >
+                  <%= oi.product_variant.name.capitalize %>
+                </td>
+                <td class="center md" ><%= number_to_currency(oi.unit_value, unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td>
+                <td class="center md" > <%= oi.item_qty %> </td>
+                <td class="center md" ><%= number_to_currency((oi.unit_value*oi.item_qty), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></td></td>
+              </tr>
+              <% end %>
+              <tr class="store-total">
+                <td colspan="3" class="right md" ><b>Total <%= so.store.name %>:</b></td>
+                <td class="center md" ><b><%= number_to_currency(so.payment_total, unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <% end %>
+      <table class="full" >
+        <tbody>
+          <div class = 'nobreak'>
+            <tr>
+              <td width="50%"></td>
+              <td class="right md" style="border-top: 1px solid; padding-top: 15px;">
+                <b>Subtotal: <%= number_to_currency((@order.payment_total-@order.shipment_total), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></b>
+              </td>
+            </tr>
+            <tr>
+              <td width="50%"></td>
+              <td class="right md" >
+                <b>Descuentos:<%= number_to_currency(@order.order_adjustments.where(adjustable_type: 'Promotion'.freeze).sum(&:value), unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></b>
+              </td>
+            </tr>
+            <tr>
+              <td width="50%"></td>
+              <td class="right md" style="border-bottom: 1px solid; padding-bottom: 15px;">
+                <b>Envío: <%= number_to_currency(@order.shipment_total, unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></b>
+              </td>
+            </tr>
+            <tr>
+              <td width="50%"></td>
+              <td class="right md" style="padding: 30px 0; font-size: 24px;"><b>Total: <%= number_to_currency(@order.payment_total, unit: "$", separator: ",", delimiter: ".", precision: 0, format: "%u%n") %></b></td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+    </div>
+
+  </body>
+</html>

@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   mount Rswag::Api::Engine => '/api-docs'
   mount Sidekiq::Web => '/sidekiq'
 
+
+  get 'pdf_invoice/:id', to: 'pdf#invoice'
+
   devise_for :users,
              path: '',
              path_names: {
