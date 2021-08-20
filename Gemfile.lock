@@ -352,6 +352,9 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    wicked_pdf (2.1.0)
+      activesupport
+    wkhtmltopdf-binary (0.12.6.5)
     zeitwerk (2.4.1)
 
 PLATFORMS
@@ -405,6 +408,8 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
   whenever
+  wicked_pdf
+  wkhtmltopdf-binary
 
 RUBY VERSION
    ruby 2.6.5p114

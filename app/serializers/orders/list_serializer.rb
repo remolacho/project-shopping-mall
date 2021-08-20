@@ -19,6 +19,7 @@ class Orders::ListSerializer < ActiveModel::Serializer
   attributes :id, :delivery_state, :number_ticket, :payment_state, :token, :updated_at
   attribute :items_qty
   attribute :products
+  attribute :store_orders
   attribute :shipment_total
 
   def items_qty
@@ -28,5 +29,10 @@ class Orders::ListSerializer < ActiveModel::Serializer
   def products
     ActiveModelSerializers::SerializableResource.new(object.order_items,
                                                      each_serializer: ::Orders::ItemCarSerializer)
+  end
+
+  def store_orders
+    ActiveModelSerializers::SerializableResource.new(object.store_orders,
+                                                     each_serializer: ::Orders::StoreOrdersSerializer)
   end
 end

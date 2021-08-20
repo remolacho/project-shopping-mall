@@ -28,7 +28,7 @@ class Payment::Create
       update_order(state: Order::IS_COMPLETED, delivery_state: Order::PENDING_DELIVERY, completed_at: Time.now)
     end
 
-    if ENV['SEND_SELLER_NOTIFICATIONS']
+    if ActiveModel::Type::Boolean.new.cast(ENV['SEND_SELLER_NOTIFICATIONS'])
       Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
       Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
     end
