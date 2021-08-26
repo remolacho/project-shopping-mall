@@ -152,6 +152,8 @@ Rails.application.routes.draw do
           end
         end
       end
+      get '/notify_seller/:token', to: 'room#notify_seller'
+      get '/notify_customer/:token', to: 'room#notify_customer'
     end
   }
 end
