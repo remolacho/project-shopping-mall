@@ -9,7 +9,7 @@ class ApprovedPayMailer < ApplicationMailer
 
   def customer(to:, meta_data:)
     return unless can_send_email?
-    @order = Order.find(number_ticket: meta_data[:number_ticket])
+    @order = Order.find_by(number_ticket: meta_data[:number_ticket])
     attachments["orden_#{@order.number_ticket}.pdf"] = WickedPdf.new.pdf_from_string(
       render_to_string(pdf: 'invoice', template: 'pdf/invoice.pdf.erb'), { footer: {content: render_to_string({template: 'layouts/footer.pdf.erb'})} }
     )
