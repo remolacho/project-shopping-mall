@@ -20,6 +20,7 @@ class V1::ChannelsRooms::RoomController < ApplicationController
   def notify_seller
     room = ChannelsRoom.find_by(store_order_id: params[:token])
     HaveMessageMailer.seller(channel_room: room.token).deliver_later
+    room.update(archived: false) if room.archived
     render status: 200
   end
 
