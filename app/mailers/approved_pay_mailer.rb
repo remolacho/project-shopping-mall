@@ -4,7 +4,7 @@ class ApprovedPayMailer < ApplicationMailer
 
     @meta_data = meta_data
     @email_to = Rails.env.production? ? to : ENV['EMAIL_TO']
-    mail(to: @email_to, subject: '¡Has recibido una compra por ZofriShop! 🎉'.freeze)
+    mail(to: @email_to, bcc: 'zofrishop@gmail.com', subject: '¡Has recibido una compra por ZofriShop! 🎉'.freeze)
   end
 
   def customer(to:, meta_data:)
@@ -15,6 +15,6 @@ class ApprovedPayMailer < ApplicationMailer
     )
     @meta_data = meta_data
     @email_to = Rails.env.production? ? to : ENV['EMAIL_TO']
-    mail(to: @email_to, subject: '¡Gracias por comprar en ZofriShop! Estamos preparando tu orden 🚚📦'.freeze)
+    mail(to: @email_to, bcc: 'zofrishop@gmail.com', subject: '¡Gracias por comprar en ZofriShop! Estamos preparando tu orden 🚚📦'.freeze)
   end
 end
