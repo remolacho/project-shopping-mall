@@ -3,8 +3,9 @@ class CreateCollections < ActiveRecord::Migration[6.0]
     create_table :collections do |t|
       t.string :name
       t.string :slug
-      t.date :start_date
-      t.date :end_date
+      t.datetime :start_date
+      t.datetime :end_date
+      t.string :status
       t.timestamps
     end
   end

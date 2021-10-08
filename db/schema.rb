@@ -181,8 +181,9 @@ ActiveRecord::Schema.define(version: 2021_10_07_205336) do
   create_table "collections", force: :cascade do |t|
     t.string "name"
     t.string "slug"
-    t.date "start_date"
-    t.date "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
