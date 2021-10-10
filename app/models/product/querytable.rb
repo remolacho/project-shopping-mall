@@ -19,7 +19,7 @@ class Product
                    products.rating,
                    products.name_translations,
                    products.short_description_translations,
-                   products.featured, products.slug")
+                   products.featured, products.slug, products.category_id")
           .where(products: { can_published: true })
           .where(product_variants: { is_master: true, active: true, deleted_at: nil })
           .where(stores: { active: true })

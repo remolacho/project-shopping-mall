@@ -13,6 +13,10 @@ module ProductsFilters
     store.products.list
   end
 
+  def group_by_collection(collection)
+    collection.products.list
+  end
+
   def filter_by_category(products, is_present = true)
     return products if category.nil? && is_present
 

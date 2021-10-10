@@ -15,6 +15,9 @@ class Collection < ApplicationRecord
   has_many :collection_products
   has_many :products, through: :collection_products
 
+  has_one_attached :image
+  validates :image, blob: { content_type: ['image/jpg', 'image/jpeg', 'image/png'], size_range: 1..3.megabytes }
+
   STATUS_ACTIVE = 'active'.freeze
   STATUS_INACTIVE = 'inactive'.freeze
 end

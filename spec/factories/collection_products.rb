@@ -15,6 +15,7 @@
 #
 FactoryBot.define do
   factory :collection_product do
-    
+    product { product }
+    collection { collection }
   end
 end
