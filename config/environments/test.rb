@@ -59,4 +59,7 @@ Rails.application.configure do
       authentication: 'plain',
       enable_starttls_auto: true
   }
+
+  config.active_record.verbose_query_logs = true
+  config.log_level = :debug
 end

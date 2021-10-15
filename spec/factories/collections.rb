@@ -13,6 +13,10 @@
 #
 FactoryBot.define do
   factory :collection do
-    
+    name { FFaker::Book.title }
+    slug { FFaker::Book.title.str_slug }
+    start_date { Time.now - 2.days }
+    end_date { Time.now + 2.days }
+    status { Collection::STATUS_ACTIVE }
   end
 end

@@ -18,6 +18,14 @@ class Brand
           .group('brands.id')
           .order('products_count DESC')
       end
+
+      def self.group_products(products_ids)
+        select('brands.id, brands.name, brands.slug, COUNT(products.id) AS products_count')
+          .joins(:products)
+          .where(products: { can_published: true, id: products_ids})
+          .group('brands.id')
+          .order('products_count DESC')
+      end
     end
   end
 end
