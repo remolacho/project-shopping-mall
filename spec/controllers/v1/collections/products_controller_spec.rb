@@ -55,6 +55,8 @@ RSpec.describe V1::Products::Collections::ListController, type: :controller do
       body = JSON.parse(response.body)
       expect(body.dig('success')).to eq(true)
       expect(body.dig('collection', 'total_objects') == total_product).to eq(true)
+      expect(body.dig('collection', 'categories').present?).to eq(true)
+      expect(body.dig('collection', 'categories').first['children'].present?).to eq(true)
     end
 
     it 'success list by category!!!' do

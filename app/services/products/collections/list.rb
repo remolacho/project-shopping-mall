@@ -5,11 +5,12 @@
         include Rails.application.routes.url_helpers
         include ::ProductsFilters
 
-        attr_accessor :collection, :data
+        attr_accessor :collection, :data, :collection_group
 
         def initialize(collection:, data:)
           @collection = collection
           @data = data
+          @collection_group = products
         end
 
         def perform
@@ -23,11 +24,12 @@
               name: collection.name,
               slug: collection.slug,
               image_url: image_url,
-              products: serializer(products_group),
+              products: serializer(pagination_group),
               per_page: ENV['PER_PAGE'].to_i,
-              total_pages: products_group.total_pages,
-              total_objects: products_group.total_count,
-              current_page: (data[:page] || 1).to_i
+              total_pages: pagination_group.total_pages,
+              total_objects: pagination_group.total_count,
+              current_page: (data[:page] || 1).to_i,
+              categories: categories
             }
           }
         end
@@ -35,16 +37,15 @@
         private
 
         def products
-          collection_group = group_by_collection(collection)
-          collection_group = filter_by_category(collection_group)
-          collection_group = filter_brand(collection_group)
-          collection_group = filter_rating(collection_group)
-          collection_group = filter_prices(collection_group)
-          pagination(collection_group)
+          products_list = group_by_collection(collection)
+          products_list = filter_by_category(products_list)
+          products_list = filter_brand(products_list)
+          products_list = filter_rating(products_list)
+          filter_prices(products_list)
         end
 
-        def products_group
-          @products_group ||= products
+        def pagination_group
+          @pagination_group ||= pagination(collection_group)
         end
 
         def start_valid?
@@ -61,6 +62,13 @@
 
         def image_url
           polymorphic_url(collection.image, host: ENV['HOST_IMAGES']) if collection.image.attached?
+        end
+
+        def categories
+          return [] unless collection_group.present?
+
+          Products::Collections::CategoriesHierarchy.new(collection: collection,
+                                                         categories_ids: collection_group.map(&:category_id).uniq).perform
         end
       end
     end
