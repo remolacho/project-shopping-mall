@@ -54,6 +54,32 @@ RSpec.describe V1::Products::Collections::ListController, type: :request do
                              brand_name: { type: :string },
                            }
                          }
+                       },
+                       categories: {
+                         type: :array,
+                         items: {
+                           type: :object,
+                           properties: {
+                             id: { type: :integer },
+                             name: { type: :string },
+                             slug: { type: :string },
+                             products_count: { type: :integer },
+                             is_visible: { type: :boolean },
+                             children: {
+                               type: :array,
+                               items: {
+                                 type: :object,
+                                 properties: {
+                                   id: { type: :integer },
+                                   name: { type: :string },
+                                   slug: { type: :string },
+                                   products_count: { type: :integer },
+                                   is_visible: { type: :boolean }
+                                 }
+                               }
+                             }
+                           }
+                         }
                        }
                    }
                  } }
