@@ -102,6 +102,6 @@ module ManageObjects
   end
 
   def collection
-    @collection ||= Collection.find_by!(slug: params[:collection_slug], status: Collection::STATUS_ACTIVE)
+    @collection ||= Collection.find_by!(slug: params[:collection_slug])
   end
 end
