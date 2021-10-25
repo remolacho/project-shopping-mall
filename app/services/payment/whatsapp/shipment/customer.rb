@@ -32,8 +32,7 @@ class Payment::Whatsapp::Shipment::Customer
   end
 
   def in_shipping_management
-    msg = "¡Hola! 👋🏼 Tu pediddo #{order.number_ticket} ya está listo para ser despachado, "
-    msg += "desde ahora puedes con ese número de orden darle seguimiento al envío en este link: https://enviame.io/tracking/"
+    msg = "¡Hola! 👋🏼 Tu pedido #{order.number_ticket} ya está listo para ser despachado. Puedes revisar el estado de tu envío en este link: https://api.enviame.io/s2/companies/3535/deliveries/#{order.number_ticket}/tracking"
     msg
   end
 

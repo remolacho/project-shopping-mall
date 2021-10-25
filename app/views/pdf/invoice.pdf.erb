@@ -43,21 +43,22 @@
         </thead>
         <tbody>
           <div class = 'nobreak'>
+            <% pickup = @order.shipment.shipment_method.shipment_type.eql?(ShipmentMethod::IN_SITE_TYPE) %>
             <tr>
               <td class="left md" ><b>Datos del comprador</b></td>
-              <td class="right md" ><b>Dirección de envío</b></td>
+              <td class="right md" ><b><%= pickup ? "Retiro en tienda" : "Dirección de envío" %></b></td>
             </tr>
             <tr>
               <td class="left md" ><%= @order.user_data['name'].capitalize %> <%= @order.user_data['last_name'].capitalize %></td>
-              <td class="right md" ><%= @order.address.street.capitalize + ' ' + @order.address.street_number %></td>
+              <td class="right md" ><%= @order.address.street.capitalize + ' ' + @order.address.street_number unless pickup %></td>
             </tr>
             <tr>
               <td class="left md" >+569 <%= @order.user_data['phone'] %></td>
-              <td class="right md" ><%= @order.address.commune.name %></td>
+              <td class="right md" ><%= @order.address.commune.name unless pickup %></td>
             </tr>
             <tr>
               <td class="left md" ><%= @order.user_data['email'] %></td>
-              <td class="right md" ><%= @order.address.comment.capitalize %></td>
+              <td class="right md" ><%= @order.address.comment.capitalize unless pickup %></td>
             </tr>
           </div>
         </tbody>
