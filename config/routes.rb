@@ -78,6 +78,26 @@ Rails.application.routes.draw do
           get 'recents/list', to: 'list#recents'
         end
       end
+
+      namespace :collections do
+        resources :list, path: '', only: [] do
+          collection do
+            get ':collection_slug', to: 'list#index'
+          end
+        end
+
+        resources :brands, only: [] do
+          collection do
+            get ':collection_slug', to: 'brands#index'
+          end
+        end
+
+        resources :price_range, only: [] do
+          collection do
+            get ':collection_slug', to: 'price_range#index'
+          end
+        end
+      end
     end
 
     namespace :orders do
@@ -152,6 +172,8 @@ Rails.application.routes.draw do
           end
         end
       end
+      get '/notify_seller/:token', to: 'room#notify_seller'
+      get '/notify_customer/:token', to: 'room#notify_customer'
     end
   }
 end

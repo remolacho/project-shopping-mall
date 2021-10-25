@@ -100,4 +100,8 @@ module ManageObjects
   def user_by_email
     @user_by_email ||= User.find_by!(email: params[:email] || params[:user][:email])
   end
+
+  def collection
+    @collection ||= Collection.find_by!(slug: params[:collection_slug])
+  end
 end

@@ -1,0 +1,15 @@
+<section class="center card">
+
+  <p>
+    Tienes un nuevo mensaje en tu compra <%= @room.store_order.order.number_ticket %>.
+  </p>
+
+  <a href=<%= "#{ENV['BASE_PATH']}/user/orders" %>>
+    <button>
+      Ver Mensaje
+    </button>
+  </a>
+  
+  <p>Saludos,</p>
+  <p>El equipo de Zofrishop</p>
+</section>
