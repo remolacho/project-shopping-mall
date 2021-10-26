@@ -96,4 +96,7 @@ shared_context 'order_stuff' do
         commune_id: Commune.last.id
     }}
   }
+
+  # shipment_method viene de meta_data_stuff
+  let(:shipment_current_order) { FactoryBot.create(:shipment, shipment_method: shipment_method, order: current_order) }
 end

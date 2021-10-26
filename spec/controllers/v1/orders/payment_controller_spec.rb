@@ -59,6 +59,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
     end
 
     it 'returns success  approved' do
+      shipment_current_order
       payment_method
 
       current_order.user_data = {
