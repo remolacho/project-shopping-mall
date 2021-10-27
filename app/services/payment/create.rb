@@ -32,8 +32,12 @@ class Payment::Create
       Payment::Emails::Approved::Stores.new(payment: payment, stores_items: stores_items).call
       Payment::Whatsapp::Approved::Stores.new(payment: payment, order_items: order_items).call
     end
+
     Payment::Emails::Approved::Customer.new(payment: payment, order_items: order_items).call
     Payment::Whatsapp::Approved::Customer.new(payment: payment, order_items: order_items).call
+    Payment::Notify::Stores::Stock.new(payment: payment, stores_items: stores_items).call
+    Payment::Notify::Stores::Approved.new(payment: payment, order_items: order_items).call
+
     success_response
   end
 

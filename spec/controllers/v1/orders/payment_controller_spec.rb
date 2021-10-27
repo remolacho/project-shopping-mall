@@ -72,7 +72,8 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       current_order.save
 
       products_list
-      list_order_item_many_stores
+      order_item = list_order_item_many_stores.sample
+      target = order_item.store.company.user
 
       check = ::ShoppingCart::Check.new(user: nil, order: current_order).perform
       expect(check[:state]).to eq(200)
@@ -97,6 +98,7 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       expect(store_orders.all?{|so| so.payment_total > 0 }).to eq(true)
       expect(store_orders.map{|so| so.order_items.size }.sum == order.order_items.size).to eq(true)
       expect(order.delivery_state).to eq(Order::PENDING_DELIVERY)
+      expect(target.notify_segments([Notification::SELLER]).count.zero?).to eq(false)
     end
 
     it 'returns success in_process' do
@@ -222,6 +224,51 @@ RSpec.describe V1::Orders::PaymentController, type: :controller do
       # expect(order.stock_movements.size.zero?).to eq(true)
       # expect(product_variant_old.current_stock < product_variant_new.current_stock).to eq(true)
       # expect(product_variant_new.current_stock == product_variant.current_stock).to eq(true)
+    end
+
+    it 'returns success approved with notification stock in zero' do
+      shipment_current_order
+      payment_method
+
+      current_order.user_data = {
+        email: create_user.email,
+        name: create_user.name,
+        last_name: create_user.lastname,
+        phone: '55555555'
+      }
+
+      current_order.save
+
+      products_list
+      list_order_item_many_stores
+
+      check = ::ShoppingCart::Check.new(user: nil, order: current_order).perform
+      expect(check[:state]).to eq(200)
+      expect(current_order.stock_movements.size.zero?).to eq(false)
+      expect(current_order.state.eql?(Order::ON_PURCHASE)).to eq(true)
+      expect(current_order.store_orders.size.zero?).to eq(true)
+
+      order_item = list_order_item_many_stores.sample
+      ProductVariant.find(order_item.product_variant_id).update(current_stock: 0)
+      target = order_item.store.company.user
+
+      post :create, params: body
+
+      order = Order.includes(:store_orders, :payments).find(current_order.id)
+      store_orders = order.store_orders
+      expect(response).to have_http_status(:success)
+      expect(order.state.eql?(Order::IS_COMPLETED)).to eq(true)
+      expect(order.payment_state.eql?(Payment::APPROVED)).to eq(true)
+      expect(order.payments.present?).to eq(true)
+      expect(order.payments.any?{|p| p.state.eql?(Payment::APPROVED)}).to eq(true)
+      expect(store_orders.size.zero?).to eq(false)
+      expect(store_orders.all?{|so| so.state.eql?(Order::IS_COMPLETED)}).to eq(true)
+      expect(store_orders.all?{|so| so.payment_state.eql?(Payment::APPROVED)}).to eq(true)
+      expect(store_orders.all?{|so| so.order_items.present? }).to eq(true)
+      expect(store_orders.all?{|so| so.payment_total > 0 }).to eq(true)
+      expect(store_orders.map{|so| so.order_items.size }.sum == order.order_items.size).to eq(true)
+      expect(order.delivery_state).to eq(Order::PENDING_DELIVERY)
+      expect(target.notify_segments([Notification::SELLER_STOCK]).count.zero?).to eq(false)
     end
 
   end

@@ -32,6 +32,7 @@
 class User < ApplicationRecord
   include Configurable
   include Recoverable
+  include NotificationHandler
 
   rolify
 
