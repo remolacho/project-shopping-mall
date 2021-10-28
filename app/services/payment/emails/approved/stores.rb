@@ -54,7 +54,7 @@ class Payment::Emails::Approved::Stores
       payment_id: payment.payment_id,
       message: "#{message || payment.message} - Email store",
       error: payment.status,
-      number_ticket: payment.number_ticket,
+      number_ticket: payment.order.number_ticket,
       log: payment.response
     )
   end
