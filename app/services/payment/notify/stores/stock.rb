@@ -23,7 +23,7 @@ class Payment::Notify::Stores::Stock
       product_variants.each do |product_variant|
         options = { data: {
           title: 'Stock en 0',
-          content: "El stock para la variante #{product_variant.name} esta en 0 luego de esta venta",
+          content: "La variante #{product_variant.name} se acaba de quedar sin stock, has click en esta notificación para ver más detalles",
           store_id: store.id,
           product_variant_id: product_variant.id },
           sent_at: Time.current,

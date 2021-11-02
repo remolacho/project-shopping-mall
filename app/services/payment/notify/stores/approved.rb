@@ -40,8 +40,7 @@ class Payment::Notify::Stores::Approved
   private
 
   def create_message(store_order,store)
-    msg = "¡Hola #{store.name}!\nHas recibido una nueva compra en Zofrishop 📦 El número de orden es #{store_order.order_number}"
-    msg += " y puedes revisar el detalle acá: \n https://store-owner.zofrishop.cl/store_owners/stores/#{store.id}/orders/#{store_order.id}"
+    msg = "¡Tienes una nueva venta! Haz click en esta notificación para revisar el detalle"
     msg
   rescue StandardError => e
     logger_error("error al enviar whatsapp: #{e.to_s} attributes: #{store_order.attributes}")
