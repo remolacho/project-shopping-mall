@@ -15,7 +15,7 @@
       <p>
         ¡Ya estamos preparando tu pedido!📦 Tu número de orden es
         <b><%= @meta_data[:number_ticket] %>.</b> <br/>
-        Puedes ir revisando el estado de tu pedido <a href="https://enviame.io/tracking/">aquí</a> (puede tardar hasta 24 hrs en aparecer), o puedes
+        Puedes ir revisando el estado de tu pedido <a href="<%= "https://api.enviame.io/s2/companies/3535/deliveries/#{@meta_data[:number_ticket]}/tracking" %>">aquí</a> (puede tardar hasta 24 hrs en aparecer), o puedes
         iniciar sesión y guardarla en tu perfil para que la puedas dar seguimiento
         más fácilmente (recomendado).
       </p>
