@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_07_205336) do
+ActiveRecord::Schema.define(version: 2021_10_22_144400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -287,6 +287,21 @@ ActiveRecord::Schema.define(version: 2021_10_07_205336) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "log", default: {}
     t.string "order_token"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "target_type"
+    t.bigint "target_id"
+    t.string "segment_type", default: "default"
+    t.string "event_type", default: "info"
+    t.text "data"
+    t.boolean "read", default: false, null: false
+    t.string "token"
+    t.datetime "sent_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["read"], name: "index_notifications_on_read"
+    t.index ["target_type", "target_id"], name: "index_notifications_on_target_type_and_target_id"
   end
 
   create_table "option_types", force: :cascade do |t|

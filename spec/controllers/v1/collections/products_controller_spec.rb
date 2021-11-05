@@ -20,7 +20,7 @@ RSpec.describe V1::Products::Collections::ListController, type: :controller do
       expect(response.status).to eq(404)
     end
 
-    it 'error collection inactive!!!' do
+    xit 'error collection inactive!!!' do
       new_collection.status = Collection::STATUS_INACTIVE
       new_collection.save
 
