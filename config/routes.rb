@@ -175,5 +175,13 @@ Rails.application.routes.draw do
       get '/notify_seller/:token', to: 'room#notify_seller'
       get '/notify_customer/:token', to: 'room#notify_customer'
     end
+
+    namespace :bills do
+      resources :consolidate, param: :ticket, only: [:create, :show] do
+        collection do
+          get 'list/:ticket', to: 'consolidate#index'
+        end
+      end
+    end
   }
 end
