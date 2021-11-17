@@ -10,6 +10,11 @@ class V1::Orders::UserController < ApplicationController
   # POST /v1/orders/:order_token/user
   def create
     service = Orders::AssignUserData.new(order: order, data: allowed_params)
+    MarketingEmail.where(
+      email: params[:user][:email],
+      name: params[:user][:name],
+      last_name: params[:user][:last_name]
+    ).first_or_create if params[:user][:mkt_consent].present?
     render json: { success: true, user: service.perform }, status: 200
   end
 

@@ -1,18 +1,20 @@
 # == Schema Information
 #
-# Table name: collections
+# Table name: marketing_emails
 #
 #  id         :bigint           not null, primary key
-#  end_date   :datetime
+#  email      :string
+#  last_name  :string
 #  name       :string
-#  slug       :string
-#  start_date :datetime
-#  status     :string           default("inactive")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_marketing_emails_on_email  (email) UNIQUE
+#
 require 'rails_helper'
 
-RSpec.describe Collection, type: :model do
+RSpec.describe MarketingEmail, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
