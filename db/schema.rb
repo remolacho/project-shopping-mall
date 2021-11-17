@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_192232) do
     t.string "slug"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string "status", default: "inactive"
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -260,6 +260,8 @@ ActiveRecord::Schema.define(version: 2021_11_16_192232) do
     t.string "file_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 2
+    t.string "observations"
     t.index ["store_id"], name: "index_group_products_stores_on_store_id"
   end
 

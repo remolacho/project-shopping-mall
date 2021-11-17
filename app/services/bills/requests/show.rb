@@ -20,6 +20,7 @@ module Bills
         {
           messages: {
             code: "ZOFRI-#{bill_request.id}",
+            description: bill_request.description,
             text: text,
             severity: "I"
           }
