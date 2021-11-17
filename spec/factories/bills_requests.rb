@@ -5,7 +5,7 @@
 #  id          :bigint           not null, primary key
 #  checksum    :string
 #  description :string
-#  status      :integer          default("unstated")
+#  status      :integer          default("unstarted")
 #  ticket      :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
