@@ -38,4 +38,8 @@ module ManageException
   def authorized_app
     raise PolicyException unless request.headers['secret-api'].eql?(ENV['SECRET_API'])
   end
+
+  def authorized_zofri
+    raise PolicyException unless request.headers['Authorization'].split(' ').last.eql?(ENV['ACCESS_TOKEN'])
+  end
 end

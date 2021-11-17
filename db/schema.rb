@@ -104,6 +104,16 @@ ActiveRecord::Schema.define(version: 2021_11_16_192232) do
     t.index ["store_module_id"], name: "index_bill_stores_on_store_module_id"
   end
 
+  create_table "bills_requests", force: :cascade do |t|
+    t.string "ticket", null: false
+    t.string "description"
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "checksum"
+    t.index ["ticket"], name: "index_bills_requests_on_ticket", unique: true
+  end
+
   create_table "brand_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "brand_id"
