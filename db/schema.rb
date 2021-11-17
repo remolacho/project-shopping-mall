@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_144400) do
+ActiveRecord::Schema.define(version: 2021_11_02_165942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -102,6 +102,16 @@ ActiveRecord::Schema.define(version: 2021_10_22_144400) do
     t.string "payment_method"
     t.index ["store_id"], name: "index_bill_stores_on_store_id"
     t.index ["store_module_id"], name: "index_bill_stores_on_store_module_id"
+  end
+
+  create_table "bills_requests", force: :cascade do |t|
+    t.string "ticket", null: false
+    t.string "description"
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "checksum"
+    t.index ["ticket"], name: "index_bills_requests_on_ticket", unique: true
   end
 
   create_table "brand_categories", force: :cascade do |t|
