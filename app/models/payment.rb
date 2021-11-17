@@ -26,4 +26,25 @@ class Payment < ApplicationRecord
   REJECTED = 'rejected'.freeze
   IN_PROCESS = 'in_process'.freeze
   REFUNDED = 'refunded'.freeze
+
+  BANK_TRANSFER = 'bank_transfer'.freeze
+  DEBIT_CARD = 'debit_card'.freeze
+  CREDIT_CARD = 'credit_card'.freeze
+
+  COMMISSION = 1.8921
+  COMMISION_CARD = 3.6771
+
+  def self.commission(current_order)
+    payment_type = current_order.payments.last.payment_logs['payment_type_id']
+
+    return COMMISION_CARD if payment_type.eql?(CREDIT_CARD)
+
+    COMMISSION
+  end
+
+  def self.commission_by_type(payment_type)
+    return COMMISION_CARD if payment_type.eql?(CREDIT_CARD)
+
+    COMMISSION
+  end
 end

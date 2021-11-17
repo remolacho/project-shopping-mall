@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_144400) do
+ActiveRecord::Schema.define(version: 2021_11_16_192232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -104,6 +104,16 @@ ActiveRecord::Schema.define(version: 2021_10_22_144400) do
     t.index ["store_module_id"], name: "index_bill_stores_on_store_module_id"
   end
 
+  create_table "bills_requests", force: :cascade do |t|
+    t.string "ticket", null: false
+    t.string "description"
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "checksum"
+    t.index ["ticket"], name: "index_bills_requests_on_ticket", unique: true
+  end
+
   create_table "brand_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "brand_id"
@@ -183,7 +193,7 @@ ActiveRecord::Schema.define(version: 2021_10_22_144400) do
     t.string "slug"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string "status"
+    t.string "status", default: "inactive"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -287,6 +297,15 @@ ActiveRecord::Schema.define(version: 2021_10_22_144400) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "log", default: {}
     t.string "order_token"
+  end
+
+  create_table "marketing_emails", force: :cascade do |t|
+    t.string "name"
+    t.string "last_name"
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_marketing_emails_on_email", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
