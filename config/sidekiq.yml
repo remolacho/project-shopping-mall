@@ -3,4 +3,5 @@ development:
 production:
   :concurrency: 2
 :queues:
-  - [default,1]
+  - [default, 1]
+  - [mailers, 1]
