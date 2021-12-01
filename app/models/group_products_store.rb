@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: group_products_stores
@@ -18,4 +19,6 @@ class GroupProductsStore < ApplicationRecord
   belongs_to :store
   has_many :products
   has_many :product_variants, through: :products
+
+  enum status: %i[unstarted in_progress completed canceled]
 end
