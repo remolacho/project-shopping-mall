@@ -2,13 +2,11 @@
 #
 # Table name: group_products_stores
 #
-#  id           :bigint           not null, primary key
-#  file_name    :string
-#  observations :string
-#  status       :integer          default(2)
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  store_id     :bigint
+#  id         :bigint           not null, primary key
+#  file_name  :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  store_id   :bigint
 #
 # Indexes
 #
