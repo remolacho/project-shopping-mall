@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_16_192232) do
+ActiveRecord::Schema.define(version: 2021_12_01_153438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 2021_11_16_192232) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "seller_income", default: 0.0
+    t.float "zofri_commission_percentage", default: 0.0, null: false
+    t.float "mp_commission_percentage", default: 0.0, null: false
     t.index ["bill_store_id"], name: "index_bill_store_order_items_on_bill_store_id"
     t.index ["order_item_id"], name: "index_bill_store_order_items_on_order_item_id"
   end
@@ -193,7 +195,7 @@ ActiveRecord::Schema.define(version: 2021_11_16_192232) do
     t.string "slug"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string "status"
+    t.string "status", default: "inactive"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -260,8 +262,6 @@ ActiveRecord::Schema.define(version: 2021_11_16_192232) do
     t.string "file_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", default: 2
-    t.string "observations"
     t.index ["store_id"], name: "index_group_products_stores_on_store_id"
   end
 

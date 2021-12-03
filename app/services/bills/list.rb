@@ -42,12 +42,12 @@ module Bills
           total: item.quantity * item.unit_value,
           category_id: item.category_id,
           category_name: item.category_name[I18n.locale.to_s].presence || item.category_name.values.first,
-          commission: item.commission,
-          total_zofrishop: ((item.quantity * item.unit_value) * (item.commission / 100).to_f).round(2),
+          commission: item.zofri_commission_percentage,
+          total_zofrishop: ((item.quantity * item.unit_value) * (item.zofri_commission_percentage / 100).to_f).round(2),
           seller_income: item.seller_income.to_i,
           payment_method: item.payment_method,
-          percentage_mp: Payment.commission_by_type(item.payment_method),
-          commission_mp: ((item.quantity * item.unit_value) * (Payment.commission_by_type(item.payment_method) / 100).to_f).round(2)
+          percentage_mp: item.mp_commission_percentage,
+          commission_mp: ((item.quantity * item.unit_value) * (item.mp_commission_percentage / 100).to_f).round(2)
         }
       end
     end
@@ -68,7 +68,7 @@ module Bills
                         store_orders.order_number as store_orders_order_number, product_variants.sku,
                         product_variants.name_translations, bill_store_order_items.quantity, order_items.unit_value,
                         categories.id as category_id, categories.name as category_name, categories.commission,
-                        bill_store_order_items.seller_income, bill_stores.payment_method, stores.name as store_name, companies.rut')
+                        bill_store_order_items.seller_income, bill_store_order_items.mp_commission_percentage, bill_store_order_items.zofri_commission_percentage, bill_stores.payment_method, stores.name as store_name, companies.rut')
     end
 
     def filter_date_billing(billing)

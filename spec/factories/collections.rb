@@ -7,7 +7,7 @@
 #  name       :string
 #  slug       :string
 #  start_date :datetime
-#  status     :string
+#  status     :string           default("inactive")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
