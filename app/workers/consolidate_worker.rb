@@ -5,6 +5,8 @@ class ConsolidateWorker
   attr_accessor :ticket, :data, :path_folder, :file_path
 
   def perform(ticket, data)
+    sleep(2)
+
     @data = data
     @ticket = ticket
     @path_folder = "tmp/billing-consolidate-#{bill_request.ticket}"
@@ -59,7 +61,9 @@ class ConsolidateWorker
   end
 
   def bill_request
-    @bill_request ||= BillsRequest.find_by(ticket: ticket)
+    @bill_request ||= BillsRequest.find_by!(ticket: ticket)
+  rescue StandardError
+    @bill_request ||= BillsRequest.find_by!(ticket: ticket)
   end
 
   def billding
@@ -69,7 +73,7 @@ class ConsolidateWorker
   def process_completed
     return process_canceled('no se creo el archivo') unless upload_file?
 
-    Rails.cache.write "bills-consolidate-#{bill_request.ticket}", data_as_json, expires_in: expired
+    # Rails.cache.write "bills-consolidate-#{bill_request.ticket}", data_as_json, expires_in: expired
 
     FileUtils.remove_entry_secure(path_folder, true)
     bill_request.status = :completed

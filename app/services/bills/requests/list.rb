@@ -9,7 +9,7 @@ module Bills
       end
 
       def call
-        return results_cache if results_cache.present?
+        # return results_cache if results_cache.present?
 
         results_binary
       rescue StandardError => e
@@ -24,7 +24,7 @@ module Bills
 
       def results_binary
         results = JSON.parse binary
-        Rails.cache.write "bills-consolidate-#{bill_request.ticket}", results, expires_in: expired
+        # Rails.cache.write "bills-consolidate-#{bill_request.ticket}", results, expires_in: expired
         results
       end
 
